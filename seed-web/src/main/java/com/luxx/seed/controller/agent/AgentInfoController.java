@@ -4,6 +4,7 @@ import com.luxx.seed.controller.BaseController;
 import com.luxx.seed.jpa.entity.AgentEntity;
 import com.luxx.seed.jpa.service.AgentEntityService;
 import com.luxx.seed.service.agent.AgentService;
+import com.luxx.util.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,13 @@ public class AgentInfoController extends BaseController {
     @GetMapping("/search")
     public AgentEntity getAgentByIp(@RequestParam String ip) {
         return agentEntityService.findByIp(ip);
+    }
+
+    @ApiOperation(value = "test", notes = "test")
+    @GetMapping("/test")
+    public void test(@RequestParam String test) {
+        log.info("Request id: " + WebUtil.getRequestId());
+        log.info(test);
     }
 
 }

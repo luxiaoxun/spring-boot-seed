@@ -9,9 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component
-@WebFilter(urlPatterns = "/*", filterName = "channelFilter1")
+@WebFilter(urlPatterns = "/*")
 public class ChannelFilter implements Filter {
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
