@@ -11,11 +11,12 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "chaos_agent_list")
+@Table(name = "tb_agent")
 @Accessors(chain = true)
 public class AgentEntity extends BaseEntity implements Serializable {
 
@@ -38,10 +39,10 @@ public class AgentEntity extends BaseEntity implements Serializable {
     private boolean agentInstalled;
 
     @Column(name = "create_time")
-    private java.util.Date createTime;
+    private Date createTime;
 
     @Column(name = "update_time")
-    private java.util.Date updateTime;
+    private Date updateTime;
 
     private String type;
 

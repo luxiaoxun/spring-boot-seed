@@ -1,8 +1,9 @@
-package com.luxx.service.zookeeper;
+package com.luxx.client.zookeeper;
 
 import java.util.Collection;
 import java.util.concurrent.Executor;
-import com.luxx.utils.CommonUtils;
+
+import com.luxx.util.CommonUtils;
 import org.apache.curator.framework.recipes.leader.LeaderLatch;
 import org.apache.curator.framework.recipes.leader.LeaderLatchListener;
 import org.apache.curator.framework.recipes.leader.Participant;
@@ -11,28 +12,28 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 public class ZkClusterService implements InitializingBean {
-    
+
     @Autowired
     private CuratorClient curatorClient;
-    
+
     @Autowired
     private Executor executor;
-    
+
     private LeaderLatch leaderLatch;
-    
+
     private final String type;
-    
+
     public ZkClusterService(String type) {
         super();
         this.type = type;
     }
-    
+
     private static final Logger logger = LoggerFactory.getLogger(ZkClusterService.class);
-    
+
     @Override
     public void afterPropertiesSet() throws Exception {
+
         leaderLatch = new LeaderLatch(curatorClient.getClient(), "/master/" + type, CommonUtils.getIPS());
         leaderLatch.addListener(new LeaderLatchListener() {
             @Override
@@ -53,15 +54,15 @@ public class ZkClusterService implements InitializingBean {
         }, executor);
         leaderLatch.start();
     }
-    
+
     public boolean isMaster() {
         return leaderLatch.hasLeadership();
     }
-    
+
     public String getMaster() throws Exception {
         return leaderLatch.getLeader().getId();
     }
-    
+
     public Collection<Participant> getParticipants() throws Exception {
         return leaderLatch.getParticipants();
     }

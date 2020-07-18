@@ -1,4 +1,4 @@
-package com.luxx.service.es;
+package com.luxx.client.es;
 
 import java.io.InputStream;
 import java.net.UnknownHostException;
@@ -10,11 +10,9 @@ import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
@@ -23,33 +21,33 @@ import org.elasticsearch.common.xcontent.XContentHelper;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.luxx.model.config.Config;
-import com.luxx.service.config.ConfigService;
 
 @Lazy
 @Component
 public class RestES {
-    @Autowired
-    private ConfigService configService;
-    
-    @Value("${zone:}")
+    @Value("${zone}")
     private String zone;
-    
+
+    @Value("${sys.es.cluster.name}")
+    private String esCluster;
+
+    @Value("${sys.es.http.address}")
+    private String esHttpAddress;
+
     private final Cache<String, Set<String>> filedCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build();
-    
+
     private RestHighLevelClient _client;
-    
+
     private Map<String, RestHighLevelClient> clients = new HashMap<>();
-    
+
     private static final Logger logger = LoggerFactory.getLogger(RestES.class);
-    
+
     public RestHighLevelClient getClient() {
         return _client;
     }
@@ -58,7 +56,7 @@ public class RestES {
     public void init() throws Exception {
         _client = getClient(zone);
     }
-    
+
     public Set<String> getAllFields(String index) throws Throwable {
         try {
             return filedCache.get(index, new Callable<Set<String>>() {
@@ -69,7 +67,7 @@ public class RestES {
 
                     RestHighLevelClient client = getClient();
                     String endpoint = "/" + index + "/_mapping/_doc/field/*";
-                    
+
                     Response response = client.getLowLevelClient().performRequest("GET", endpoint);
 
                     try (InputStream is = response.getEntity().getContent()) {
@@ -90,7 +88,7 @@ public class RestES {
                             }
                         }
                     }
-                    
+
                     return fields;
                 }
             });
@@ -98,11 +96,11 @@ public class RestES {
             throw e.getCause();
         }
     }
-    
+
     public void cleanFieldCache() {
         filedCache.invalidateAll();
     }
-    
+
     @PreDestroy
     public void destroy() {
         clients.values().forEach(client -> {
@@ -113,7 +111,7 @@ public class RestES {
             }
         });
     }
-    
+
     public synchronized RestHighLevelClient getClient(String zone) {
         RestHighLevelClient client = clients.get(zone);
         if (client == null) {
@@ -122,30 +120,23 @@ public class RestES {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            
+
             clients.put(zone, client);
         }
-        
+
         return client;
     }
-    
+
     private RestHighLevelClient _getClient(String zone) throws NumberFormatException, UnknownHostException {
-        Config addressConifg;
-        if (StringUtils.isBlank(zone)) {
-            addressConifg = configService.selectConfig("sys.es.http.address");
-        } else {
-            addressConifg = configService.selectConfig("sys." + zone + ".es.http.address");
-        }
-        
         LinkedList<HttpHost> httpPorts = new LinkedList<>();
-        for (String address : addressConifg.getValue().split(",")) {
+        for (String address : esHttpAddress.split(",")) {
             String[] hostPort = address.split(":");
             httpPorts.add(new HttpHost(hostPort[0], Integer.valueOf(hostPort[1])));
         }
-        
+
         return new RestHighLevelClient(RestClient.builder(httpPorts.toArray(new HttpHost[0])));
     }
-    
+
     public String getZone() {
         return zone;
     }

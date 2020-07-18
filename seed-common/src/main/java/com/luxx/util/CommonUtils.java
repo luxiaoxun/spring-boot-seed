@@ -1,4 +1,4 @@
-package com.luxx.utils;
+package com.luxx.util;
 
 import java.net.Inet4Address;
 import java.net.InterfaceAddress;
@@ -10,22 +10,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class CommonUtils {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommonUtils.class);
     
     public static String getIPS() {
+
         Enumeration<NetworkInterface> b;
         try {
             b = NetworkInterface.getNetworkInterfaces();
         } catch (SocketException e) {
             String random = "random-" + System.currentTimeMillis() + "-" + RandomStringUtils.randomAlphanumeric(8);
-            LOGGER.error("Fail to get IPs. Use string [ " + random + " ] as IP.", e);
+            logger.error("Fail to get IPs. Use string [ " + random + " ] as IP.", e);
             return random;
         }
 

@@ -1,4 +1,4 @@
-package com.luxx.utils;
+package com.luxx.util;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
