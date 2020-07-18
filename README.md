@@ -11,10 +11,12 @@ Web后端开发框架
 * HikariCP 3.2.0
 * xxl-job 2.1.0
 * lombok 1.18.0
-同时也集成了Jedis、Elasticsearch、zookeeper的client。
+* Jedis 3.2.0
+* Elasticsearch 6.2.4
+* zookeeper client 4.3.0
 
 项目名称：spring-boot-seed
 * seed-client：常用的组件client
 * seed-common：通用类和util
 * seed-task：集成xxl-job做定时任务
-* seed-web：web后端服务，数据库mysql，可以用spring mybatis和spring data jpa两种方式操作数据库。
+* seed-web：web后端服务，数据库mysql，可以用spring mybatis和spring data jpa两种方式操作数据库
