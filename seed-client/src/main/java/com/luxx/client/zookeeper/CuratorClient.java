@@ -27,7 +27,7 @@ public class CuratorClient implements InitializingBean {
         String connectString = zkServers;
 
         client = CuratorFrameworkFactory.builder().namespace(namespace).connectString(connectString)
-                .retryPolicy(new ExponentialBackoffRetry(1000, 600)).build();
+                .retryPolicy(new ExponentialBackoffRetry(1000, 10)).build();
         client.start();
     }
 

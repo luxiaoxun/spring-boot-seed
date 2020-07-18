@@ -24,13 +24,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
 @Lazy
 @Component
 public class RestES {
+    private static final Logger logger = LoggerFactory.getLogger(RestES.class);
+
     @Value("${zone}")
     private String zone;
 
@@ -45,8 +46,6 @@ public class RestES {
     private RestHighLevelClient _client;
 
     private Map<String, RestHighLevelClient> clients = new HashMap<>();
-
-    private static final Logger logger = LoggerFactory.getLogger(RestES.class);
 
     public RestHighLevelClient getClient() {
         return _client;
@@ -128,10 +127,12 @@ public class RestES {
     }
 
     private RestHighLevelClient _getClient(String zone) throws NumberFormatException, UnknownHostException {
+        logger.info("es.http.address: " + esHttpAddress);
+
         LinkedList<HttpHost> httpPorts = new LinkedList<>();
         for (String address : esHttpAddress.split(",")) {
             String[] hostPort = address.split(":");
-            httpPorts.add(new HttpHost(hostPort[0], Integer.valueOf(hostPort[1])));
+            httpPorts.add(new HttpHost(hostPort[0], Integer.parseInt(hostPort[1])));
         }
 
         return new RestHighLevelClient(RestClient.builder(httpPorts.toArray(new HttpHost[0])));

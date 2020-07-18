@@ -37,7 +37,7 @@ public class RedisClusterClient implements InitializingBean {
         String[] nodeArray = redisNodes.split(",");
         for (String node : nodeArray) {
             String[] host = node.split(":");
-            hostAndPorts.add(new HostAndPort(host[0], Integer.valueOf(host[1])));
+            hostAndPorts.add(new HostAndPort(host[0], Integer.parseInt(host[1])));
         }
 
         JedisPoolConfig jpc = new JedisPoolConfig();

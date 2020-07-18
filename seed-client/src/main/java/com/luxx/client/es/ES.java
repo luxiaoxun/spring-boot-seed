@@ -31,6 +31,7 @@ import com.google.common.cache.CacheBuilder;
 @Lazy
 @Component
 public class ES {
+    private static final Logger logger = LoggerFactory.getLogger(ES.class);
 
     @Value("${zone}")
     private String zone;
@@ -41,13 +42,12 @@ public class ES {
     @Value("${sys.es.address}")
     private String esAddress;
 
-    private final Cache<String, Set<String>> filedCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build();
+    private final Cache<String, Set<String>> filedCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(1, TimeUnit.MINUTES).build();
 
     private Client _client;
 
     private Map<String, Client> clients = new HashMap<>();
-
-    private static final Logger logger = LoggerFactory.getLogger(ES.class);
 
     public Client getClient() {
         return _client;
@@ -65,9 +65,11 @@ public class ES {
                 public Set<String> call() throws Exception {
                     Client client = getClient();
 
-                    GetFieldMappingsResponse mappingsResponse = client.admin().indices().getFieldMappings(new GetFieldMappingsRequest().indices(index).fields("*")).actionGet();
+                    GetFieldMappingsResponse mappingsResponse = client.admin().indices()
+                            .getFieldMappings(new GetFieldMappingsRequest().indices(index).fields("*")).actionGet();
 
-                    Map<String, Map<String, Map<String, FieldMappingMetaData>>> mappings = mappingsResponse.mappings();
+                    Map<String, Map<String, Map<String, FieldMappingMetaData>>> mappings =
+                            mappingsResponse.mappings();
 
                     Set<String> fields = new TreeSet<>();
 
@@ -117,17 +119,17 @@ public class ES {
     }
 
     private Client _getClient(String zone) throws NumberFormatException, UnknownHostException {
+        logger.info("es.cluster.name: " + esCluster);
+        logger.info("es.cluster.address: " + esAddress);
+
         Settings settings = Settings.builder()
                 .put("cluster.name", esCluster)
                 .put("client.transport.sniff", false).build();
-
         Client client = new PreBuiltTransportClient(settings);
-
         for (String address : esAddress.split(",")) {
             String[] hostPort = address.split(":");
             ((TransportClient) client).addTransportAddress(new TransportAddress(
-                    InetAddress.getByName(hostPort[0]),
-                    Integer.valueOf(hostPort[1])));
+                    InetAddress.getByName(hostPort[0]), Integer.parseInt(hostPort[1])));
         }
 
         return client;
