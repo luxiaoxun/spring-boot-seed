@@ -2,10 +2,8 @@ package com.luxx.seed.web.interceptor;
 
 import com.luxx.seed.controller.BaseController;
 import com.luxx.seed.web.filter.RequestWrapper;
-import com.luxx.seed.controller.BaseController;
-import com.luxx.seed.web.filter.RequestWrapper;
 import com.luxx.seed.model.log.OprLogEntity;
-import com.luxx.util.JacksonUtils;
+import com.luxx.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -21,7 +19,7 @@ public class OperatorInterceptor implements HandlerInterceptor {
         if (request instanceof RequestWrapper) {
             String method = request.getMethod();
             String uri = request.getRequestURI();
-            String param = JacksonUtils.writeValueAsString(request.getParameterMap());
+            String param = JsonUtil.encode(request.getParameterMap());
             String body = ((RequestWrapper) request).getBody();
             String user = Optional.ofNullable(request.getSession().getAttribute(BaseController.USERNAME_KEY_IN_SESSION))
                     .map(Object::toString)
