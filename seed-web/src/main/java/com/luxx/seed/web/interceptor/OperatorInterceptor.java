@@ -23,7 +23,7 @@ public class OperatorInterceptor implements HandlerInterceptor {
             String body = ((RequestWrapper) request).getBody();
             String user = Optional.ofNullable(request.getSession().getAttribute(BaseController.USERNAME_KEY_IN_SESSION))
                     .map(Object::toString)
-                    .orElse("");
+                    .orElse("unknown");
             OprLogEntity logEntity = OprLogEntity.builder().method(method)
                     .uri(uri)
                     .param(param)
