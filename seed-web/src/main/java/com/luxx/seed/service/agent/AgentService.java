@@ -1,6 +1,6 @@
 package com.luxx.seed.service.agent;
 
-import com.luxx.seed.mapper.agent.AgentMapper;
+import com.luxx.seed.dao.AgentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

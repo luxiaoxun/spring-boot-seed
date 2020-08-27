@@ -1,4 +1,4 @@
-package com.luxx.seed.mapper.agent;
+package com.luxx.seed.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 

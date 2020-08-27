@@ -14,22 +14,22 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.luxx.**.mapper.**", sqlSessionFactoryRef = "dcSqlSessionFactory",
-annotationClass = DcMapper.class)
-public class DcDataSourceAutoConfiguration {
-    @Bean(name="dcDataSource")
-    @ConfigurationProperties("spring.datasource.dc")
+@MapperScan(basePackages = "com.luxx.seed.dao.**", sqlSessionFactoryRef = "dcSqlSessionFactory",
+        annotationClass = DcMapper.class)
+public class DcDataSourceConfiguration {
+    @Bean(name = "dcDataSource")
+    @ConfigurationProperties("spring.datasource")
     @Primary
     public DataSource dcDataSource() {
         return new HikariDataSource();
     }
 
-    @Bean(name="dcSqlSessionFactory")
+    @Bean(name = "dcSqlSessionFactory")
     @Primary
     public SqlSessionFactory dcSqlSessionFactory(@Qualifier("dcDataSource") DataSource dataSource,
-                                                 @Value("${spring.datasource.dc.mapperLocations}") String configLocationResource)
+                                                 @Value("${spring.mybatis.mapper-locations}") String configLocationResource)
             throws Exception {
-        return MybatisBaseConfiguration
+        return MybatisConfiguration
                 .buildSqlSessionFactory(dataSource, configLocationResource, null);
     }
 

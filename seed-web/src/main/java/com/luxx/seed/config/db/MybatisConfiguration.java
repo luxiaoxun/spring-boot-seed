@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MybatisBaseConfiguration {
+public class MybatisConfiguration {
 
     public static SqlSessionFactory buildSqlSessionFactory(DataSource source, String configLocationResource, String mybatisPlugin)
             throws Exception {
