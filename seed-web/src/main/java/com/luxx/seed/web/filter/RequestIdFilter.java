@@ -13,9 +13,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@Component
-@WebFilter(urlPatterns = "/*")
-@Order(Ordered.HIGHEST_PRECEDENCE + 1)
+//@Component
+//@WebFilter(urlPatterns = "/*")
+//@Order(Ordered.HIGHEST_PRECEDENCE + 1)
 @Slf4j
 public class RequestIdFilter implements Filter {
     @Override

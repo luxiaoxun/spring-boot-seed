@@ -9,6 +9,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.Map;
@@ -21,6 +22,11 @@ public class WebsocketController extends BaseController {
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+
+    @GetMapping("/chat")
+    public ModelAndView chat() {
+        return new ModelAndView("chat");
+    }
 
     /**
      * 点对点：通过 Http request /websocket/sendUser 向token发送消息

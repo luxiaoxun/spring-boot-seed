@@ -1,6 +1,5 @@
 package com.luxx.seed.config.db;
 
-import com.luxx.seed.config.annotation.DcMapper;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
@@ -14,8 +13,7 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.luxx.seed.dao.**", sqlSessionFactoryRef = "dcSqlSessionFactory",
-        annotationClass = DcMapper.class)
+@MapperScan(basePackages = "com.luxx.seed.dao.**", sqlSessionFactoryRef = "dcSqlSessionFactory")
 public class DcDataSourceConfiguration {
     @Bean(name = "dcDataSource")
     @ConfigurationProperties("spring.datasource")

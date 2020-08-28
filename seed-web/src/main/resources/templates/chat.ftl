@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Spring Boot WebSocket+广播式</title>
+    <title>Spring Boot WebSocket Demo</title>
 </head>
 <body>
 <noscript>
