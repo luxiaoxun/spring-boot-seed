@@ -2,7 +2,7 @@ package com.luxx.seed.web.interceptor;
 
 import com.luxx.seed.controller.BaseController;
 import com.luxx.seed.web.filter.RequestWrapper;
-import com.luxx.seed.model.log.OprLogEntity;
+import com.luxx.seed.model.OprLogEntity;
 import com.luxx.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;

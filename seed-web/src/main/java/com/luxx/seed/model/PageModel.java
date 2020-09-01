@@ -1,4 +1,4 @@
-package com.luxx.seed.model.page;
+package com.luxx.seed.model;
 
 import lombok.Data;
 

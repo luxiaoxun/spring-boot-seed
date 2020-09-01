@@ -1,4 +1,4 @@
-package com.luxx.seed.model.log;
+package com.luxx.seed.model;
 
 import lombok.Builder;
 

@@ -1,13 +1,12 @@
 package com.luxx.seed.web.resolver;
 
-import com.luxx.seed.model.result.ResultModel;
+import com.luxx.seed.model.ResultModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 

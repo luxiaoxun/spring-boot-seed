@@ -1,4 +1,4 @@
-package com.luxx.seed.vo.response.status;
+package com.luxx.seed.vo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
