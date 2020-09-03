@@ -10,6 +10,7 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -22,6 +23,7 @@ import java.util.Base64;
 @ServletComponentScan
 @EnableTransactionManagement
 @EnableFeignClients(basePackages = "com.luxx")
+@ComponentScan(basePackages = "com.luxx")
 @Slf4j
 public class SeedApplication implements WebMvcConfigurer {
     public static void main(String[] args) {
