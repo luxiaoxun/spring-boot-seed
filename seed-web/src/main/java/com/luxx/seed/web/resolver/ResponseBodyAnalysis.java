@@ -1,6 +1,6 @@
 package com.luxx.seed.web.resolver;
 
-import com.luxx.seed.model.ResultModel;
+import com.luxx.seed.model.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
@@ -21,16 +21,16 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                   Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        if (body instanceof ResultModel) {
+        if (body instanceof Response) {
             return body;
         }
-        return ResultModel.builder().result(body).build();
+        return Response.builder().result(body).build();
     }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({Throwable.class})
     public Object handleException(Throwable e) {
-        return ResultModel.builder().error(true).result(e.getMessage()).build();
+        return Response.builder().error(true).result(e.getMessage()).build();
     }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class ResultModel<T> {
+public class Response<T> {
     private boolean error;
     private String errorDesc;
     private T result;

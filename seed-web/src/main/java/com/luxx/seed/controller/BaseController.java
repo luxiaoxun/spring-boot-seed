@@ -19,9 +19,9 @@ public class BaseController {
 
     protected void setUserInfoInSession(String userName) {
         HttpSession session = getSession();
-        // 设置永不超时
-        session.setMaxInactiveInterval(0);
-        getSession().setAttribute(USERNAME_KEY_IN_SESSION, userName);
+        // session time out 30 minutes
+        session.setMaxInactiveInterval(30 * 60);
+        session.setAttribute(USERNAME_KEY_IN_SESSION, userName);
     }
 
     protected void removeUserInfoInSession() {

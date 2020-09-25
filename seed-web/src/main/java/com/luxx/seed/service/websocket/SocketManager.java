@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class SocketManager {
-    private static ConcurrentHashMap<String, WebSocketSession> manager = new ConcurrentHashMap<String, WebSocketSession>();
+    private static ConcurrentHashMap<String, WebSocketSession> manager = new ConcurrentHashMap<>();
 
     public static void add(String key, WebSocketSession webSocketSession) {
         log.info("Add websocket connection: {}", key);

@@ -22,10 +22,10 @@ public class PrincipalHandshakeHandler extends DefaultHandshakeHandler {
             HttpServletRequest httpRequest = servletServerHttpRequest.getServletRequest();
             final String token = httpRequest.getParameter("token");
             if (StringUtils.isEmpty(token)) {
-                log.error("WebSocket handshake no token");
+                log.error("No websocket handshake token");
                 return null;
             } else {
-                log.info("Get websocket handshake no token: " + token);
+                log.info("Get websocket handshake token: " + token);
             }
             return new Principal() {
                 @Override
