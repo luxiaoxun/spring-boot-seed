@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 /**
  * Created by luxiaoxun on 2020/5/19.
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NoNeedAuthority {
+public @interface NoNeedAuth {
+    boolean required() default true;
 }

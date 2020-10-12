@@ -1,9 +1,14 @@
 package com.luxx.seed.controller.login;
 
 import com.luxx.seed.controller.BaseController;
+import com.luxx.seed.model.Response;
+import com.luxx.seed.model.User;
+import com.luxx.seed.service.user.UserService;
+import com.luxx.seed.util.TokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,12 +16,25 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class LoginController extends BaseController {
 
+    @Autowired
+    private UserService userService;
+
     @ApiOperation(value = "login", notes = "login")
     @PostMapping("/login")
-    public void login(@RequestParam String username, @RequestParam String password) {
-        log.info("User login: " + username);
+    public Response login(@RequestParam String username, @RequestParam String password) {
+        log.info("User try to login: " + username);
         // check user info
-        setUserInfoInSession(username);
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return Response.builder().error(true).errorDesc("No such user").build();
+        } else {
+            if (!user.getPassword().equals(password)) {
+                return Response.builder().error(true).errorDesc("Wrong password").build();
+            } else {
+                String token = TokenUtil.getToken(user);
+                return Response.builder().result(token).build();
+            }
+        }
     }
 
     @ApiOperation(value = "logout", notes = "logout")
@@ -24,6 +42,6 @@ public class LoginController extends BaseController {
     public void logout(@RequestParam String username) {
         log.info("User logout: " + username);
         // check user info
-        removeUserInfoInSession();
+        removeUserInfo();
     }
 }

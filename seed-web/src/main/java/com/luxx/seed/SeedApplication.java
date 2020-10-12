@@ -1,7 +1,6 @@
 package com.luxx.seed;
 
-import com.luxx.seed.web.interceptor.LoginInterceptor;
-import com.luxx.seed.web.interceptor.OperatorInterceptor;
+import com.luxx.seed.web.interceptor.RequestLogInterceptor;
 import com.luxx.seed.web.interceptor.UserAuthInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.MultipartConfigElement;
@@ -36,33 +36,21 @@ public class SeedApplication implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        String[] excludePathPatterns = {"/**/login", "/**/swagger*/**"};
-        registry
-                .addInterceptor(loginInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns(excludePathPatterns);
-        registry
-                .addInterceptor(operatorInterceptor())
-                .addPathPatterns("/**");
+        String[] excludePathPatterns = {"/**/login", "/**/error", "/**/**swagger**/**"};
 
-        registry.addInterceptor(userAuthInterceptor())
-                .addPathPatterns("/**")
+        registry.addInterceptor(new RequestLogInterceptor()).addPathPatterns("/**")
+                .excludePathPatterns("/**/**swagger**/**");
+
+        registry.addInterceptor(new UserAuthInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns(excludePathPatterns);
     }
 
-    @Bean
-    public OperatorInterceptor operatorInterceptor() {
-        return new OperatorInterceptor();
-    }
-
-    @Bean
-    public LoginInterceptor loginInterceptor() {
-        return new LoginInterceptor();
-    }
-
-    @Bean
-    public UserAuthInterceptor userAuthInterceptor() {
-        return new UserAuthInterceptor();
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
     @Bean

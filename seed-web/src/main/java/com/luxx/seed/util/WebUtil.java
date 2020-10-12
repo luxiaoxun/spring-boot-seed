@@ -1,4 +1,4 @@
-package com.luxx.util;
+package com.luxx.seed.util;
 
 import cn.hutool.core.lang.ObjectId;
 

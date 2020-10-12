@@ -1,15 +1,11 @@
 package com.luxx.seed.web.filter;
 
 import cn.hutool.core.lang.ObjectId;
-import com.luxx.util.WebUtil;
+import com.luxx.seed.util.WebUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 

@@ -4,35 +4,26 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class BaseController {
+    public static final String USER_KEY = "login_user";
+    public static final String AUTH_TOKEN = "auth-token";
 
-    public static final String USERNAME_KEY_IN_SESSION = "_login_user_";
-
-    protected String getCurrentUserName() {
-        return Optional.ofNullable(getSession().getAttribute(USERNAME_KEY_IN_SESSION))
-                .map(Object::toString)
-                .orElse("luxiaoxun");
+    public static String getUserInfo() {
+        return Optional.ofNullable(getRequest().getAttribute(USER_KEY))
+                .map(Object::toString).orElse("");
     }
 
-    protected void setUserInfoInSession(String userName) {
-        HttpSession session = getSession();
-        // session time out 30 minutes
-        session.setMaxInactiveInterval(30 * 60);
-        session.setAttribute(USERNAME_KEY_IN_SESSION, userName);
+    public static void setUserInfo(String userId) {
+        getRequest().setAttribute(USER_KEY, userId);
     }
 
-    protected void removeUserInfoInSession() {
-        getSession().removeAttribute(USERNAME_KEY_IN_SESSION);
+    public void removeUserInfo() {
+        getRequest().removeAttribute(USER_KEY);
     }
 
-    protected HttpSession getSession() {
-        return getRequest().getSession();
-    }
-
-    protected HttpServletRequest getRequest() {
+    protected static HttpServletRequest getRequest() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
 }

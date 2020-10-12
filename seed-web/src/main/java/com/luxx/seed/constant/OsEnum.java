@@ -1,4 +1,4 @@
-package com.luxx.seed.config.constant;
+package com.luxx.seed.constant;
 
 public enum OsEnum {
     windows, linux, unknown;

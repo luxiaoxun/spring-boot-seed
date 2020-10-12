@@ -1,6 +1,6 @@
 package com.luxx.seed.service.os;
 
-import com.luxx.seed.config.constant.OsEnum;
+import com.luxx.seed.constant.OsEnum;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.AttributeConverter;

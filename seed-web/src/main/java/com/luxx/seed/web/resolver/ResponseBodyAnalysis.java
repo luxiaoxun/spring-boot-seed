@@ -1,6 +1,7 @@
 package com.luxx.seed.web.resolver;
 
 import com.luxx.seed.model.Response;
+import com.luxx.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
                                   Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         if (body instanceof Response) {
             return body;
+        }
+        if (body instanceof String) {
+            return JsonUtil.encode(Response.builder().result(body).build());
         }
         return Response.builder().result(body).build();
     }
