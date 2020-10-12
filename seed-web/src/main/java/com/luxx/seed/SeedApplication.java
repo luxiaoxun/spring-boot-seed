@@ -39,7 +39,7 @@ public class SeedApplication implements WebMvcConfigurer {
         String[] excludePathPatterns = {"/**/login", "/**/error", "/**/**swagger**/**"};
 
         registry.addInterceptor(new RequestLogInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/**/**swagger**/**");
+                .excludePathPatterns("/**/error", "/**/**swagger**/**");
 
         registry.addInterceptor(new UserAuthInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns(excludePathPatterns);

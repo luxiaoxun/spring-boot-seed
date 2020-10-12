@@ -7,13 +7,13 @@ public class NameThreadFactory implements ThreadFactory {
 
     private final AtomicInteger index = new AtomicInteger();
     private final String name;
-    
+
     private final boolean daemon;
-    
+
     public NameThreadFactory(String name) {
         this(name, false);
     }
-    
+
     public NameThreadFactory(String name, boolean daemon) {
         super();
         this.name = name;

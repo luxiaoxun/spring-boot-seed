@@ -29,8 +29,7 @@ public class AgentInfoController extends BaseController {
     @ApiOperation(value = "统计Agent数量", notes = "统计Agent数量")
     @GetMapping("/count")
     public long getAgent() {
-        return 100;
-//        return agentService.getAgentNumber();
+        return agentService.getAgentNumber();
     }
 
     @ApiOperation(value = "根据IP查询Agent", notes = "根据IP查询Agent")
