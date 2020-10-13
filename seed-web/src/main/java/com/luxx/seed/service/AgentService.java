@@ -1,4 +1,4 @@
-package com.luxx.seed.service.agent;
+package com.luxx.seed.service;
 
 import com.luxx.seed.dao.AgentMapper;
 import org.springframework.beans.factory.annotation.Autowired;

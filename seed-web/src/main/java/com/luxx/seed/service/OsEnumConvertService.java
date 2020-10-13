@@ -1,4 +1,4 @@
-package com.luxx.seed.service.os;
+package com.luxx.seed.service;
 
 import com.luxx.seed.constant.OsEnum;
 import org.springframework.stereotype.Service;

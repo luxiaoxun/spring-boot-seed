@@ -1,9 +1,8 @@
-package com.luxx.seed.controller.login;
+package com.luxx.seed.controller;
 
-import com.luxx.seed.controller.BaseController;
 import com.luxx.seed.model.Response;
 import com.luxx.seed.model.User;
-import com.luxx.seed.service.user.UserService;
+import com.luxx.seed.service.UserService;
 import com.luxx.seed.util.TokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

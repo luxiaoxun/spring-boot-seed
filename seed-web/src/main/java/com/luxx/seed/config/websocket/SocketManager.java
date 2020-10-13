@@ -1,4 +1,4 @@
-package com.luxx.seed.service.websocket;
+package com.luxx.seed.config.websocket;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.WebSocketSession;

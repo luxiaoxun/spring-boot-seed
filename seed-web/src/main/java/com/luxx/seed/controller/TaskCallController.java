@@ -1,4 +1,4 @@
-package com.luxx.seed.controller.task;
+package com.luxx.seed.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

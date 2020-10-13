@@ -1,7 +1,5 @@
 package com.luxx.seed.config.websocket;
 
-import com.luxx.seed.service.websocket.PrincipalHandshakeHandler;
-import com.luxx.seed.service.websocket.WebSocketDecoratorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

@@ -1,8 +1,7 @@
-package com.luxx.seed.controller.websocket;
+package com.luxx.seed.controller;
 
 import com.luxx.seed.config.annotation.NoNeedAuth;
-import com.luxx.seed.controller.BaseController;
-import com.luxx.seed.service.websocket.SocketManager;
+import com.luxx.seed.config.websocket.SocketManager;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

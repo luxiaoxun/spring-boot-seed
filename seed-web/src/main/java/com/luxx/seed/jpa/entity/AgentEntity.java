@@ -1,7 +1,7 @@
 package com.luxx.seed.jpa.entity;
 
 import com.luxx.seed.constant.OsEnum;
-import com.luxx.seed.service.os.OsEnumConvertService;
+import com.luxx.seed.service.OsEnumConvertService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

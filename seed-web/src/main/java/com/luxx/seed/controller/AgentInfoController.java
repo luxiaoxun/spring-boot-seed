@@ -1,9 +1,8 @@
-package com.luxx.seed.controller.agent;
+package com.luxx.seed.controller;
 
-import com.luxx.seed.controller.BaseController;
 import com.luxx.seed.jpa.entity.AgentEntity;
 import com.luxx.seed.jpa.service.AgentEntityService;
-import com.luxx.seed.service.agent.AgentService;
+import com.luxx.seed.service.AgentService;
 import com.luxx.seed.util.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

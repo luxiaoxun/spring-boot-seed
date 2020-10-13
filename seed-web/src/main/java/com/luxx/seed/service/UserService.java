@@ -1,4 +1,4 @@
-package com.luxx.seed.service.user;
+package com.luxx.seed.service;
 
 import com.luxx.seed.model.User;
 import org.springframework.stereotype.Service;
