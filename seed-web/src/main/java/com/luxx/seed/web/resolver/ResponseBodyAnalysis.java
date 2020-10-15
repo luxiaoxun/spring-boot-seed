@@ -1,6 +1,8 @@
 package com.luxx.seed.web.resolver;
 
+import com.luxx.seed.constant.ErrorCode;
 import com.luxx.seed.model.Response;
+import com.luxx.seed.model.ResponseUtil;
 import com.luxx.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -26,15 +28,15 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
             return body;
         }
         if (body instanceof String) {
-            return JsonUtil.encode(Response.builder().result(body).build());
+            return JsonUtil.encode(ResponseUtil.success(body));
         }
-        return Response.builder().result(body).build();
+        return ResponseUtil.success(body);
     }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({Throwable.class})
     public Object handleException(Throwable e) {
-        return Response.builder().error(true).result(e.getMessage()).build();
+        return ResponseUtil.fail(ErrorCode.SYSTEM_ERROR.getCode(), e.getMessage());
     }
 }

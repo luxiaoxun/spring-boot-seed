@@ -6,7 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class Response<T> {
-    private boolean error;
-    private String errorDesc;
+    private String code;
+    private String message;
     private T result;
 }
