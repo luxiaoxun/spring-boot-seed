@@ -1,6 +1,8 @@
 package com.luxx.util;
 
 import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -9,18 +11,19 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class HttpUtils {
+    private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 
     private static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
 
     private static final OkHttpClient DEFAULT_OK_HTTP = createSimpleHttpClient();
 
     public static OkHttpClient createSimpleHttpClient() {
-        return createTimeOutHttpClient(1);
+        return createTimeOutHttpClient(3);
     }
 
     public static OkHttpClient createTimeOutHttpClient(int timeOut) {
         return new OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.SECONDS)
+                .connectTimeout(3, TimeUnit.SECONDS)
                 .readTimeout(timeOut, TimeUnit.MINUTES)
                 .build();
     }
@@ -40,6 +43,7 @@ public class HttpUtils {
     }
 
     public static String postJson(String url, String queryJson, OkHttpClient okHttpClient, Map<String, String> header) {
+        String result = "";
         RequestBody body = RequestBody.create(queryJson, JSON_MEDIA_TYPE);
         Request request = new Request.Builder()
                 .url(url)
@@ -51,10 +55,12 @@ public class HttpUtils {
         Call call = okHttpClient.newCall(request);
         try {
             Response response = call.execute();
-            return response.body().string();
+            result = response.body().string();
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            logger.error(ex.toString());
         }
+
+        return result;
     }
 
     public static Response postFile(String url, byte[] file, Map<String, String> header, String fileName) throws IOException {
@@ -82,6 +88,7 @@ public class HttpUtils {
     }
 
     public static String getJson(String queryUrl, OkHttpClient okHttpClient, Map<String, String> header) {
+        String result = "";
         Request request = new Request.Builder()
                 .url(queryUrl)
                 .headers(Headers.of(header))
@@ -91,10 +98,12 @@ public class HttpUtils {
         Call call = okHttpClient.newCall(request);
         try {
             Response response = call.execute();
-            return response.body().string();
+            result = response.body().string();
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            logger.error(ex.toString());
         }
+
+        return result;
     }
 
 }

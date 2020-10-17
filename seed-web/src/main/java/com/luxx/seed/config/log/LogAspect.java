@@ -1,7 +1,7 @@
 package com.luxx.seed.config.log;
 
-import com.luxx.seed.constant.ErrorCode;
-import com.luxx.seed.model.ResponseUtil;
+import com.luxx.seed.response.ResponseCode;
+import com.luxx.seed.response.ResponseUtil;
 import com.luxx.util.JsonUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -43,7 +43,7 @@ public class LogAspect {
             logger.info("method={}||execute_time={}||param={}||result={}", signature.toString(), end - start, param, JsonUtil.encode(result));
         } catch (Exception e) {
             long end = System.currentTimeMillis();
-            result = ResponseUtil.fail(ErrorCode.SYSTEM_ERROR);
+            result = ResponseUtil.fail(ResponseCode.SYSTEM_ERROR);
             logger.error("method={}||execute_time={}||param={}||error=", signature.toString(), end - start, param, e);
         }
         return result;

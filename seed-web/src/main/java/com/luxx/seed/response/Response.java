@@ -1,4 +1,4 @@
-package com.luxx.seed.model;
+package com.luxx.seed.response;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,5 +8,5 @@ import lombok.Data;
 public class Response<T> {
     private String code;
     private String message;
-    private T result;
+    private T data;
 }

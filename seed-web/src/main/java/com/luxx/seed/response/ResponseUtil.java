@@ -1,28 +1,26 @@
-package com.luxx.seed.model;
-
-import com.luxx.seed.constant.ErrorCode;
+package com.luxx.seed.response;
 
 public class ResponseUtil {
     public ResponseUtil() {
     }
 
     public static Response success() {
-        return generateResult(ErrorCode.SUCCESS, (Object) null);
+        return generateResult(ResponseCode.SUCCESS, (Object) null);
     }
 
     public static Response success(Object data) {
-        return generateResult(ErrorCode.SUCCESS, data);
+        return generateResult(ResponseCode.SUCCESS, data);
     }
 
     public static Response fail() {
-        return generateResult(ErrorCode.SYSTEM_ERROR, (Object) null);
+        return generateResult(ResponseCode.SYSTEM_ERROR, (Object) null);
     }
 
     public static Response fail(String code, String msg) {
         return generateResult(code, msg, (Object) null);
     }
 
-    public static Response fail(ErrorCode errorCode) {
+    public static Response fail(ResponseCode errorCode) {
         return generateResult(errorCode.getCode(), errorCode.getMsg(), (Object) null);
     }
 
@@ -30,7 +28,7 @@ public class ResponseUtil {
         return new Response(code, msg, data);
     }
 
-    public static Response generateResult(ErrorCode errorCode, Object data) {
+    public static Response generateResult(ResponseCode errorCode, Object data) {
         return generateResult(errorCode.getCode(), errorCode.getMsg(), data);
     }
 }

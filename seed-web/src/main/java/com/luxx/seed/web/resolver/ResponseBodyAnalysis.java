@@ -1,8 +1,8 @@
 package com.luxx.seed.web.resolver;
 
-import com.luxx.seed.constant.ErrorCode;
-import com.luxx.seed.model.Response;
-import com.luxx.seed.model.ResponseUtil;
+import com.luxx.seed.response.Response;
+import com.luxx.seed.response.ResponseCode;
+import com.luxx.seed.response.ResponseUtil;
 import com.luxx.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -37,6 +37,6 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({Throwable.class})
     public Object handleException(Throwable e) {
-        return ResponseUtil.fail(ErrorCode.SYSTEM_ERROR.getCode(), e.getMessage());
+        return ResponseUtil.fail(ResponseCode.SYSTEM_ERROR.getCode(), e.getMessage());
     }
 }

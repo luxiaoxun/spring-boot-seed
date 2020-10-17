@@ -28,6 +28,7 @@
         <spring-boot.version>2.2.7.RELEASE</spring-boot.version>
         <mybatis.spring.boot.version>1.3.2</mybatis.spring.boot.version>
         <swagger.version>2.9.2</swagger.version>
+        <jackson.version>2.10.4</jackson.version>
         <lombok.version>1.18.0</lombok.version>
         <elasticsearch.version>6.2.4</elasticsearch.version>
         <curator.version>4.3.0</curator.version>
@@ -58,6 +59,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-log4j2</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -116,6 +123,13 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${swagger.version}</version>
+            </dependency>
+
+            <!-- jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
 
             <!-- lombok -->
@@ -209,6 +223,13 @@
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
+            </dependency>
+
+            <!-- commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.11</version>
             </dependency>
 
             <!-- hutool -->

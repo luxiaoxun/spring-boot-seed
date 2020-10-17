@@ -1,6 +1,6 @@
-package com.luxx.seed.constant;
+package com.luxx.seed.response;
 
-public enum ErrorCode implements IErrorCode {
+public enum ResponseCode {
     SUCCESS("0", "success"),
     UNKNOWN_ERROR("10000", "未知错误"),
     SYSTEM_ERROR("10001", "系统处理异常"),
@@ -27,17 +27,15 @@ public enum ErrorCode implements IErrorCode {
     private String code;
     private String msg;
 
-    private ErrorCode(String code, String msg) {
+    ResponseCode(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    @Override
     public String getCode() {
         return this.code;
     }
 
-    @Override
     public String getMsg() {
         return this.msg;
     }

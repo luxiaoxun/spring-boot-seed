@@ -1,8 +1,8 @@
 package com.luxx.seed.controller;
 
-import com.luxx.seed.constant.ErrorCode;
-import com.luxx.seed.model.Response;
-import com.luxx.seed.model.ResponseUtil;
+import com.luxx.seed.response.Response;
+import com.luxx.seed.response.ResponseCode;
+import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.model.User;
 import com.luxx.seed.service.UserService;
 import com.luxx.seed.util.TokenUtil;
@@ -27,10 +27,10 @@ public class LoginController extends BaseController {
         // check user info
         User user = userService.findByUsername(username);
         if (user == null) {
-            return ResponseUtil.fail(ErrorCode.LOGIN_FAILED);
+            return ResponseUtil.fail(ResponseCode.LOGIN_FAILED);
         } else {
             if (!user.getPassword().equals(password)) {
-                return ResponseUtil.fail(ErrorCode.LOGIN_FAILED);
+                return ResponseUtil.fail(ResponseCode.LOGIN_FAILED);
             } else {
                 String token = TokenUtil.getToken(user);
                 return ResponseUtil.success(token);
