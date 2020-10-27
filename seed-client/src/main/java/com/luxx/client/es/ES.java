@@ -36,10 +36,10 @@ public class ES {
     @Value("${zone}")
     private String zone;
 
-    @Value("${sys.es.cluster.name}")
+    @Value("${es.cluster.name}")
     private String esCluster;
 
-    @Value("${sys.es.address}")
+    @Value("${es.address}")
     private String esAddress;
 
     private final Cache<String, Set<String>> filedCache = CacheBuilder.newBuilder()

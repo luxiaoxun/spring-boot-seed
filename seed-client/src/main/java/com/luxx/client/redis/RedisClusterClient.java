@@ -19,7 +19,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @Component
 public class RedisClusterClient implements InitializingBean {
 
-    @Value("${sys.redis.node}")
+    @Value("${redis.address}")
     private String redisNodes;
 
     private JedisCluster jedisCluster;
@@ -33,13 +33,12 @@ public class RedisClusterClient implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         Set<HostAndPort> hostAndPorts = new HashSet<HostAndPort>();
-        logger.info("Redis Nodes: " + redisNodes);
+        logger.info("Redis cluster nodes: " + redisNodes);
         String[] nodeArray = redisNodes.split(",");
         for (String node : nodeArray) {
             String[] host = node.split(":");
             hostAndPorts.add(new HostAndPort(host[0], Integer.parseInt(host[1])));
         }
-
         JedisPoolConfig jpc = new JedisPoolConfig();
         jpc.setMaxTotal(16);
         jpc.setMaxIdle(16);

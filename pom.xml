@@ -34,10 +34,19 @@
         <curator.version>4.3.0</curator.version>
         <guava.version>29.0-jre</guava.version>
         <jedis.version>3.2.0</jedis.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
             <!-- spring-boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -157,14 +166,7 @@
                 <artifactId>okio</artifactId>
                 <version>2.6.0</version>
             </dependency>
-
-            <!-- fastjson -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.67</version>
-            </dependency>
-
+            
             <!-- xxl-job -->
             <dependency>
                 <groupId>com.xuxueli</groupId>
@@ -232,12 +234,12 @@
                 <version>3.11</version>
             </dependency>
 
-            <!-- hutool -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
-                <version>5.3.9</version>
+                <version>5.4.6</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

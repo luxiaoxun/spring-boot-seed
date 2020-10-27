@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     public User findUserById(String userId) {
-        return new User("1", "luxiaoxun", "123456");
+        return new User(1, "luxiaoxun", "123456");
     }
 
     public User findByUsername(String username) {
-        return new User("1", "luxiaoxun", "123456");
+        return new User(1, "luxiaoxun", "123456");
     }
 }

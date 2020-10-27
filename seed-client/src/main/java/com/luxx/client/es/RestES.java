@@ -35,10 +35,10 @@ public class RestES {
     @Value("${zone}")
     private String zone;
 
-    @Value("${sys.es.cluster.name}")
+    @Value("${es.cluster.name}")
     private String esCluster;
 
-    @Value("${sys.es.http.address}")
+    @Value("${es.http.address}")
     private String esHttpAddress;
 
     private final Cache<String, Set<String>> filedCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build();
