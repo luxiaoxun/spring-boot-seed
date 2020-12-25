@@ -4,6 +4,7 @@ import com.luxx.seed.config.annotation.NoNeedAuth;
 import com.luxx.seed.controller.BaseController;
 import com.luxx.seed.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -34,17 +35,17 @@ public class UserAuthInterceptor implements HandlerInterceptor {
         // 执行认证
         if (token == null) {
             log.info("No token, please login, request uri: " + request.getRequestURI());
-            response.sendError(401, "No auth token");
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "No auth token");
             return false;
         }
         // 验证 token, 获取 token 中的 user id
         String userId = TokenUtil.verifyToken(token);
         if (StringUtils.isEmpty(userId)) {
             log.warn("Token verify failed");
-            response.sendError(401, "Token verify failed");
+            response.sendError(HttpStatus.FORBIDDEN.value(), "Token verify failed");
             return false;
         } else {
-            request.setAttribute(BaseController.USER_KEY, userId);
+            BaseController.setUserInfo(userId);
         }
         return true;
     }
