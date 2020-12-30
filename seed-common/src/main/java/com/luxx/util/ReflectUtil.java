@@ -3,11 +3,11 @@ package com.luxx.util;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class ReflectUtils {
+public class ReflectUtil {
     private static final String EMPTY = "";
 
     public static <T> void setBeanNullProperty(List<T> list) {
-        list.forEach(ReflectUtils::setBeanNullProperty);
+        list.forEach(ReflectUtil::setBeanNullProperty);
     }
 
     public static <T> void setBeanNullProperty(T obj) {

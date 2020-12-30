@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LambdaUtils {
+public class LambdaUtil {
     public static <T> Predicate<T> not(Predicate<T> t) {
         return t.negate();
     }

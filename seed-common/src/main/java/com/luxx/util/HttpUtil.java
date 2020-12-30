@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class HttpUtils {
-    private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
+public class HttpUtil {
+    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     private static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
 

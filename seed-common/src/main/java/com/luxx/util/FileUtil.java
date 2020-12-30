@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-public class FileUtils {
+public class FileUtil {
 
     public static void upload(String fileName, byte[] data) throws IOException {
         File file = new File(fileName);

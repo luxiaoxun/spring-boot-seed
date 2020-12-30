@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 
-public class CommonUtils {
-    private static final Logger logger = LoggerFactory.getLogger(CommonUtils.class);
+public class CommonUtil {
+    private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
     public static String getIPS() {
 

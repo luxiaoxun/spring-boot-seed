@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class BatchUtils {
+public class BatchUtil {
 
     private static final int DEFAULT_BATCH_SIZE = 1000;
 
