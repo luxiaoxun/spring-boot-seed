@@ -9,7 +9,9 @@ import com.luxx.seed.model.User;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class TokenUtil {
@@ -42,5 +44,27 @@ public class TokenUtil {
         return userId;
     }
 
+
+    public static String getToken(Map<String, Object> claimMap) {
+        String token = JWT.create()
+                .withIssuer("auth0")
+                .withClaim("info", claimMap)
+                .sign(algorithm);
+        return token;
+    }
+
+    public static Map<String, Object> checkToken(String token) {
+        Map<String, Object> ret = new HashMap<>();
+        try {
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("auth0")
+                    .build();
+            DecodedJWT jwt = verifier.verify(token);
+            ret = jwt.getClaim("info").asMap();
+        } catch (JWTVerificationException ex) {
+            log.error("Check token error: {}, token: {}", ex.toString(), token);
+        }
+        return ret;
+    }
 
 }
