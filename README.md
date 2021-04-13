@@ -6,7 +6,7 @@ Web后端开发框架
 * java 8
 * spring-boot 2.2.7.RELEASE
 * swagger 2.9.2
-* guava 29.0-jre
+* guava 30.1-jre
 * mybait.spring 1.3.2
 * mysql 8.0
 * HikariCP 3.2.0
