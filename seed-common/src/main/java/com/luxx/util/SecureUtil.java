@@ -7,6 +7,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -21,7 +22,7 @@ public class SecureUtil {
         kgen.init(128);
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(encryptKey.getBytes(), "AES"));
-        byte[] encryptBytes = cipher.doFinal(content.getBytes("UTF-8"));
+        byte[] encryptBytes = cipher.doFinal(content.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(encryptBytes);
     }
 
@@ -39,7 +40,7 @@ public class SecureUtil {
         //获取密码实例对象，参数格式为"算法/模式/填充"
         Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
         //使用Key作为DES密钥的密钥内容，创建一个 DESKeySpec对象
-        DESKeySpec desKeySpec = new DESKeySpec(encryptKey.getBytes("UTF-8"));
+        DESKeySpec desKeySpec = new DESKeySpec(encryptKey.getBytes(StandardCharsets.UTF_8));
         //返回DES算法的SecretKeyFactory对象
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
         //生成SecretKey对象
@@ -49,7 +50,7 @@ public class SecureUtil {
         //用密钥和一组算法参数初始化密码实例对象
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
         //加密，使用Base64密码
-        return Base64.getEncoder().encodeToString(cipher.doFinal(plain.getBytes("UTF-8")));
+        return Base64.getEncoder().encodeToString(cipher.doFinal(plain.getBytes(StandardCharsets.UTF_8)));
     }
 
     public static String decryptByDES(String encryptString, String encryptKey) throws Exception {
@@ -99,7 +100,7 @@ public class SecureUtil {
         //获取密码实例对象 参数格式为"算法/模式/填充"
         Cipher cp = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cp.init(Cipher.ENCRYPT_MODE, pubKey);
-        return Base64.getEncoder().encodeToString(cp.doFinal(plain.getBytes("UTF-8")));
+        return Base64.getEncoder().encodeToString(cp.doFinal(plain.getBytes(StandardCharsets.UTF_8)));
     }
 
     public static String decryptByPrivateKey(String encrypted, String privateKey) throws Exception {
