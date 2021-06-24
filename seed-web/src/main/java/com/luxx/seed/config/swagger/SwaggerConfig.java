@@ -9,6 +9,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -23,7 +24,7 @@ public class SwaggerConfig {
     @Bean
     public Docket createRestApi() {
         ParameterBuilder parameterBuilder = new ParameterBuilder();
-        parameterBuilder.name(BaseController.AUTH_TOKEN).description("令牌").modelRef(new ModelRef("string"))
+        parameterBuilder.name(BaseController.AUTH_TOKEN).description("token").modelRef(new ModelRef("string"))
                 .parameterType("header").required(false).build();
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(parameterBuilder.build());
@@ -40,6 +41,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("XX平台")
+                .contact(new Contact("luxiaoxun", "", ""))
                 .version("1.0")
                 .build();
     }

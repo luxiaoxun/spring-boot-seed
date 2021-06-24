@@ -22,4 +22,4 @@ Web后端开发框架
 * seed-task：集成xxl-job做定时任务
     1. [xxl-job](https://github.com/xuxueli/xxl-job)
     2. [shedlock](https://github.com/lukas-krecan/ShedLock)
-* seed-web：web后端服务，数据库mysql，可以用spring mybatis和spring data jpa两种方式操作数据库
+* seed-web：web后端服务，数据库mysql，用spring mybatis操作数据库

@@ -1,7 +1,6 @@
 package com.luxx.seed.controller;
 
-import com.luxx.seed.jpa.entity.AgentEntity;
-import com.luxx.seed.jpa.service.AgentEntityService;
+import com.luxx.seed.model.AgentEntity;
 import com.luxx.seed.service.AgentService;
 import com.luxx.seed.util.WebUtil;
 import io.swagger.annotations.Api;
@@ -22,19 +21,16 @@ public class AgentInfoController extends BaseController {
     @Autowired
     private AgentService agentService;
 
-    @Autowired
-    private AgentEntityService agentEntityService;
-
     @ApiOperation(value = "统计Agent数量", notes = "统计Agent数量")
     @GetMapping("/count")
     public long getAgent() {
-        return agentService.getAgentNumber();
+        return agentService.getAgentCount();
     }
 
     @ApiOperation(value = "根据IP查询Agent", notes = "根据IP查询Agent")
     @GetMapping("/search")
     public AgentEntity getAgentByIp(@RequestParam String ip) {
-        return agentEntityService.findByIp(ip);
+        return agentService.findByIp(ip);
     }
 
     @ApiOperation(value = "test", notes = "test")

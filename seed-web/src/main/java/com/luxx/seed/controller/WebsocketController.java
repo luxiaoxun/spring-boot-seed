@@ -1,6 +1,5 @@
 package com.luxx.seed.controller;
 
-import com.luxx.seed.config.annotation.NoNeedAuth;
 import com.luxx.seed.config.websocket.SocketManager;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,6 @@ public class WebsocketController extends BaseController {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping("/chat")
-    @NoNeedAuth
     public ModelAndView chat() {
         return new ModelAndView("chat");
     }

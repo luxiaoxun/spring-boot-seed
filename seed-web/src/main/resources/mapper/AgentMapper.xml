@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.luxx.seed.dao.AgentMapper">
+
     <select id="countAgentNumber" resultType="java.lang.Long">
         select count(1)
-        from chaos_agent_list
+        from tb_agent
+    </select>
+
+    <select id="findByIp" resultType="com.luxx.seed.model.AgentEntity">
+        select *
+        from tb_agent
+        where ip = #{ip}
     </select>
 </mapper>

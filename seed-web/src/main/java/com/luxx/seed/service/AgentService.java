@@ -1,6 +1,7 @@
 package com.luxx.seed.service;
 
 import com.luxx.seed.dao.AgentMapper;
+import com.luxx.seed.model.AgentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,11 @@ public class AgentService {
     @Autowired
     private AgentMapper agentMapper;
 
-    public long getAgentNumber(){
+    public long getAgentCount() {
         return agentMapper.countAgentNumber();
+    }
+
+    public AgentEntity findByIp(String ip) {
+        return agentMapper.findByIp(ip);
     }
 }
