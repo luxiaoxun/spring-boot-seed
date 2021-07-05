@@ -14,7 +14,7 @@ public class ParameterUtil {
      * @return 去除参数的MD5摘要
      */
     public String paramMd5(final String reqJson, String... excludeKeys) {
-        TreeMap paramTreeMap = JsonUtil.jsonToObject(reqJson, TreeMap.class);
+        TreeMap paramTreeMap = JsonUtil.decode(reqJson, TreeMap.class);
         if (excludeKeys != null) {
             List<String> excludeKeyList = Arrays.asList(excludeKeys);
             if (!excludeKeyList.isEmpty()) {
@@ -23,7 +23,7 @@ public class ParameterUtil {
                 }
             }
         }
-        String paramTreeMapJson = JsonUtil.objectToJson(paramTreeMap);
+        String paramTreeMapJson = JsonUtil.encode(paramTreeMap);
         String paramMd5 = DigestUtils.md5DigestAsHex(paramTreeMapJson.getBytes(StandardCharsets.UTF_8));
         return paramMd5;
     }

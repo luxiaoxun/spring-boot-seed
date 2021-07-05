@@ -1,7 +1,7 @@
 package com.luxx.seed.web.filter;
 
-import cn.hutool.core.lang.ObjectId;
 import com.luxx.seed.util.WebUtil;
+import com.luxx.util.ObjectId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
@@ -21,7 +21,7 @@ public class RequestIdFilter implements Filter {
             String reqId = httpServletRequest.getHeader(WebUtil.REQ_ID_HEADER);
             //没有则生成一个
             if (StringUtils.isEmpty(reqId)) {
-                reqId = ObjectId.next();
+                reqId = ObjectId.uniqueId();
             }
             log.info("Request id:" + reqId);
             WebUtil.setRequestId(reqId);

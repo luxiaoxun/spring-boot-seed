@@ -78,27 +78,6 @@ public class JsonUtil {
         return obj;
     }
 
-    public static String objectToJson(Object o) {
-        String json = "";
-        try {
-            json = mapper.writeValueAsString(o);
-        } catch (IOException e) {
-            throw new IllegalStateException(e.getMessage(), e);
-        }
-        return json;
-    }
-
-    public static <T> T jsonToObject(String json, Class<?> cls) {
-        T obj = null;
-        JavaType javaType = mapper.getTypeFactory().constructType(cls);
-        try {
-            obj = mapper.readValue(json, javaType);
-        } catch (IOException e) {
-            throw new IllegalStateException(e.getMessage(), e);
-        }
-        return obj;
-    }
-
     public static <T> T jsonToObjectList(String json,
                                          Class<?> collectionClass,
                                          Class<?>... elementClass) {

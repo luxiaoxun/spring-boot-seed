@@ -1,6 +1,6 @@
 package com.luxx.seed.util;
 
-import cn.hutool.core.lang.ObjectId;
+import com.luxx.util.ObjectId;
 
 public class WebUtil {
 
@@ -15,7 +15,7 @@ public class WebUtil {
     public static String getRequestId() {
         String requestId = reqIdThreadLocal.get();
         if (requestId == null) {
-            requestId = ObjectId.next();
+            requestId = ObjectId.uniqueId();
             reqIdThreadLocal.set(requestId);
         }
         return requestId;

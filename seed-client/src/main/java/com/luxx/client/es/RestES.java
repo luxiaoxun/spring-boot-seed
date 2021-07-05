@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.apache.http.HttpHost;
+import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -35,11 +36,8 @@ public class RestES {
     @Value("${zone}")
     private String zone;
 
-    @Value("${es.cluster.name}")
-    private String esCluster;
-
-    @Value("${es.http.address}")
-    private String esHttpAddress;
+    @Value("${es.address}")
+    private String esAddress;
 
     private final Cache<String, Set<String>> filedCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build();
 
@@ -67,7 +65,8 @@ public class RestES {
                     RestHighLevelClient client = getClient();
                     String endpoint = "/" + index + "/_mapping/_doc/field/*";
 
-                    Response response = client.getLowLevelClient().performRequest("GET", endpoint);
+                    Request request = new Request("GET", endpoint);
+                    Response response = client.getLowLevelClient().performRequest(request);
 
                     try (InputStream is = response.getEntity().getContent()) {
                         Map<String, Object> map = XContentHelper.convertToMap(XContentType.JSON.xContent(), is, false);
@@ -127,10 +126,10 @@ public class RestES {
     }
 
     private RestHighLevelClient _getClient(String zone) throws NumberFormatException, UnknownHostException {
-        logger.info("es.http.address: " + esHttpAddress);
+        logger.info("es.http.address: " + esAddress);
 
         LinkedList<HttpHost> httpPorts = new LinkedList<>();
-        for (String address : esHttpAddress.split(",")) {
+        for (String address : esAddress.split(",")) {
             String[] hostPort = address.split(":");
             httpPorts.add(new HttpHost(hostPort[0], Integer.parseInt(hostPort[1])));
         }

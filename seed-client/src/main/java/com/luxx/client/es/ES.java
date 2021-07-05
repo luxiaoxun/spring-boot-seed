@@ -1,25 +1,22 @@
 package com.luxx.client.es;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.elasticsearch.action.admin.indices.mapping.get.GetFieldMappingsRequest;
-import org.elasticsearch.action.admin.indices.mapping.get.GetFieldMappingsResponse;
-import org.elasticsearch.action.admin.indices.mapping.get.GetFieldMappingsResponse.FieldMappingMetaData;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,56 +33,29 @@ public class ES {
     @Value("${zone}")
     private String zone;
 
-    @Value("${es.cluster.name}")
-    private String esCluster;
-
     @Value("${es.address}")
     private String esAddress;
+
+    @Value("${es.username}")
+    private String esUsername;
+
+    @Value("${es.password}")
+    private String esPassword;
 
     private final Cache<String, Set<String>> filedCache = CacheBuilder.newBuilder()
             .expireAfterWrite(1, TimeUnit.MINUTES).build();
 
-    private Client _client;
+    private RestHighLevelClient _client;
 
-    private Map<String, Client> clients = new HashMap<>();
+    private Map<String, RestHighLevelClient> clients = new HashMap<>();
 
-    public Client getClient() {
+    public RestHighLevelClient getClient() {
         return _client;
     }
 
     @PostConstruct
-    public void init() throws Exception {
+    public void init() {
         _client = getClient(zone);
-    }
-
-    public Set<String> getAllFields(String index) throws Throwable {
-        try {
-            return filedCache.get(index, new Callable<Set<String>>() {
-                @Override
-                public Set<String> call() throws Exception {
-                    Client client = getClient();
-
-                    GetFieldMappingsResponse mappingsResponse = client.admin().indices()
-                            .getFieldMappings(new GetFieldMappingsRequest().indices(index).fields("*")).actionGet();
-
-                    Map<String, Map<String, Map<String, FieldMappingMetaData>>> mappings =
-                            mappingsResponse.mappings();
-
-                    Set<String> fields = new TreeSet<>();
-
-                    mappings.values().forEach(a -> a.values().forEach(b -> b.values().forEach(c -> {
-                        String name = c.fullName();
-                        if (!name.startsWith("_")) {
-                            fields.add(name);
-                        }
-                    })));
-
-                    return fields;
-                }
-            });
-        } catch (ExecutionException e) {
-            throw e.getCause();
-        }
     }
 
     public void cleanFieldCache() {
@@ -103,8 +73,8 @@ public class ES {
         });
     }
 
-    public synchronized Client getClient(String zone) {
-        Client client = clients.get(zone);
+    public synchronized RestHighLevelClient getClient(String zone) {
+        RestHighLevelClient client = clients.get(zone);
         if (client == null) {
             try {
                 client = _getClient(zone);
@@ -118,20 +88,29 @@ public class ES {
         return client;
     }
 
-    private Client _getClient(String zone) throws NumberFormatException, UnknownHostException {
-        logger.info("es.cluster.name: " + esCluster);
+    private RestHighLevelClient _getClient(String zone) throws NumberFormatException {
         logger.info("es.cluster.address: " + esAddress);
+        String[] hostPort = esAddress.split(":");
+        RestClientBuilder builder = RestClient.builder(new HttpHost(hostPort[0], Integer.parseInt(hostPort[1])))
+                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+                    @Override
+                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+                        credentialsProvider.setCredentials(AuthScope.ANY,
+                                new UsernamePasswordCredentials(esUsername, esPassword));
+                        return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                    }
+                }).setRequestConfigCallback(new RestClientBuilder.RequestConfigCallback() {
+                    @Override
+                    public RequestConfig.Builder customizeRequestConfig(RequestConfig.Builder builder) {
+                        builder.setConnectTimeout(10000)
+                                .setSocketTimeout(60000)
+                                .setConnectionRequestTimeout(0);
+                        return builder;
+                    }
+                });
 
-        Settings settings = Settings.builder()
-                .put("cluster.name", esCluster)
-                .put("client.transport.sniff", false).build();
-        Client client = new PreBuiltTransportClient(settings);
-        for (String address : esAddress.split(",")) {
-            String[] hostPort = address.split(":");
-            ((TransportClient) client).addTransportAddress(new TransportAddress(
-                    InetAddress.getByName(hostPort[0]), Integer.parseInt(hostPort[1])));
-        }
-
+        RestHighLevelClient client = new RestHighLevelClient(builder);
         return client;
     }
 
