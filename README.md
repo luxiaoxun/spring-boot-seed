@@ -13,7 +13,7 @@ Web后端开发框架
 * xxl-job 2.1.0
 * lombok 1.18.0
 * Jedis 3.2.0
-* Elasticsearch 6.2.4
+* Elasticsearch 7
 * zookeeper client 4.3.0
 
 项目名称：spring-boot-seed
