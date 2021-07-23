@@ -11,6 +11,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class GzipUtil {
+
     public static String compress(String str) throws IOException {
         if (str == null || str.length() == 0) {
             return str;
@@ -29,4 +30,5 @@ public class GzipUtil {
         byte[] bytes = IOUtils.toByteArray(gis);
         return new String(bytes, StandardCharsets.UTF_8);
     }
+
 }
