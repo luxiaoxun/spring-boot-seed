@@ -14,7 +14,6 @@ public class ObjectId {
         if (ng == null) {
             numberGenerator = ng = new SecureRandom();
         }
-
         return Long.toHexString(MSB | ng.nextLong()) + Long.toHexString(MSB | ng.nextLong());
     }
 

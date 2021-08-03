@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BeanPropertyUtil {
+public class BeanUtil {
     private static Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 
     public static String[] getNullPropertyNames(Object source) {
