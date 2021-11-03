@@ -3,7 +3,7 @@ package com.luxx.client.zookeeper;
 import java.util.Collection;
 import java.util.concurrent.Executor;
 
-import com.luxx.util.CommonUtil;
+import com.luxx.util.OsUtil;
 import org.apache.curator.framework.recipes.leader.LeaderLatch;
 import org.apache.curator.framework.recipes.leader.LeaderLatchListener;
 import org.apache.curator.framework.recipes.leader.Participant;
@@ -34,7 +34,7 @@ public class ZkClusterService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
 
-        leaderLatch = new LeaderLatch(curatorClient.getClient(), "/master/" + type, CommonUtil.getIPS());
+        leaderLatch = new LeaderLatch(curatorClient.getClient(), "/master/" + type, OsUtil.getIPS());
         leaderLatch.addListener(new LeaderLatchListener() {
             @Override
             public void notLeader() {

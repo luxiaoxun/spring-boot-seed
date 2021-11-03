@@ -1,6 +1,7 @@
 package com.luxx.util;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,28 @@ public class OsUtil {
         } else {
             return execReadToString();
         }
+    }
+
+    public static String getIPS() {
+
+        Enumeration<NetworkInterface> b;
+        try {
+            b = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException e) {
+            String random = "random-" + System.currentTimeMillis() + "-" + RandomStringUtils.randomAlphanumeric(8);
+            logger.error("Fail to get IPs. Use string [ " + random + " ] as IP.", e);
+            return random;
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        while (b.hasMoreElements()) {
+            for (InterfaceAddress f : b.nextElement().getInterfaceAddresses())
+                if (!f.getAddress().isLoopbackAddress() && f.getAddress() instanceof Inet4Address) {
+                    stringBuilder.append(f.getAddress().getHostAddress());
+                    stringBuilder.append(";");
+                }
+        }
+        return stringBuilder.substring(0, stringBuilder.length() - 1);
     }
 
     public static List<String> getIpAddress() {

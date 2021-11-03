@@ -42,7 +42,7 @@ public class ScheduleJobAutoConfiguration {
         log.info("启动任务注册模块");
         XxlJobExecutor xxlJobExecutor = new XxlJobSpringExecutor();
         xxlJobExecutor.setAdminAddresses(adminAddresses);
-        xxlJobExecutor.setAppName(appName);
+        xxlJobExecutor.setAppname(appName);
         xxlJobExecutor.setIp(ip);
         xxlJobExecutor.setPort(port);
         xxlJobExecutor.setAccessToken(accessToken);
