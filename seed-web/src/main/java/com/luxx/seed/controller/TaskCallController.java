@@ -18,7 +18,7 @@ public class TaskCallController {
 //    @Resource
 //    private AutowireCapableBeanFactory autowireCapableBeanFactory;
 
-    @ApiOperation(value = "test", notes = "test")
+    @ApiOperation(value = "test")
     @PostMapping("/test")
     public void test(String beanName) throws Exception {
 //        beanName = beanName.replaceFirst(beanName.substring(0, 1), beanName.substring(0, 1).toLowerCase());

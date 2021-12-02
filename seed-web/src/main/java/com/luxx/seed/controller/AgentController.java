@@ -1,5 +1,7 @@
 package com.luxx.seed.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.luxx.seed.model.AgentEntity;
 import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseUtil;
@@ -11,6 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/agent")
 @Api(tags = "agent")
@@ -20,21 +27,37 @@ public class AgentController extends BaseController {
     @Autowired
     private AgentService agentService;
 
-    @ApiOperation(value = "统计Agent数量", notes = "统计Agent数量")
+    @ApiOperation(value = "统计Agent数量")
     @GetMapping("/count")
     public Response getAgentCount() {
         long count = agentService.getAgentCount();
         return ResponseUtil.success(count);
     }
 
-    @ApiOperation(value = "根据IP查询Agent", notes = "根据IP查询Agent")
+    @ApiOperation(value = "分页查询Agent")
+    @GetMapping("/search/page")
+    public Response getAgentByPage(@RequestParam(required = false) String type,
+                                   @RequestParam(defaultValue = "1") @Min(1) int pageNum,
+                                   @RequestParam(defaultValue = "10") int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<AgentEntity> agentList = agentService.getAgentsByType(type);
+        PageInfo<AgentEntity> pageInfo = new PageInfo<>(agentList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("total", pageInfo.getTotal());
+        map.put("pageNum", pageInfo.getPageNum());
+        map.put("pageSize", pageInfo.getPageSize());
+        map.put("data", pageInfo.getList());
+        return ResponseUtil.success(map);
+    }
+
+    @ApiOperation(value = "根据IP查询Agent")
     @GetMapping("/search")
     public Response getAgentByIp(@RequestParam String ip) {
         AgentEntity agent = agentService.findByIp(ip);
         return ResponseUtil.success(agent);
     }
 
-    @ApiOperation(value = "创建Agent", notes = "创建Agent")
+    @ApiOperation(value = "创建Agent")
     @PostMapping("/create")
     public Response createAgent(@RequestBody AgentEntity agent) {
         try {
@@ -46,7 +69,7 @@ public class AgentController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "test", notes = "test")
+    @ApiOperation(value = "test")
     @GetMapping("/test")
     public String test(@RequestParam String msg) {
         log.info("Request Id: " + WebUtil.getRequestId());

@@ -20,7 +20,7 @@ public class LoginController extends BaseController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "login", notes = "login")
+    @ApiOperation(value = "login")
     @PostMapping("/login")
     public Response login(@RequestParam String username, @RequestParam String password) {
         log.info("User try to login: " + username);
@@ -38,7 +38,7 @@ public class LoginController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "logout", notes = "logout")
+    @ApiOperation(value = "logout")
     @PostMapping("/logout")
     public void logout(@RequestParam String username) {
         log.info("User logout: " + username);

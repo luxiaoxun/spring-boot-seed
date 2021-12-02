@@ -16,7 +16,7 @@
 
     <select id="getAgentsByType" resultType="com.luxx.seed.model.AgentEntity">
         select *
-        from tb_agent where
+        from tb_agent
         <where>
             <if test="type != null and type != ''">
                 and type = #{type}

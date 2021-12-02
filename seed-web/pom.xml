@@ -122,7 +122,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.2.7.RELEASE</version>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
