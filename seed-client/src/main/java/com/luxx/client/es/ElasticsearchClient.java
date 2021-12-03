@@ -1,9 +1,7 @@
 package com.luxx.client.es;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -14,10 +12,13 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.apache.http.HttpHost;
-import org.elasticsearch.client.Request;
-import org.elasticsearch.client.Response;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.elasticsearch.client.*;
 import org.elasticsearch.common.xcontent.XContentHelper;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.slf4j.Logger;
@@ -30,28 +31,61 @@ import com.google.common.cache.CacheBuilder;
 
 @Lazy
 @Component
-public class RestES {
-    private static final Logger logger = LoggerFactory.getLogger(RestES.class);
-
-    @Value("${zone}")
-    private String zone;
+public class ElasticsearchClient {
+    private static final Logger logger = LoggerFactory.getLogger(ElasticsearchClient.class);
 
     @Value("${es.address}")
     private String esAddress;
 
-    private final Cache<String, Set<String>> filedCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build();
+    @Value("${es.username}")
+    private String esUsername;
 
-    private RestHighLevelClient _client;
+    @Value("${es.password}")
+    private String esPassword;
 
-    private Map<String, RestHighLevelClient> clients = new HashMap<>();
+    private final Cache<String, Set<String>> filedCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(1, TimeUnit.MINUTES).build();
+
+    private RestHighLevelClient client;
 
     public RestHighLevelClient getClient() {
-        return _client;
+        return client;
     }
 
     @PostConstruct
-    public void init() throws Exception {
-        _client = getClient(zone);
+    public void init() {
+        logger.info("es.cluster.address: " + esAddress);
+        String[] hostPort = esAddress.split(":");
+        RestClientBuilder builder = RestClient.builder(new HttpHost(hostPort[0], Integer.parseInt(hostPort[1])))
+                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+                    @Override
+                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+                        credentialsProvider.setCredentials(AuthScope.ANY,
+                                new UsernamePasswordCredentials(esUsername, esPassword));
+                        return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                    }
+                }).setRequestConfigCallback(new RestClientBuilder.RequestConfigCallback() {
+                    @Override
+                    public RequestConfig.Builder customizeRequestConfig(RequestConfig.Builder builder) {
+                        builder.setConnectTimeout(5000)
+                                .setSocketTimeout(60000)
+                                .setConnectionRequestTimeout(0);
+                        return builder;
+                    }
+                });
+        client = new RestHighLevelClient(builder);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        if (client != null) {
+            try {
+                client.close();
+            } catch (IOException e) {
+                logger.error(e.toString());
+            }
+        }
     }
 
     public Set<String> getAllFields(String index) throws Throwable {
@@ -97,47 +131,5 @@ public class RestES {
 
     public void cleanFieldCache() {
         filedCache.invalidateAll();
-    }
-
-    @PreDestroy
-    public void destroy() {
-        clients.values().forEach(client -> {
-            try {
-                client.close();
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-        });
-    }
-
-    public synchronized RestHighLevelClient getClient(String zone) {
-        RestHighLevelClient client = clients.get(zone);
-        if (client == null) {
-            try {
-                client = _getClient(zone);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-            clients.put(zone, client);
-        }
-
-        return client;
-    }
-
-    private RestHighLevelClient _getClient(String zone) throws NumberFormatException, UnknownHostException {
-        logger.info("es.http.address: " + esAddress);
-
-        LinkedList<HttpHost> httpPorts = new LinkedList<>();
-        for (String address : esAddress.split(",")) {
-            String[] hostPort = address.split(":");
-            httpPorts.add(new HttpHost(hostPort[0], Integer.parseInt(hostPort[1])));
-        }
-
-        return new RestHighLevelClient(RestClient.builder(httpPorts.toArray(new HttpHost[0])));
-    }
-
-    public String getZone() {
-        return zone;
     }
 }
