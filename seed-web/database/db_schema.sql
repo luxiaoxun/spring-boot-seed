@@ -1,4 +1,4 @@
-CREATE TABLE tb_agent
+CREATE TABLE IF NOT EXISTS tb_agent
 (
     id           BIGINT       NOT NULL AUTO_INCREMENT,
     ip           VARCHAR(64)  COMMENT 'IP地址',
