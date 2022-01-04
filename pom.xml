@@ -30,7 +30,7 @@
         <swagger.version>2.9.2</swagger.version>
         <mybatis.spring-boot.version>2.1.4</mybatis.spring-boot.version>
         <pagehelper.spring-boot.version>1.2.13</pagehelper.spring-boot.version>
-        <log4j2.version>2.17.0</log4j2.version>
+        <log4j2.version>2.17.1</log4j2.version>
         <hikaricp.version>3.4.5</hikaricp.version>
         <mysql.version>8.0.16</mysql.version>
         <lombok.version>1.18.16</lombok.version>
