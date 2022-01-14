@@ -26,8 +26,8 @@ public class AgentService {
         return agentMapper.findByIp(ip);
     }
 
-    public List<AgentEntity> getAgentsByType(String type) {
-        return agentMapper.getAgentsByType(type);
+    public List<AgentEntity> getAgentsByType(String type, String order, String direction) {
+        return agentMapper.getAgentsByType(type, order, direction);
     }
 
     public int createAgent(AgentEntity agent) {

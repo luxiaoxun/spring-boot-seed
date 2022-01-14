@@ -2,8 +2,10 @@ package com.luxx.seed.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.luxx.seed.constant.Constant;
 import com.luxx.seed.model.AgentEntity;
 import com.luxx.seed.response.Response;
+import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.service.AgentService;
 import com.luxx.seed.util.WebUtil;
@@ -37,10 +39,15 @@ public class AgentController extends BaseController {
     @ApiOperation(value = "分页查询Agent")
     @GetMapping("/search/page")
     public Response getAgentByPage(@RequestParam(required = false) String type,
+                                   @RequestParam(defaultValue = "id") String order,
+                                   @RequestParam(defaultValue = "ASC") String direction,
                                    @RequestParam(defaultValue = "1") @Min(1) int pageNum,
                                    @RequestParam(defaultValue = "10") int pageSize) {
+        if (!Constant.SORT_ASC.equals(direction) && !Constant.SORT_DESC.equals(direction)) {
+            return ResponseUtil.fail(ResponseCode.PARAM_ILLEGAL);
+        }
         PageHelper.startPage(pageNum, pageSize);
-        List<AgentEntity> agentList = agentService.getAgentsByType(type);
+        List<AgentEntity> agentList = agentService.getAgentsByType(type, order, direction);
         PageInfo<AgentEntity> pageInfo = new PageInfo<>(agentList);
         Map<String, Object> map = new HashMap<>();
         map.put("total", pageInfo.getTotal());

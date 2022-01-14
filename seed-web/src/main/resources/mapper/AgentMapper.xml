@@ -22,6 +22,14 @@
                 and type = #{type}
             </if>
         </where>
+        <choose>
+            <when test="order != null and order != '' and direction != null and direction != ''">
+                ORDER BY ${order} ${direction}
+            </when>
+            <otherwise>
+                ORDER BY id ASC
+            </otherwise>
+        </choose>
     </select>
 
     <insert id="createAgent" useGeneratedKeys="true" keyProperty="id">

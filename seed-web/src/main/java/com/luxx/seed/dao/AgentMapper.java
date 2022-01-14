@@ -11,7 +11,7 @@ public interface AgentMapper {
 
     AgentEntity findByIp(String ip);
 
-    List<AgentEntity> getAgentsByType(String type);
+    List<AgentEntity> getAgentsByType(String type, String order, String direction);
 
     int createAgent(AgentEntity agent);
 
