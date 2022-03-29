@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.unit.DataSize;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -22,6 +23,7 @@ import javax.servlet.MultipartConfigElement;
 @EnableTransactionManagement
 @MapperScan("com.luxx.seed.dao")
 @Slf4j
+@EnableWebMvc
 public class WebApp implements WebMvcConfigurer {
     public static void main(String[] args) {
         new SpringApplicationBuilder().sources(WebApp.class).run(args);

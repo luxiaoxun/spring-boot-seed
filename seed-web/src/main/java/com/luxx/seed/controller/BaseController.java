@@ -10,7 +10,7 @@ import java.util.Optional;
 @RestController
 public class BaseController {
     public static final String USER_KEY = "login_user";
-    public static final String AUTH_TOKEN = "auth-token";
+    public static final String AUTH_TOKEN = "token";
 
     public static String getUserInfo() {
         return Optional.ofNullable(getRequest().getAttribute(USER_KEY))
