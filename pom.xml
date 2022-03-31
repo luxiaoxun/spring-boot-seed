@@ -26,7 +26,7 @@
         <maven.test.skip>true</maven.test.skip>
         <maven.complier.source>1.8</maven.complier.source>
         <maven.complier.target>1.8</maven.complier.target>
-        <spring-boot.version>2.2.7.RELEASE</spring-boot.version>
+        <spring-boot.version>2.5.12</spring-boot.version>
         <swagger.version>3.0.0</swagger.version>
         <mybatis.spring-boot.version>2.1.4</mybatis.spring-boot.version>
         <pagehelper.spring-boot.version>1.2.13</pagehelper.spring-boot.version>
