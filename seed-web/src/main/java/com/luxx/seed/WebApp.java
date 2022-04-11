@@ -31,10 +31,11 @@ public class WebApp implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        String[] excludePathPatterns = {"/agent/**", "/**/login", "/**/error", "/**/**swagger**/**"};
+        String[] excludePathPatterns = {"/agent/**", "/**/login", "/**/error", "/**/**swagger**/**",
+                "/v2/api-docs/**"};
 
         registry.addInterceptor(new RequestLogInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/**/error", "/**/**swagger**/**");
+                .excludePathPatterns("/**/error", "/**/**swagger**/**", "/v2/api-docs/**");
 
         registry.addInterceptor(new UserAuthInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns(excludePathPatterns);
