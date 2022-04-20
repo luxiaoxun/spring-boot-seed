@@ -20,7 +20,7 @@ public class RequestIdFilter implements Filter {
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             String reqId = httpServletRequest.getHeader(WebUtil.REQ_ID_HEADER);
             //没有则生成一个
-            if (StringUtils.isEmpty(reqId)) {
+            if (!StringUtils.hasLength(reqId)) {
                 reqId = ObjectId.uniqueId();
             }
             log.info("Request id:" + reqId);

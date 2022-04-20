@@ -21,7 +21,7 @@ public class PrincipalHandshakeHandler extends DefaultHandshakeHandler {
             ServletServerHttpRequest servletServerHttpRequest = (ServletServerHttpRequest) request;
             HttpServletRequest httpRequest = servletServerHttpRequest.getServletRequest();
             final String token = httpRequest.getParameter("token");
-            if (StringUtils.isEmpty(token)) {
+            if (!StringUtils.hasLength(token)) {
                 log.error("No websocket handshake token");
                 return null;
             } else {

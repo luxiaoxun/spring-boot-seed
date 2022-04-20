@@ -40,7 +40,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
         }
         // 验证 token, 获取 token 中的 user id
         String userId = TokenUtil.verifyToken(token);
-        if (StringUtils.isEmpty(userId)) {
+        if (!StringUtils.hasLength(userId)) {
             log.warn("Token verify failed");
             response.sendError(HttpStatus.FORBIDDEN.value(), "Token verify failed");
             return false;
