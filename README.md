@@ -25,3 +25,5 @@ Web后端开发框架
     1. [xxl-job](https://github.com/xuxueli/xxl-job)
     2. [shedlock](https://github.com/lukas-krecan/ShedLock)
 * seed-web：web后端服务，数据库mysql，用spring mybatis操作数据库
+
+swagger: http://localhost:9090/api/swagger-ui/index.html#

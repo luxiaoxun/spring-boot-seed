@@ -115,6 +115,16 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
 
+        <!-- apache poi pdf -->
+        <dependency>
+            <groupId>fr.opensagres.xdocreport</groupId>
+            <artifactId>fr.opensagres.poi.xwpf.converter.pdf-gae</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-asian</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

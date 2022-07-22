@@ -254,6 +254,18 @@
                 <version>${aspectj.version}</version>
             </dependency>
 
+            <!-- apache poi pdf -->
+            <dependency>
+                <groupId>fr.opensagres.xdocreport</groupId>
+                <artifactId>fr.opensagres.poi.xwpf.converter.pdf-gae</artifactId>
+                <version>2.0.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itext-asian</artifactId>
+                <version>5.2.0</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
