@@ -3,7 +3,7 @@ package com.luxx.seed.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.luxx.seed.constant.Constant;
-import com.luxx.seed.model.AgentEntity;
+import com.luxx.seed.model.Agent;
 import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
@@ -47,8 +47,8 @@ public class AgentController extends BaseController {
             return ResponseUtil.fail(ResponseCode.PARAM_ILLEGAL);
         }
         PageHelper.startPage(pageNum, pageSize);
-        List<AgentEntity> agentList = agentService.getAgentsByType(type, order, direction);
-        PageInfo<AgentEntity> pageInfo = new PageInfo<>(agentList);
+        List<Agent> agentList = agentService.getAgentsByType(type, order, direction);
+        PageInfo<Agent> pageInfo = new PageInfo<>(agentList);
         Map<String, Object> map = new HashMap<>();
         map.put("total", pageInfo.getTotal());
         map.put("pageNum", pageInfo.getPageNum());
@@ -60,13 +60,13 @@ public class AgentController extends BaseController {
     @ApiOperation(value = "根据IP查询Agent")
     @GetMapping("/search")
     public Response getAgentByIp(@RequestParam String ip) {
-        AgentEntity agent = agentService.findByIp(ip);
+        Agent agent = agentService.findByIp(ip);
         return ResponseUtil.success(agent);
     }
 
     @ApiOperation(value = "创建Agent")
     @PostMapping("/create")
-    public Response createAgent(@RequestBody AgentEntity agent) {
+    public Response createAgent(@RequestBody Agent agent) {
         try {
             agentService.createAgent(agent);
             return ResponseUtil.success();

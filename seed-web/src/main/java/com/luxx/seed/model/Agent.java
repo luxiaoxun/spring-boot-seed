@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AgentEntity {
+public class Agent {
     private Long id;
 
     @NotEmpty

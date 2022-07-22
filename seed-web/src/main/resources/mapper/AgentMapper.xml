@@ -8,13 +8,13 @@
         from tb_agent
     </select>
 
-    <select id="findByIp" resultType="com.luxx.seed.model.AgentEntity">
+    <select id="findByIp" resultType="com.luxx.seed.model.Agent">
         select *
         from tb_agent
         where ip = #{ip}
     </select>
 
-    <select id="getAgentsByType" resultType="com.luxx.seed.model.AgentEntity">
+    <select id="getAgentsByType" resultType="com.luxx.seed.model.Agent">
         select *
         from tb_agent
         <where>
@@ -37,7 +37,7 @@
         values (#{ip}, #{version}, #{status}, #{type}, #{owner}, #{createTime}, #{updateTime})
     </insert>
 
-    <update id="updateAgent" parameterType="com.luxx.seed.model.AgentEntity">
+    <update id="updateAgent" parameterType="com.luxx.seed.model.Agent">
         update tb_agent set
         ip = #{ip},
         version = #{version},

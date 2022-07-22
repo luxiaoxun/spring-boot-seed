@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ConfigEntity {
+public class Config {
     private Long id;
 
     private String name;

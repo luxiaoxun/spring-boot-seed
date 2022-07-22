@@ -2,7 +2,7 @@ package com.luxx.seed.web.interceptor;
 
 import com.luxx.seed.controller.BaseController;
 import com.luxx.seed.web.filter.RequestWrapper;
-import com.luxx.seed.model.OprLogEntity;
+import com.luxx.seed.model.OprLog;
 import com.luxx.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -24,7 +24,7 @@ public class RequestLogInterceptor implements HandlerInterceptor {
         }
         String token = request.getHeader(BaseController.AUTH_TOKEN);
         String user = Optional.ofNullable(token).map(Object::toString).orElse("");
-        OprLogEntity logEntity = OprLogEntity.builder().method(method)
+        OprLog logEntity = OprLog.builder().method(method)
                 .uri(uri)
                 .param(param)
                 .body(body)

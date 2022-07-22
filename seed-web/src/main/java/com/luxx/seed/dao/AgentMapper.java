@@ -1,6 +1,6 @@
 package com.luxx.seed.dao;
 
-import com.luxx.seed.model.AgentEntity;
+import com.luxx.seed.model.Agent;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.List;
 public interface AgentMapper {
     Long getAgentCount();
 
-    AgentEntity findByIp(String ip);
+    Agent findByIp(String ip);
 
-    List<AgentEntity> getAgentsByType(String type, String order, String direction);
+    List<Agent> getAgentsByType(String type, String order, String direction);
 
-    int createAgent(AgentEntity agent);
+    int createAgent(Agent agent);
 
-    void updateAgent(AgentEntity agent);
+    void updateAgent(Agent agent);
 }
