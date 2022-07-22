@@ -3,13 +3,17 @@ package com.luxx.seed.service;
 import com.google.code.appengine.awt.Color;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
-import com.luxx.seed.model.report.PieChartForm;
+import com.luxx.seed.model.report.*;
 import com.luxx.seed.util.DocUtil;
 import com.luxx.seed.util.FileUtil;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import fr.opensagres.xdocreport.itext.extension.font.IFontProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.xddf.usermodel.XDDFColor;
+import org.apache.poi.xddf.usermodel.chart.BarGrouping;
+import org.apache.poi.xddf.usermodel.chart.MarkerStyle;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTShd;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STShd;
@@ -81,12 +85,10 @@ public class ReportService {
             //添加一个段落空行
             DocUtil.addBreak(document);
 
-            XWPFChart chart = DocUtil.getChart(document, null, null);
-            PieChartForm pieChartForm = new PieChartForm();
-            pieChartForm.setTitle("各个国家xx分布");
-            pieChartForm.setBottomData(new String[]{"俄罗斯", "加拿大", "美国", "中国", "巴西", "澳大利亚", "印度"});
-            pieChartForm.setLeftData(new Integer[]{17098242, 9984670, 9826675, 9596961, 8514877, 7741220, 3287263});
-            DocUtil.createPieChart(chart, pieChartForm);
+            addPieChart(document);
+            addScatterChart(document);
+            addLineChart(document);
+            addBarChart(document);
 
             //test
 //            writeToFile(document);
@@ -107,6 +109,91 @@ public class ReportService {
             } catch (Exception e) {
             }
         }
+    }
+
+    private void addPieChart(XWPFDocument document) throws IOException, InvalidFormatException {
+        XWPFChart chart = DocUtil.getChart(document, null, null);
+        PieChartForm pieChartForm = new PieChartForm();
+        pieChartForm.setTitle("各个国家xx分布");
+        pieChartForm.setBottomData(new String[]{"俄罗斯", "加拿大", "美国", "中国", "巴西", "澳大利亚", "印度"});
+        pieChartForm.setLeftData(new Integer[]{17098242, 9984670, 9826675, 9596961, 8514877, 7741220, 3287263});
+        DocUtil.createPieChart(chart, pieChartForm);
+    }
+
+    private void addScatterChart(XWPFDocument document) throws IOException, InvalidFormatException {
+        XWPFChart chart = DocUtil.getChart(document, null, null);
+        ScatterChartForm scatterChartForm = new ScatterChartForm();
+        scatterChartForm.setTitle("测试");
+        scatterChartForm.setBottomTitle("X轴");
+        scatterChartForm.setLeftTitle("Y轴");
+        scatterChartForm.setStyle(MarkerStyle.CIRCLE);
+        scatterChartForm.setMarkerSize((short) 10);
+        scatterChartForm.setVaryColors(false);
+
+        ScatterChartForm.AreaData areaData = new ScatterChartForm.AreaData();
+        areaData.setBottomData(new Integer[]{1, 2, 3, 4, 5, 8, 7});
+        areaData.setLeftData(new Integer[]{5, 5, 5, 4, 5, 6, 7});
+        areaData.setTitle("测试1");
+        scatterChartForm.getLists().add(areaData);
+
+        ScatterChartForm.AreaData areaData2 = new ScatterChartForm.AreaData();
+        areaData2.setBottomData(new Integer[]{6, 9});
+        areaData2.setLeftData(new Integer[]{1, 9});
+        areaData2.setXddfColor(XDDFColor.from(new byte[]{(byte) 0xFF, (byte) 0xE1, (byte) 0xFF}));
+        areaData2.setTitle("测试2");
+        scatterChartForm.getLists().add(areaData2);
+        DocUtil.createScatterChart(chart, scatterChartForm);
+    }
+
+    private void addLineChart(XWPFDocument document) throws IOException, InvalidFormatException {
+        XWPFChart chart = DocUtil.getChart(document, null, null);
+        LineChartForm lineChartForm = new LineChartForm();
+        lineChartForm.setTitle("测试");
+        lineChartForm.setBottomTitle("X轴");
+        lineChartForm.setLeftTitle("Y轴");
+        lineChartForm.setStyle(MarkerStyle.STAR);
+        lineChartForm.setMarkerSize((short) 6);
+        lineChartForm.setSmooth(false);
+        lineChartForm.setVaryColors(false);
+        lineChartForm.setBottomData(new String[]{"俄罗斯", "加拿大", "美国", "中国", "巴西", "澳大利亚", "印度"});
+        lineChartForm.setLeftData(new Integer[]{17098242, 9984670, 9826675, 9596961, 8514877, 7741220, 3287263});
+        DocUtil.createLineChart(chart, lineChartForm);
+    }
+
+    private void addBarChart(XWPFDocument document) throws Exception {
+        XWPFChart chart = DocUtil.getChart(document, null, null);
+        String[] categories = new String[]{"Lang 1", "Lang 2", "Lang 3"};
+        Double[] valuesA = new Double[]{10d, 20d, 30d};
+        Double[] valuesB = new Double[]{15d, 25d, 35d};
+        Double[] valuesC = new Double[]{10d, 8d, 20d};
+        List<Double[]> list = new ArrayList<>();
+        list.add(valuesA);
+        list.add(valuesB);
+        list.add(valuesC);
+        BarChartForm barChartForm = new BarChartForm();
+        barChartForm.setTitle("测试");
+        barChartForm.setCategories(categories);
+        barChartForm.setTableData(list);
+        barChartForm.setColorTitles(Arrays.asList("a", "b", "c"));
+        barChartForm.setGrouping(BarGrouping.STACKED);
+        barChartForm.setNewOverlap((byte) 100);
+
+        BarChartForm.ColorCheck colorCheck = new BarChartForm.ColorCheck();
+        colorCheck.setXddfColor(XDDFColor.from(new byte[]{(byte) 0xFF, (byte) 0x33, (byte) 0x00}));
+        colorCheck.setNum(0);
+        barChartForm.getList().add(colorCheck);
+
+        BarChartForm.ColorCheck colorCheck2 = new BarChartForm.ColorCheck();
+        colorCheck2.setXddfColor(XDDFColor.from(new byte[]{(byte) 0x91, (byte) 0x2C, (byte) 0xEE}));
+        colorCheck2.setNum(1);
+        barChartForm.getList().add(colorCheck2);
+
+        BarChartForm.ColorCheck colorCheck3 = new BarChartForm.ColorCheck();
+        colorCheck3.setXddfColor(XDDFColor.from(new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x80}));
+        colorCheck3.setNum(2);
+        barChartForm.getList().add(colorCheck3);
+
+        DocUtil.createBarChart(chart, barChartForm);
     }
 
     private void writeToFile(XWPFDocument doc) {

@@ -34,11 +34,13 @@ public class WebApp implements WebMvcConfigurer {
         String[] excludePathPatterns = {"/agent/**", "/**/login", "/**/error", "/**/**swagger**/**",
                 "/v2/api-docs/**"};
 
+        //操作日志拦截
         registry.addInterceptor(new RequestLogInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/**/error", "/**/**swagger**/**", "/v2/api-docs/**");
 
-        registry.addInterceptor(new UserAuthInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns(excludePathPatterns);
+        //用户登录拦截
+//        registry.addInterceptor(new UserAuthInterceptor()).addPathPatterns("/**")
+//                .excludePathPatterns(excludePathPatterns);
     }
 
     @Override
