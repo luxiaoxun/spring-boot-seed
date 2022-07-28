@@ -11,6 +11,7 @@ import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import fr.opensagres.xdocreport.itext.extension.font.IFontProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.util.Units;
 import org.apache.poi.xddf.usermodel.XDDFColor;
 import org.apache.poi.xddf.usermodel.chart.BarGrouping;
 import org.apache.poi.xddf.usermodel.chart.MarkerStyle;
@@ -90,6 +91,17 @@ public class ReportService {
             addLineChart(document);
             addBarChart(document);
 
+            //添加一个段落空行
+            DocUtil.addBreak(document);
+
+            //添加图片
+            ClassPathResource imageResource = new ClassPathResource("elastic-log.png");
+            try (InputStream imageData = imageResource.getInputStream()) {
+                int imageType = XWPFDocument.PICTURE_TYPE_PNG;
+                String imageFileName = imageResource.getFilename();
+                addImage(document, imageData, imageType, imageFileName, 300, 200);
+            }
+
             //test
 //            writeToFile(document);
 
@@ -109,6 +121,13 @@ public class ReportService {
             } catch (Exception e) {
             }
         }
+    }
+
+    private void addImage(XWPFDocument document, InputStream imageData, int imageType,
+                          String imageFileName, int width, int height) throws IOException, InvalidFormatException {
+        XWPFParagraph paragraph = document.createParagraph();
+        XWPFRun run = paragraph.createRun();
+        run.addPicture(imageData, imageType, imageFileName, Units.toEMU(width), Units.toEMU(height));
     }
 
     private void addPieChart(XWPFDocument document) throws IOException, InvalidFormatException {
