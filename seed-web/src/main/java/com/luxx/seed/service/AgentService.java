@@ -20,7 +20,7 @@ public class AgentService {
     }
 
     public Agent findByIp(String ip) {
-        return agentMapper.findByIp(ip);
+        return agentMapper.getAgentByIp(ip);
     }
 
     public List<Agent> getAgentsByType(String type, String order, String direction) {

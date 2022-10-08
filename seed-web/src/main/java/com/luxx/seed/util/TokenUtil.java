@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Slf4j
 public class TokenUtil {
-    private static final long TokenExpireTime = 24 * 60 * 60 * 1000;
+    private static final long TokenExpireTime = 2 * 60 * 60 * 1000;
     private static Algorithm algorithm = Algorithm.HMAC256("secret_key_256");
 
     public static String getToken(User user) {

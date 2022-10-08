@@ -29,7 +29,7 @@ public class LoginController extends BaseController {
         if (user == null) {
             return ResponseUtil.fail(ResponseCode.LOGIN_FAILED);
         } else {
-            if (!user.getPassword().equals(password)) {
+            if (!user.getPasswd().equals(password)) {
                 return ResponseUtil.fail(ResponseCode.LOGIN_FAILED);
             } else {
                 String token = TokenUtil.getToken(user);

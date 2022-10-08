@@ -9,7 +9,7 @@ import java.util.List;
 public interface AgentMapper {
     Long getAgentCount();
 
-    Agent findByIp(String ip);
+    Agent getAgentByIp(String ip);
 
     List<Agent> getAgentsByType(String type, String order, String direction);
 

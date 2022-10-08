@@ -8,7 +8,7 @@
         from tb_agent
     </select>
 
-    <select id="findByIp" resultType="com.luxx.seed.model.Agent">
+    <select id="getAgentByIp" resultType="com.luxx.seed.model.Agent">
         select *
         from tb_agent
         where ip = #{ip}
