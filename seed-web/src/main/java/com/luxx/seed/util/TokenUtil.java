@@ -21,7 +21,7 @@ public class TokenUtil {
     public static String getToken(User user) {
         String token = JWT.create()
                 .withIssuer("auth0")
-                .withAudience(Long.toString(user.getId()), user.getUsername())
+                .withAudience(Long.toString(user.getId()), user.getName())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TokenExpireTime))
                 .sign(algorithm);
         return token;

@@ -10,8 +10,8 @@ public class TokenTest {
     public void testToken() {
         User user = new User();
         user.setId(1);
-        user.setPassword("123");
-        user.setUsername("luxiaoxun");
+        user.setPasswd("123");
+        user.setName("luxiaoxun");
 
         System.out.println(TokenUtil.getToken(user));
     }
