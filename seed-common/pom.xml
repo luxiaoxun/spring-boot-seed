@@ -12,6 +12,10 @@
     <artifactId>seed-common</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <slf4j.version>1.7.36</slf4j.version>
+    </properties>
+
     <dependencies>
         <!-- test -->
         <dependency>
@@ -68,13 +72,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.36</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.36</version>
+            <version>${slf4j.version}</version>
             <type>pom</type>
         </dependency>
 
