@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class OprLog {
+public class RequestLog {
     private String method;
 
     private String uri;
