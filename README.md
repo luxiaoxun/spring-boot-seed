@@ -26,4 +26,5 @@ Web后端开发框架
     2. [shedlock](https://github.com/lukas-krecan/ShedLock)
 * seed-web：web后端服务，数据库mysql，用spring mybatis操作数据库
 
-swagger: http://localhost:9090/api/swagger-ui/index.html#
+* swagger: http://localhost:9090/swagger-ui/index.html
+* web ssh demo: http://localhost:9090/login

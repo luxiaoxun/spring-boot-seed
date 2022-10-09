@@ -7,11 +7,11 @@ import java.util.Map;
 
 @Getter
 public enum TaskStatus {
-    INIT(-1, "创建中"),
-    CREATE(0, "已创建"),
-    SUCCESS(1, "完成"),
-    PROCESS(2, "处理中"),
-    FAIL(3, "失败");
+    INIT(0, "创建中"),
+    CREATE(1, "已创建"),
+    SUCCESS(2, "完成"),
+    PROCESS(3, "处理中"),
+    FAIL(4, "失败");
 
     private Integer id;
     private String name;

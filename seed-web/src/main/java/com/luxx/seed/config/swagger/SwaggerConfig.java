@@ -31,7 +31,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.luxx.seed"))
+                .apis(RequestHandlerSelectors.basePackage("com.luxx.seed.controller"))
                 .paths(PathSelectors.any())
                 .build().globalRequestParameters(parameters);
     }

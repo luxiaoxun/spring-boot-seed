@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSSH</title>
+    <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script>
+     &lt;!&ndash; import JavaScript &ndash;&gt;
+     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+     &lt;!&ndash; 引入样式 &ndash;&gt;
+     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <script src="../js/vue.js"></script>
+    <!-- element -->
+    <script src="../js/index.js"></script>
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="../js/axios.min.js"></script>
+<!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+    <style>
+        .el-select .el-input {
+            width: 130px;
+        }
+
+        .input-with-select .el-input-group__prepend {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container>
+
+        <el-header>
+            <div>
+                <el-input v-model="currentPath" @keyup.enter.native="listFilesByHand">
+                    <template slot="prepend">
+                        <el-button type="warning" @click="exit" style="margin-right: 10px">退出</el-button>
+                    </template>
+                    <template slot="prepend">当前位置</template>
+                    <template slot="append">
+                        <el-upload
+                                class="upload-demo"
+                                action="/sftp/put"
+                                name="uploadFile"
+                                :show-file-list="false"
+                                multiple
+                                :data="{targetDir:currentPath}"
+                                :on-success="uploadFileSuccess">
+                            <el-button size="small" type="primary">点击上传</el-button>
+                        </el-upload>
+                    </template>
+                </el-input>
+                <div slot="tip" class="el-upload__tip">只能不超过300M的文件</div>
+            </div>
+        </el-header>
+        <el-main>
+            <template>
+                <el-table
+                        :data="tableData"
+                        style="width: 100%"
+                        :default-sort="{prop: 'mtime', order: 'descending'}"
+                >
+                    <el-table-column
+                            prop="fileName"
+                            label="文件名"
+                            width="180">
+                        <template slot-scope="scope">
+                            <i :class="scope.row.isDir?'el-icon-folder':'el-icon-document'"></i>
+                            <el-link @click="listFiles(scope.row.fullFileName)" style="margin-left: 10px"
+                                     type="primary">{{ scope.row.fileName }}
+                            </el-link>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="fileSize"
+                            label="文件大小"
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="fullFileName"
+                            label="全路径"
+                            width="240">
+                    </el-table-column>
+                    <el-table-column
+                            prop="mtime"
+                            label="日期"
+                            sortable
+                            width="240">
+                    </el-table-column>
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <el-button v-if="scope.row.isDir==false"
+                                       size="mini"
+                                       @click="downloadFile(scope.$index, scope.row)">下载
+                            </el-button>
+                            <el-button v-if="scope.row.isDir==false"
+                                    size="mini"
+                                    type="danger"
+                                    @click="deleteFile(scope.$index, scope.row)">删除
+                            </el-button>
+                        </template>
+                    </el-table-column>
+
+                </el-table>
+            </template>
+        </el-main>
+    </el-container>
+</div>
+
+<script>
+    var connectData = window.localStorage.getItem("connectData");
+    var v = new Vue({
+        el: '#app',
+        data: {
+            tableData: [],
+            currentPath: "/",
+            targetDir: {
+                targetDir: this.currentPath
+            }
+        },
+        mounted: function () {
+            this.connect();
+        },
+        methods: {
+            formatter: function (row, column) {
+                return row.fileName;
+            },
+            connect: function () {
+                var _this = this;
+                axios.post("/sftp/connect", JSON.parse(connectData)).then(function (response) {
+                    console.log(response);
+                    _this.listFiles("/");
+                }).catch(function (error) {
+                    this.$message.error(error);
+                });
+            },
+            listFiles: function (path) {
+                this.currentPath = path;
+                var _this = this;
+                axios.post("/sftp/ls?path=" + path).then(function (response) {
+                    _this.tableData = response.data.data;
+                }).catch(function (error) {
+                    this.$message.error(error);
+                });
+            },
+            listFilesByHand: function () {
+                this.listFiles(this.currentPath);
+            },
+            downloadFile: function (index, row) {
+                window.location.href = "/sftp/get?fullFileName="+row.fullFileName;
+            },
+            deleteFile: function (index, row) {
+                var _this = this;
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.post("/sftp/delete?fullFileName=" + row.fullFileName).then(function (response) {
+                        if (response.data.code === "0") {
+                            _this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            _this.listFiles(_this.currentPath)
+                        }else {
+                            _this.$message.error(response.data.msg);
+                        }
+                    }).catch(function (error) {
+                        _this.$message.error(error);
+                    });
+                }).catch(() => {
+                });
+            },
+            uploadFileSuccess: function (response) {
+                console.log(response)
+                if (response.code === "0") {
+                    this.$message({
+                        message: '上传成功',
+                        type: 'success'
+                    });
+                    this.listFiles(this.currentPath)
+                }
+            },
+            exit:function () {
+                window.localStorage.removeItem("connectData");
+                axios.post("/sftp/exit").then(function (response) {
+                    window.location.href="/login"
+                }).catch(function (error) {
+                    this.$message.error(error);
+                });
+            }
+
+        }
+
+    });
+
+</script>
+</body>
+</html>

@@ -2,8 +2,8 @@ package com.luxx.seed.constant;
 
 public enum OsEnum {
     unknown(0, "unknown"),
-    windows(1, "windows"),
-    linux(2, "windows");
+    linux(1, "linux"),
+    windows(2, "windows");
 
     private Integer id;
     private String name;

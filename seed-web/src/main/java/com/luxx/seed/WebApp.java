@@ -22,8 +22,6 @@ import javax.servlet.MultipartConfigElement;
 @ServletComponentScan
 @EnableTransactionManagement
 @MapperScan("com.luxx.seed.dao")
-@Slf4j
-@EnableWebMvc
 public class WebApp implements WebMvcConfigurer {
     public static void main(String[] args) {
         new SpringApplicationBuilder().sources(WebApp.class).run(args);
@@ -37,7 +35,6 @@ public class WebApp implements WebMvcConfigurer {
         //操作日志拦截
         registry.addInterceptor(new RequestLogInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/**/error", "/**/**swagger**/**", "/v2/api-docs/**");
-
         //用户登录拦截
 //        registry.addInterceptor(new UserAuthInterceptor()).addPathPatterns("/**")
 //                .excludePathPatterns(excludePathPatterns);
