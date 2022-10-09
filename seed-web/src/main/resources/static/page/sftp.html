@@ -13,7 +13,7 @@
     <script src="../js/index.js"></script>
     <link rel="stylesheet" href="../css/index.css">
     <script src="../js/axios.min.js"></script>
-<!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+    <!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
     <style>
         .el-select .el-input {
             width: 130px;
@@ -22,6 +22,7 @@
         .input-with-select .el-input-group__prepend {
             background-color: #fff;
         }
+
     </style>
 </head>
 <body>
@@ -92,9 +93,9 @@
                                        @click="downloadFile(scope.$index, scope.row)">下载
                             </el-button>
                             <el-button v-if="scope.row.isDir==false"
-                                    size="mini"
-                                    type="danger"
-                                    @click="deleteFile(scope.$index, scope.row)">删除
+                                       size="mini"
+                                       type="danger"
+                                       @click="deleteFile(scope.$index, scope.row)">删除
                             </el-button>
                         </template>
                     </el-table-column>
@@ -162,7 +163,7 @@
                             });
                             _this.listFiles(_this.currentPath)
                         }else {
-                            _this.$message.error(response.data.msg);
+                            _this.$message.error(response.data.message);
                         }
                     }).catch(function (error) {
                         _this.$message.error(error);
@@ -192,6 +193,7 @@
         }
 
     });
+
 
 </script>
 </body>
