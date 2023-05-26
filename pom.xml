@@ -265,6 +265,12 @@
                 <artifactId>itext-asian</artifactId>
                 <version>5.2.0</version>
             </dependency>
+            <!-- aspose-words -->
+            <dependency>
+                <groupId>com.luhuiguo</groupId>
+                <artifactId>aspose-words</artifactId>
+                <version>23.1</version>
+            </dependency>
 
             <!-- jsch -->
             <dependency>

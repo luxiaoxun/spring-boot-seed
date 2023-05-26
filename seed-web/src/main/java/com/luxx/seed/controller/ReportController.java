@@ -22,7 +22,7 @@ public class ReportController extends BaseController {
 
     @ApiOperation(value = "获取报告")
     @GetMapping("/agent-report")
-    public void getReport(@RequestParam(required = false, defaultValue = "word") String type, HttpServletResponse response) {
+    public void getReport(@RequestParam(required = false, defaultValue = "pdf") String type, HttpServletResponse response) {
         reportService.exportReport(type, response);
     }
 

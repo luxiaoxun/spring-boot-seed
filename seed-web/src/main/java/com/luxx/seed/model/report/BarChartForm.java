@@ -21,6 +21,7 @@ public class BarChartForm extends ChartFrom {
 
     // 柱状图类型 只有在tableData个数大于1时需要填写
     private BarGrouping grouping;
+
     // 柱子偏移量 堆叠柱状图推荐100 簇状柱状图推荐-20 只有在tableData个数大于1时需要填写
     private byte newOverlap;
 

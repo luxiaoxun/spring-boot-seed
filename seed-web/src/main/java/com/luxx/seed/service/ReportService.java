@@ -1,5 +1,7 @@
 package com.luxx.seed.service;
 
+import com.aspose.words.Document;
+import com.aspose.words.SaveFormat;
 import com.google.code.appengine.awt.Color;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
@@ -108,7 +110,7 @@ public class ReportService {
             if ("word".equals(type)) {
                 downloadDoc(document, response, "report-doc.docx");
             } else if ("pdf".equals(type)) {
-                downloadPdf(document, response, "report-pdf.pdf");
+                downloadPdf2(document, response, "report-pdf.pdf");
             }
 
         } catch (Exception e) {
@@ -123,8 +125,7 @@ public class ReportService {
         }
     }
 
-    private void addImage(XWPFDocument document, InputStream imageData, int imageType,
-                          String imageFileName, int width, int height) throws IOException, InvalidFormatException {
+    private void addImage(XWPFDocument document, InputStream imageData, int imageType, String imageFileName, int width, int height) throws IOException, InvalidFormatException {
         XWPFParagraph paragraph = document.createParagraph();
         XWPFRun run = paragraph.createRun();
         run.addPicture(imageData, imageType, imageFileName, Units.toEMU(width), Units.toEMU(height));
@@ -142,32 +143,33 @@ public class ReportService {
     private void addScatterChart(XWPFDocument document) throws IOException, InvalidFormatException {
         XWPFChart chart = DocUtil.getChart(document, null, null);
         ScatterChartForm scatterChartForm = new ScatterChartForm();
-        scatterChartForm.setTitle("测试");
+        scatterChartForm.setTitle("测试ScatterChart");
         scatterChartForm.setBottomTitle("X轴");
         scatterChartForm.setLeftTitle("Y轴");
-        scatterChartForm.setStyle(MarkerStyle.CIRCLE);
+        scatterChartForm.setStyle(MarkerStyle.STAR);
         scatterChartForm.setMarkerSize((short) 10);
         scatterChartForm.setVaryColors(false);
 
         ScatterChartForm.AreaData areaData = new ScatterChartForm.AreaData();
-        areaData.setBottomData(new Integer[]{1, 2, 3, 4, 5, 8, 7});
-        areaData.setLeftData(new Integer[]{5, 5, 5, 4, 5, 6, 7});
+        areaData.setBottomData(new Integer[]{1, 2, 3, 4, 5, 6, 7});
+        areaData.setLeftData(new Integer[]{2, 3, 5, 4, 8, 6, 7});
         areaData.setTitle("测试1");
         scatterChartForm.getLists().add(areaData);
 
-        ScatterChartForm.AreaData areaData2 = new ScatterChartForm.AreaData();
-        areaData2.setBottomData(new Integer[]{6, 9});
-        areaData2.setLeftData(new Integer[]{1, 9});
-        areaData2.setXddfColor(XDDFColor.from(new byte[]{(byte) 0xFF, (byte) 0xE1, (byte) 0xFF}));
-        areaData2.setTitle("测试2");
-        scatterChartForm.getLists().add(areaData2);
+//        ScatterChartForm.AreaData areaData2 = new ScatterChartForm.AreaData();
+//        areaData2.setBottomData(new Integer[]{6, 9});
+//        areaData2.setLeftData(new Integer[]{1, 9});
+//        areaData2.setXddfColor(XDDFColor.from(new byte[]{(byte) 0xFF, (byte) 0xE1, (byte) 0xFF}));
+//        areaData2.setTitle("测试2");
+//        scatterChartForm.getLists().add(areaData2);
+
         DocUtil.createScatterChart(chart, scatterChartForm);
     }
 
     private void addLineChart(XWPFDocument document) throws IOException, InvalidFormatException {
         XWPFChart chart = DocUtil.getChart(document, null, null);
         LineChartForm lineChartForm = new LineChartForm();
-        lineChartForm.setTitle("测试");
+        lineChartForm.setTitle("测试LineChart");
         lineChartForm.setBottomTitle("X轴");
         lineChartForm.setLeftTitle("Y轴");
         lineChartForm.setStyle(MarkerStyle.STAR);
@@ -175,7 +177,7 @@ public class ReportService {
         lineChartForm.setSmooth(false);
         lineChartForm.setVaryColors(false);
         lineChartForm.setBottomData(new String[]{"俄罗斯", "加拿大", "美国", "中国", "巴西", "澳大利亚", "印度"});
-        lineChartForm.setLeftData(new Integer[]{17098242, 9984670, 9826675, 9596961, 8514877, 7741220, 3287263});
+        lineChartForm.setLeftData(new Integer[]{7098242, 9984670, 9826675, 9596961, 8514877, 7741220, 3287263});
         DocUtil.createLineChart(chart, lineChartForm);
     }
 
@@ -190,7 +192,7 @@ public class ReportService {
         list.add(valuesB);
         list.add(valuesC);
         BarChartForm barChartForm = new BarChartForm();
-        barChartForm.setTitle("测试");
+        barChartForm.setTitle("测试BarChart");
         barChartForm.setCategories(categories);
         barChartForm.setTableData(list);
         barChartForm.setColorTitles(Arrays.asList("a", "b", "c"));
@@ -259,12 +261,29 @@ public class ReportService {
         });
 
         //String filePath = "D:\\work\\";
-        String filePath = System.getProperty("user.dir") + File.separator;
+        String filePath = System.getProperty("user.dir") + File.separator + pdfName;
         log.info("Doc to pdf file path: {}", filePath);
-        try (OutputStream outPDF = Files.newOutputStream(Paths.get(filePath + pdfName))) {
+        try (OutputStream outPDF = Files.newOutputStream(Paths.get(filePath))) {
             PdfConverter.getInstance().convert(doc, outPDF, options);
-            FileUtil.downloadFile(filePath + pdfName, pdfName, response);
-            FileUtil.deleteFile(filePath + pdfName);
+            FileUtil.downloadFile(filePath, pdfName, response);
+            FileUtil.deleteFile(filePath);
+        } catch (Exception e) {
+            log.error("Download Pdf exception, pdf name:{}, error:{}", pdfName, e.getMessage());
+        }
+    }
+
+    public void downloadPdf2(XWPFDocument doc, HttpServletResponse response, String pdfName) {
+        String wordFilePath = System.getProperty("user.dir") + File.separator + "temp.docx";
+        String pdfFilePath = System.getProperty("user.dir") + File.separator + pdfName;
+        log.info("Word file path: {}", wordFilePath);
+        log.info("Pdf file path: {}", pdfFilePath);
+        try (OutputStream outDoc = Files.newOutputStream(Paths.get(wordFilePath))) {
+            doc.write(outDoc);
+            Document document = new Document(wordFilePath);
+            document.save(pdfFilePath, SaveFormat.PDF);
+            FileUtil.downloadFile(pdfFilePath, pdfName, response);
+            FileUtil.deleteFile(wordFilePath);
+            FileUtil.deleteFile(pdfFilePath);
         } catch (Exception e) {
             log.error("Download Pdf exception, pdf name:{}, error:{}", pdfName, e.getMessage());
         }

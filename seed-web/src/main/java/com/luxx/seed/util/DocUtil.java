@@ -227,14 +227,7 @@ public class DocUtil {
         }
     }
 
-    /**
-     * 获取图表对象
-     *
-     * @param document word对象
-     * @param width    默认15
-     * @param height   默认10
-     * @return
-     */
+
     public static XWPFChart getChart(XWPFDocument document, Integer width, Integer height) throws IOException, InvalidFormatException {
         if (width == null) {
             width = 15;
@@ -246,7 +239,7 @@ public class DocUtil {
     }
 
     /**
-     * 创建普通柱状图-簇状柱状图-堆叠柱状图
+     * 创建折线图
      *
      * @param chart        图表对象
      * @param barChartForm 数据对象
@@ -257,11 +250,11 @@ public class DocUtil {
         List<String> colorTitles = barChartForm.getColorTitles();
         String title = barChartForm.getTitle();
         if (colorTitles.size() != tableData.size()) {
-            throw new Exception("颜色标题个数,必须和数组个数相同");
+            throw new Exception("Color size must be equal to data size");
         }
         for (Double[] tableDatum : tableData) {
             if (tableDatum.length != categories.length) {
-                throw new Exception("每个数组的元素个数,必须和");
+                throw new Exception("Category size must be equal to data size");
             }
         }
         // 设置标题
@@ -331,7 +324,6 @@ public class DocUtil {
         return new CellReference(sheet.getSheetName(), 0, column, true, true);
     }
 
-
     /**
      * 创建折线图
      *
@@ -362,7 +354,7 @@ public class DocUtil {
         // 不自动生成颜色
         data.setVaryColors(lineChartForm.getVaryColors());
 
-        //图表加载数据，折线1
+        //图表加载数据，折线
         XDDFLineChartData.Series series = (XDDFLineChartData.Series) data.addSeries(bottomDataSource, leftDataSource);
 
         //是否弯曲
@@ -382,7 +374,7 @@ public class DocUtil {
      * @param scatterChartForm 数据对象
      */
     public static void createScatterChart(XWPFChart chart, ScatterChartForm scatterChartForm) {
-        // 标题
+        //标题
         chart.setTitleText(scatterChartForm.getTitle());
         //标题覆盖
         chart.setTitleOverlay(false);
@@ -395,19 +387,15 @@ public class DocUtil {
         //值(Y轴)轴,标题位置
         XDDFValueAxis leftAxis = chart.createValueAxis(AxisPosition.LEFT);
         leftAxis.setTitle(scatterChartForm.getLeftTitle());
-        XDDFScatterChartData data = null;
+        //创建chart
+        XDDFScatterChartData data = (XDDFScatterChartData) chart.createData(ChartTypes.SCATTER, bottomAxis, leftAxis);
+        // 是否自动生成颜色
+        data.setVaryColors(false);
         for (int i = 0; i < scatterChartForm.getLists().size(); i++) {
             // 处理数据
-            XDDFNumericalDataSource bottomDataSource = XDDFDataSourcesFactory.fromArray(scatterChartForm.getLists().get(i).getBottomData());
+            XDDFNumericalDataSource<Integer> bottomDataSource = XDDFDataSourcesFactory.fromArray(scatterChartForm.getLists().get(i).getBottomData());
             XDDFNumericalDataSource<Integer> leftDataSource = XDDFDataSourcesFactory.fromArray(scatterChartForm.getLists().get(i).getLeftData());
-            // 生成数据
-            if (data == null) {
-                data = (XDDFScatterChartData) chart.createData(ChartTypes.SCATTER, bottomAxis, leftAxis);
-                // 是否自动生成颜色
-                data.setVaryColors(false);
-            }
-
-            //图表加载数据，折线1
+            //图表加载数据
             XDDFScatterChartData.Series series = (XDDFScatterChartData.Series) data.addSeries(bottomDataSource, leftDataSource);
             //设置标记样式
             series.setMarkerStyle(scatterChartForm.getStyle());
@@ -427,11 +415,8 @@ public class DocUtil {
                         .addNewSpPr().set(propertiesMarker.getXmlObject());
             }
         }
-
         //绘制
         chart.plot(data);
-
-
     }
 
     /**
@@ -458,7 +443,7 @@ public class DocUtil {
         data.setVaryColors(true);
 
         //图表加载数据
-        XDDFChartData.Series series = data.addSeries(bottomDataSource, leftDataSource);
+        data.addSeries(bottomDataSource, leftDataSource);
 
         //绘制
         chart.plot(data);
