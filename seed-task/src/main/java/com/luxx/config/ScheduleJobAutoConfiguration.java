@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 @ComponentScan(basePackages = "com.luxx.**")
 @ConditionalOnProperty(prefix = "spring.schedule.job.admin", name = "addresses")
 @Slf4j
-@Profile({"prd", "dev"})
+@Profile({"prod", "dev"})
 public class ScheduleJobAutoConfiguration {
     @Value("${spring.schedule.job.admin.addresses}")
     private String adminAddresses;
