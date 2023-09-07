@@ -5,10 +5,10 @@ Web后端开发框架
 技术栈
 
 * java 8
-* spring-boot 2.5.12
+* spring-boot 2.5
 * swagger 3.0.0
-* guava 30.1-jre
-* mybait.spring 2.2.2
+* guava 32
+* mybatis.spring 2.2.2
 * mysql 8
 * HikariCP 3.4.5
 * xxl-job 2.1.0
