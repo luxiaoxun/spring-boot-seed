@@ -1,4 +1,4 @@
-package com.luxx.engine.data;
+package com.luxx.engine.process;
 
 import com.codahale.metrics.Gauge;
 import com.lmax.disruptor.BlockingWaitStrategy;

@@ -1,4 +1,4 @@
-package com.luxx.engine.data;
+package com.luxx.engine.process;
 
 public interface MessageConsumer {
     void start();

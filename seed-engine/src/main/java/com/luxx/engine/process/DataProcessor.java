@@ -1,4 +1,4 @@
-package com.luxx.engine.data;
+package com.luxx.engine.process;
 
 import com.luxx.engine.model.event.LogEvent;
 import lombok.extern.slf4j.Slf4j;

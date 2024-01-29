@@ -1,6 +1,6 @@
 package com.luxx.engine.bootstrap;
 
-import com.luxx.engine.data.EventConsumer;
+import com.luxx.engine.process.EventConsumer;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
