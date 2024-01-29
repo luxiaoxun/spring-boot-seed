@@ -141,9 +141,9 @@
             <artifactId>aspose-words</artifactId>
         </dependency>
 
-        <!-- jsch -->
+        <!-- Java implementation of SSH2 -->
         <dependency>
-            <groupId>com.jcraft</groupId>
+            <groupId>com.github.mwiede</groupId>
             <artifactId>jsch</artifactId>
         </dependency>
 

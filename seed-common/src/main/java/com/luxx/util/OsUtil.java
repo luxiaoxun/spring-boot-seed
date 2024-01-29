@@ -1,17 +1,13 @@
 package com.luxx.util;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.lang.management.ManagementFactory;
-import java.math.BigInteger;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class OsUtil {
@@ -50,9 +46,8 @@ public class OsUtil {
         try {
             b = NetworkInterface.getNetworkInterfaces();
         } catch (SocketException e) {
-            String random = "random-" + System.currentTimeMillis() + "-" + RandomStringUtils.randomAlphanumeric(8);
-            logger.error("Fail to get IPs. Use string [ " + random + " ] as IP.", e);
-            return random;
+            logger.error("Fail to get IPs.", e);
+            return "";
         }
 
         StringBuilder stringBuilder = new StringBuilder();
