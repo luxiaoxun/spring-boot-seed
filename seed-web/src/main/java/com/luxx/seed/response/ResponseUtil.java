@@ -1,5 +1,7 @@
 package com.luxx.seed.response;
 
+import com.luxx.seed.config.i18n.I18nMessageUtil;
+
 public class ResponseUtil {
     public ResponseUtil() {
     }
@@ -20,15 +22,15 @@ public class ResponseUtil {
         return generateResult(code, msg, (Object) null);
     }
 
-    public static Response fail(ResponseCode errorCode) {
-        return generateResult(errorCode.getCode(), errorCode.getMsg(), (Object) null);
+    public static Response fail(ResponseCode responseCode) {
+        return generateResult(responseCode.getCode(), I18nMessageUtil.getMsg(responseCode.getMsg()), (Object) null);
     }
 
     public static Response generateResult(String code, String msg, Object data) {
         return new Response(code, msg, data);
     }
 
-    public static Response generateResult(ResponseCode errorCode, Object data) {
-        return generateResult(errorCode.getCode(), errorCode.getMsg(), data);
+    public static Response generateResult(ResponseCode responseCode, Object data) {
+        return generateResult(responseCode.getCode(), I18nMessageUtil.getMsg(responseCode.getMsg()), data);
     }
 }

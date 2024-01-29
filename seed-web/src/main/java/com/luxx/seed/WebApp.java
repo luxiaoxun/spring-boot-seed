@@ -1,8 +1,8 @@
 package com.luxx.seed;
 
-import com.luxx.seed.web.interceptor.RequestLogInterceptor;
-import com.luxx.seed.web.interceptor.UserAuthInterceptor;
-import lombok.extern.slf4j.Slf4j;
+import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -11,12 +11,11 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.unit.DataSize;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.servlet.MultipartConfigElement;
+import jakarta.servlet.MultipartConfigElement;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @SpringBootApplication
 @ServletComponentScan
@@ -29,23 +28,20 @@ public class WebApp implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        String[] excludePathPatterns = {"/agent/**", "/**/login", "/**/error", "/**/**swagger**/**",
-                "/v2/api-docs/**"};
+        String[] excludePathPatterns = {"/auth/login", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**"};
+        // 注册 Sa-Token 拦截器，校验规则为 StpUtil.checkLogin() 登录校验。
+        registry.addInterceptor(new SaInterceptor(handle -> {
+            SaRouter.match("/**")
+                    .notMatch("*.html")
+                    .notMatch("*.js")
+                    .notMatch("*.css")
+                    .check(r -> StpUtil.checkLogin());
+        })).excludePathPatterns(excludePathPatterns);
 
-        //操作日志拦截
-        registry.addInterceptor(new RequestLogInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/**/error", "/**/**swagger**/**", "/v2/api-docs/**");
-        //用户登录拦截
-//        registry.addInterceptor(new UserAuthInterceptor()).addPathPatterns("/**")
-//                .excludePathPatterns(excludePathPatterns);
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        // 国际化语言拦截器
+        LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
+        localeInterceptor.setParamName("language");
+        registry.addInterceptor(localeInterceptor);
     }
 
     @Bean

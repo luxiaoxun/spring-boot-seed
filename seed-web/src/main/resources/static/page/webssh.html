@@ -54,13 +54,13 @@
             onClose: function () {
                 //连接关闭回调
                 term.write("\rconnection closed");
-                window.location.href="/login";
+                window.location.href="/websshlogin";
             },
             onData: function (data) {
                 //收到数据时回调
                 if (data.indexOf('\r\nlogout')>-1){
                     window.localStorage.clear();
-                    window.location.href="/login";
+                    window.location.href="/websshlogin";
                 }
                 term.write(data);
             }

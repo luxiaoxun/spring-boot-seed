@@ -11,12 +11,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    private long Id;
+    private Long Id;
 
     private Long tenantId;
 
-    private String name;
-    private String passwd;
+    private String username;
+    private String password;
 
     private boolean isAdmin;
 

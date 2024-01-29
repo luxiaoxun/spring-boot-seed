@@ -2,7 +2,7 @@ package com.luxx.util;
 
 import com.google.common.io.Files;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLDecoder;
 import java.net.URLEncoder;

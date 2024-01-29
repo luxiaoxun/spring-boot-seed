@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSSH</title>
+    <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script>
+     &lt;!&ndash; import JavaScript &ndash;&gt;
+     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+     &lt;!&ndash; 引入样式 &ndash;&gt;
+     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <script src="../js/vue.js"></script>
+    <!-- element -->
+    <script src="../js/index.js"></script>
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .el-row {
+            margin-bottom: 20px;
+
+        &
+        :last-child {
+            margin-bottom: 0;
+        }
+
+        }
+        .el-col {
+            border-radius: 4px;
+        }
+
+        .bg-purple-dark {
+            background: #99a9bf;
+        }
+
+        .bg-purple {
+            background: #d3dce6;
+        }
+
+        .bg-purple-light {
+            background: #e5e9f2;
+        }
+
+        .grid-content {
+            border-radius: 4px;
+            min-height: 36px;
+        }
+
+        .row-bg {
+            padding: 10px 0;
+            background-color: #f9fafc;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-row>
+        <el-col :span="24">
+            <div class="grid-content bg-purple-dark" style="text-align: center;">
+                在线ssh连接服务器
+            </div>
+        </el-col>
+    </el-row>
+    <el-radio-group v-model="labelPosition" size="small">
+        <el-radio-button label="left">左对齐</el-radio-button>
+        <el-radio-button label="right">右对齐</el-radio-button>
+        <el-radio-button label="top">顶部对齐</el-radio-button>
+    </el-radio-group>
+    <div style="margin: 20px;"></div>
+    <el-form :label-position="labelPosition" label-width="80px" :model="connectData">
+        <el-form-item label="主机">
+            <el-input placeholder="请输入主机IP" v-model="connectData.host"></el-input>
+        </el-form-item>
+        <el-form-item label="端口">
+            <el-input placeholder="请输入端口号" v-model="connectData.port"></el-input>
+        </el-form-item>
+        <el-form-item label="账号">
+            <el-input placeholder="请输入账号" v-model="connectData.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码">
+            <el-input placeholder="请输入密码" v-model="connectData.password" show-password
+                      @keyup.enter.native="onSubmit"></el-input>
+        </el-form-item>
+        <el-form-item label="连接方式">
+        <template>
+            <el-radio v-model="type" label="1">ssh</el-radio>
+            <el-radio v-model="type" label="2">sftp</el-radio>
+        </template>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">连接</el-button>
+            <el-button @click="reset">重置</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+
+<script>
+
+    var Main = {
+        data() {
+            return {
+                labelPosition: 'right',
+                type: '1',
+                connectData: {
+                    operate: 'connect',
+                    host: '172.17.20.132',
+                    port: '22',
+                    username: 'root',
+                    password: ''
+                }
+            };
+        },
+        methods: {
+            onSubmit: function () {
+                console.log('submit!');
+                var storage = window.localStorage;
+                storage.setItem("connectData", JSON.stringify(this.connectData));
+                if(this.type == '1'){
+                    window.location.href = '/websshpage';
+                }else {
+                    window.location.href = '/sftp';
+                }
+
+            },
+            reset: function () {
+                this.connectData.host = '';
+                this.connectData.username = '';
+                this.connectData.password = '';
+            }
+        }
+    }
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+
+
+</script>
+</body>
+</html>

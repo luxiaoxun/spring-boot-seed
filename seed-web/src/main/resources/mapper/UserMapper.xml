@@ -11,19 +11,19 @@
     <select id="getUserByName" resultType="com.luxx.seed.model.User">
         select *
         from tb_user
-        where name = #{name} and status = 1;
+        where username = #{username} and status = 1;
     </select>
 
     <insert id="createUser" useGeneratedKeys="true" keyProperty="id">
-        insert into tb_user (tenant_id, name, passwd, status, is_admin, create_time, update_time)
-        values (#{tenantId}, #{name}, #{passwd}, #{status}, #{isAdmin}, #{createTime}, #{updateTime})
+        insert into tb_user (tenant_id, username, password, status, is_admin, create_time, update_time)
+        values (#{tenantId}, #{username}, #{password}, #{status}, #{isAdmin}, #{createTime}, #{updateTime})
     </insert>
 
     <update id="updateUser" parameterType="com.luxx.seed.model.User">
         update tb_user set
         tenant_id = #{tenantId},
-        name = #{name},
-        passwd = #{passwd},
+        username = #{username},
+        password = #{password},
         status = #{status},
         is_admin = #{isAdmin},
         update_time = #{updateTime}

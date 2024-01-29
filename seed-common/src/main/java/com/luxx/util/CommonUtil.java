@@ -1,5 +1,8 @@
 package com.luxx.util;
 
+import org.springframework.util.DigestUtils;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +31,10 @@ public class CommonUtil {
 
     public static List<Integer> toInt(List<String> list) {
         return list.stream().map(Integer::parseInt).collect(Collectors.toList());
+    }
+
+    public static String getMd5(String str) {
+        return DigestUtils.md5DigestAsHex(str.getBytes(StandardCharsets.UTF_8));
     }
 
     private static final String BASE = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

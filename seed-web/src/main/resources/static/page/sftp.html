@@ -184,7 +184,7 @@
             exit:function () {
                 window.localStorage.removeItem("connectData");
                 axios.post("/sftp/exit").then(function (response) {
-                    window.location.href="/login"
+                    window.location.href="/websshlogin"
                 }).catch(function (error) {
                     this.$message.error(error);
                 });

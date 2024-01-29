@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.lang.management.ManagementFactory;
 import java.math.BigInteger;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
@@ -15,6 +16,11 @@ import java.util.*;
 
 public class OsUtil {
     private static final Logger logger = LoggerFactory.getLogger(OsUtil.class);
+
+    public static int getCurrentPID() {
+        String name = ManagementFactory.getRuntimeMXBean().getName();
+        return Integer.parseInt(name.split("@")[0]);
+    }
 
     public static String getHostName() {
         InetAddress inetAddress;
@@ -30,8 +36,16 @@ public class OsUtil {
         }
     }
 
-    public static String getIPS() {
+    private static String execReadToString() {
+        try {
+            InputStream in = Runtime.getRuntime().exec("hostname").getInputStream();
+            return IOUtils.toString(in, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
+    public static String getIPS() {
         Enumeration<NetworkInterface> b;
         try {
             b = NetworkInterface.getNetworkInterfaces();
@@ -165,21 +179,5 @@ public class OsUtil {
             }
         }
         return port;
-    }
-
-    private static String execReadToString() {
-        try {
-            InputStream in = Runtime.getRuntime().exec("hostname").getInputStream();
-            return IOUtils.toString(in, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            return "im-not-resolvable";
-        }
-    }
-
-    public static String getDigestMd5(String data) throws NoSuchAlgorithmException {
-        MessageDigest md5 = MessageDigest.getInstance("md5");
-        md5.update(data.getBytes());
-        BigInteger bigInt = new BigInteger(1, md5.digest());
-        return bigInt.toString(16);
     }
 }

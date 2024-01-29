@@ -3,7 +3,7 @@ package com.luxx.seed.util;
 import com.google.common.io.Files;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 

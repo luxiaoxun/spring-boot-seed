@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS tb_user
 (
     id           BIGINT        NOT NULL AUTO_INCREMENT,
     tenant_id    BIGINT        COMMENT '租户ID',
-    name         VARCHAR(128)  COMMENT '用户名',
-    passwd       VARCHAR(256)  COMMENT '密码',
+    username     VARCHAR(128)  COMMENT '用户名',
+    password     VARCHAR(128)  COMMENT '密码',
     is_admin     TINYINT(1)    NOT NULL DEFAULT 0 COMMENT '是否租户管理员',
     status       TINYINT(1)    NOT NULL DEFAULT 1 COMMENT '状态，1:有效，0:无效',
     create_time  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

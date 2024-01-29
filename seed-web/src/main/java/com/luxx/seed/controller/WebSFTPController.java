@@ -1,21 +1,21 @@
 package com.luxx.seed.controller;
 
-
 import com.luxx.seed.model.webssh.FileDTO;
 import com.luxx.seed.model.webssh.SFTPData;
 import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.service.WebSftpService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/sftp")
 @Slf4j
-@Api(tags = "sftp")
+@Tag(name = "sftp")
 public class WebSFTPController {
 
     @Autowired
