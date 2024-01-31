@@ -37,7 +37,7 @@ public class WebSSHService {
         SSHConnectInfo sshConnectInfo = new SSHConnectInfo();
         sshConnectInfo.setJSch(jSch);
         sshConnectInfo.setWebSocketSession(session);
-        String uuid = String.valueOf(session.getAttributes().get(WebSshConstant.USER_UUID_KEY));
+        String uuid = String.valueOf(session.getAttributes().get(WebSshConstant.USER_ID_KEY));
         //将这个ssh连接信息放入map中
         sshMap.put(uuid, sshConnectInfo);
     }
@@ -52,7 +52,7 @@ public class WebSSHService {
             log.error("Json read error:{}", e.getMessage());
             return;
         }
-        String userId = String.valueOf(session.getAttributes().get(WebSshConstant.USER_UUID_KEY));
+        String userId = String.valueOf(session.getAttributes().get(WebSshConstant.USER_ID_KEY));
         if (WebSshConstant.WEBSSH_OPERATE_CONNECT.equals(webSSHMsg.getOperate())) {
             //找到刚才存储的ssh连接对象
             SSHConnectInfo sshConnectInfo = (SSHConnectInfo) sshMap.get(userId);
@@ -91,7 +91,7 @@ public class WebSSHService {
     }
 
     public void close(WebSocketSession session) {
-        String userId = String.valueOf(session.getAttributes().get(WebSshConstant.USER_UUID_KEY));
+        String userId = String.valueOf(session.getAttributes().get(WebSshConstant.USER_ID_KEY));
         SSHConnectInfo sshConnectInfo = (SSHConnectInfo) sshMap.get(userId);
         if (sshConnectInfo != null) {
             //断开连接

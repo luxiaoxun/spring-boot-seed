@@ -1,33 +1,30 @@
 package com.luxx.seed.config.websocket;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.luxx.seed.constant.WebSshConstant;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.lang.Nullable;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.util.Map;
-import java.util.UUID;
 
 public class WebSocketInterceptor implements HandshakeInterceptor {
+
     @Override
-    public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse,
-                                   WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
-        if (serverHttpRequest instanceof ServletServerHttpRequest) {
-            ServletServerHttpRequest request = (ServletServerHttpRequest) serverHttpRequest;
-            //生成一个UUID
-            String uuid = UUID.randomUUID().toString().replace("-", "");
-            //将uuid放到web socket session中
-            map.put(WebSshConstant.USER_UUID_KEY, uuid);
+    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
+        if (request instanceof ServletServerHttpRequest) {
+            String loginId = StpUtil.getLoginIdAsString();
+            //将user id放到web socket session中
+            attributes.put(WebSshConstant.USER_ID_KEY, loginId);
             return true;
         } else {
             return false;
         }
     }
 
-    @Override
-    public void afterHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse,
-                               WebSocketHandler webSocketHandler, Exception e) {
+    public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, @Nullable Exception exception) {
     }
 }

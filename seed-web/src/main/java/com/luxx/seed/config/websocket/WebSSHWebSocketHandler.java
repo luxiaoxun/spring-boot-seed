@@ -15,39 +15,39 @@ public class WebSSHWebSocketHandler implements WebSocketHandler {
 
     //用户连接上WebSocket的回调
     @Override
-    public void afterConnectionEstablished(WebSocketSession webSocketSession) throws Exception {
-        log.info("Connection established, user key:{}", webSocketSession.getAttributes().get(WebSshConstant.USER_UUID_KEY));
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        log.info("Connection established, user id:{}", session.getAttributes().get(WebSshConstant.USER_ID_KEY));
         //调用初始化连接
-        webSSHService.initConnection(webSocketSession);
+        webSSHService.initConnection(session);
     }
 
     //收到消息的回调
     @Override
-    public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
-        if (webSocketMessage instanceof TextMessage) {
-            log.info("user:{}, command:{}", webSocketSession.getAttributes().get(WebSshConstant.USER_UUID_KEY),
-                    webSocketMessage.toString());
+    public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+        if (message instanceof TextMessage) {
+            log.info("user:{}, command:{}", session.getAttributes().get(WebSshConstant.USER_ID_KEY),
+                    message.toString());
             //调用service接收消息
-            webSSHService.handleMessage(((TextMessage) webSocketMessage).getPayload(), webSocketSession);
-        } else if (webSocketMessage instanceof BinaryMessage) {
+            webSSHService.handleMessage(((TextMessage) message).getPayload(), session);
+        } else if (message instanceof BinaryMessage) {
             log.warn("Can not handle binary message");
         } else {
-            log.warn("Unexpected WebSocket message type: " + webSocketMessage);
+            log.warn("Unexpected WebSocket message type: " + message);
         }
     }
 
     //出现错误的回调
     @Override
-    public void handleTransportError(WebSocketSession webSocketSession, Throwable throwable) throws Exception {
+    public void handleTransportError(WebSocketSession session, Throwable throwable) throws Exception {
         log.error("Transport error");
     }
 
     //连接关闭的回调
     @Override
-    public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) throws Exception {
-        log.info("Connection closed, user key:{}", webSocketSession.getAttributes().get(WebSshConstant.USER_UUID_KEY));
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+        log.info("Connection closed, user id:{}", session.getAttributes().get(WebSshConstant.USER_ID_KEY));
         //调用service关闭连接
-        webSSHService.close(webSocketSession);
+        webSSHService.close(session);
     }
 
     @Override
