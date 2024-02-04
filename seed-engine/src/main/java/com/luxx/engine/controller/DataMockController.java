@@ -21,17 +21,17 @@ public class DataMockController {
 
     @Operation(summary = "发送mock数据")
     @PostMapping("/data")
-    public Response sendNtaData(@RequestParam(defaultValue = "1") Integer threads,
-                                @RequestParam(defaultValue = "10") Integer count) {
+    public Response sendEventMockData(@RequestParam(defaultValue = "1") Integer threads,
+                                      @RequestParam(defaultValue = "10") Integer count) {
         log.info(String.format("%s threads try to send %s mock data", threads, count));
-        dataMockService.sendNtaMockData(threads, count);
+        dataMockService.sendEventMockData(threads, count);
         return ResponseUtil.success();
     }
 
     @Operation(summary = "发送json mock数据")
     @PostMapping("/data/json")
-    public Response sendNtaMockData(@RequestBody String jsonData) {
-        dataMockService.sendNtaMockData(jsonData);
+    public Response sendMockData(@RequestBody String jsonData) {
+        dataMockService.sendEventMockData(jsonData);
         return ResponseUtil.success();
     }
 

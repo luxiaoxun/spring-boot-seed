@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import com.luxx.engine.constant.Constant;
 import com.luxx.engine.kafka.KafKaProducer;
 import com.luxx.engine.model.event.LogEvent;
-import com.luxx.util.CommonUtil;
 import com.luxx.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,8 @@ public class DataMockService {
     @Autowired
     private KafKaProducer kafKaProducer;
 
-    private final String deviceId = CommonUtil.getMd5("172.17.6.108");
-
     @Async
-    public void sendNtaMockData(String jsonData) {
+    public void sendEventMockData(String jsonData) {
         try {
             kafKaProducer.sendMessage(jsonData);
             HashMap<String, Object> map = JsonUtil.jsonToObjectHashMap(jsonData, String.class, Object.class);
@@ -38,7 +35,7 @@ public class DataMockService {
     }
 
     @Async
-    public void sendNtaMockData(int threadNum, int count) {
+    public void sendEventMockData(int threadNum, int count) {
         AtomicInteger totalCount = new AtomicInteger(0);
         //benchmark test
         Thread[] threads = new Thread[threadNum];
