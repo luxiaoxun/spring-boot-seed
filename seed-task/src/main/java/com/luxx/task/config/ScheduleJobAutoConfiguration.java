@@ -19,7 +19,7 @@ public class ScheduleJobAutoConfiguration {
     @Value("${spring.schedule.job.admin.addresses}")
     private String adminAddresses;
 
-    @Value("${spring.schedule.job.executor.appname}")
+    @Value("${spring.schedule.job.executor.app-name}")
     private String appName;
 
     @Value("${spring.schedule.job.executor.ip}")
@@ -31,15 +31,15 @@ public class ScheduleJobAutoConfiguration {
     @Value("${spring.schedule.job.accessToken}")
     private String accessToken;
 
-    @Value("${spring.schedule.job.executor.logpath}")
+    @Value("${spring.schedule.job.executor.log-path}")
     private String logPath;
 
-    @Value("${spring.schedule.job.executor.logretentiondays}")
+    @Value("${spring.schedule.job.executor.log-retention-days}")
     private int logRetentionDays;
 
     @Bean(initMethod = "start", destroyMethod = "destroy")
     public XxlJobExecutor xxlJobExecutor() {
-        log.info("启动任务注册模块");
+        log.info("Register job executor");
         XxlJobExecutor xxlJobExecutor = new XxlJobSpringExecutor();
         xxlJobExecutor.setAdminAddresses(adminAddresses);
         xxlJobExecutor.setAppname(appName);
