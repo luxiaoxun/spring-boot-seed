@@ -99,8 +99,7 @@ public class DateTimeUtil {
         return LocalDateTime.parse(dataStr, DateTimeFormatter.ofPattern(sourcePattern));
     }
 
-    public static long betweenTwoTime(
-            LocalDateTime startTime, LocalDateTime endTime, ChronoUnit field) {
+    public static long betweenTwoTime(LocalDateTime startTime, LocalDateTime endTime, ChronoUnit field) {
         Period period = Period.between(LocalDate.from(startTime), LocalDate.from(endTime));
         if (field == ChronoUnit.YEARS)
             return period.getYears();
@@ -112,7 +111,8 @@ public class DateTimeUtil {
     public static boolean compareIsOpening() {
         Calendar calendar = Calendar.getInstance();
         if (calendar.get(Calendar.HOUR_OF_DAY) < 9 || calendar.get(Calendar.HOUR_OF_DAY) > 17
-                || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+                || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             return true;
         } else {
             return false;

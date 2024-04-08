@@ -7,7 +7,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
 import com.luxx.seed.model.report.*;
 import com.luxx.seed.util.DocUtil;
-import com.luxx.seed.util.FileUtil;
+import com.luxx.util.FileUtil;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import fr.opensagres.xdocreport.itext.extension.font.IFontProvider;
@@ -24,6 +24,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.file.Files;
