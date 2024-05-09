@@ -7,7 +7,9 @@ public enum ResponseCode {
     PARAM_ERROR("10003", "common.param.error"),
     DATA_NOT_FOUND("10004", "common.data.not.found"),
     AUTH_USER_NOT_FOUND("10005", "oauth.username.not.exits"),
-    AUTH_ACCOUNT_INCORRECT("10006", "oauth.account.incorrect");
+    AUTH_ACCOUNT_INCORRECT("10006", "oauth.account.incorrect"),
+
+    PASSWORD_NOT_VALID("10007", "oauth.password.not.valid");
 
     private String code;
     private String msg;

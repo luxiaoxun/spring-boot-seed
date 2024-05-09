@@ -41,7 +41,7 @@ public class AgentController {
     }
 
     @Operation(summary = "分页查询Agent")
-    @GetMapping("/search/page")
+    @GetMapping("/page-list")
     public Response getAgentByPage(@RequestParam(required = false) String type,
                                    @RequestParam(defaultValue = "id") String order,
                                    @RequestParam(defaultValue = "ASC") String direction,

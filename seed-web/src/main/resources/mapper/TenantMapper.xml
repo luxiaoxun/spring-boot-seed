@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.luxx.seed.dao.TenantMapper">
+
+    <select id="getAllTenants" resultType="com.luxx.seed.model.system.Tenant">
+        select * from tb_sys_tenant
+        <where>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="getTenants" resultType="com.luxx.seed.model.system.Tenant">
+        select *
+        from tb_sys_tenant
+        <where>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+        <choose>
+            <when test="order != null and order != '' and direction != null and direction != ''">
+                ORDER BY ${order} ${direction}
+            </when>
+            <otherwise>
+                ORDER BY id ASC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="createTenant" parameterType="com.luxx.seed.model.system.Tenant">
+        insert into tb_sys_tenant (id, parent_id, name, address, status, create_time, update_time)
+        values (#{id}, #{parentId}, #{name}, #{address}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="updateTenantStatus">
+        UPDATE tb_sys_tenant
+        <set>
+            <if test="null != status and '' != status">status = #{status},</if>
+            <if test="null != updateTime and '' != updateTime">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteTenant">
+        DELETE FROM tb_sys_tenant
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

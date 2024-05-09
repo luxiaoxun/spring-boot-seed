@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS tb_sys_tenant
     parent_id    VARCHAR(64)   DEFAULT 'root' COMMENT '父租户组织ID',
     name         VARCHAR(256)  NOT NULL COMMENT '名称',
     address      VARCHAR(512)  COMMENT '地址',
-    status       TINYINT(1)    NOT NULL DEFAULT 1 COMMENT '状态，1:有效，0:无效',
+    status       TINYINT(1)    NOT NULL DEFAULT 1 COMMENT '状态，0:无效，1:有效',
     create_time  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (id)
@@ -15,9 +15,9 @@ CREATE TABLE IF NOT EXISTS tb_sys_user
 (
     id            BIGINT        NOT NULL AUTO_INCREMENT COMMENT '账号ID',
     username      VARCHAR(64)   NOT NULL COMMENT '账号',
-    password      VARCHAR(64)   NOT NULL COMMENT '密码',
+    password      VARCHAR(256)  NOT NULL COMMENT '密码',
     tenant_id     JSON          COMMENT '组织ID',
-    status        TINYINT(1)    NOT NULL DEFAULT 1 COMMENT '状态，1:有效，0:删除，2:锁定',
+    status        TINYINT(1)    NOT NULL DEFAULT 1 COMMENT '状态，0:无效，1:有效，2:删除，3:锁定',
     gender        TINYINT(1)    COMMENT '性别，1:男，2:女，3:其他',
     mobile_phone  VARCHAR(11)   COMMENT '手机号',
     email         VARCHAR(64)   COMMENT '邮箱',
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS tb_sys_role
 (
     id            BIGINT      NOT NULL AUTO_INCREMENT COMMENT '角色ID',
     name          VARCHAR(64) NOT NULL COMMENT '角色名称',
-    status        TINYINT(1)  NOT NULL DEFAULT 1 COMMENT '状态，1:有效，0:无效',
+    status        TINYINT(1)  NOT NULL DEFAULT 1 COMMENT '状态，0:无效，1:有效',
     remark        TEXT        COMMENT '备注',
     create_user   VARCHAR(64) COMMENT '创建用户',
     update_user   VARCHAR(64) COMMENT '更新用户',

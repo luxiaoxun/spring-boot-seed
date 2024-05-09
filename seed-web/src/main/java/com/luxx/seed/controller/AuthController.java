@@ -5,7 +5,7 @@ import com.luxx.seed.request.LoginRequest;
 import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
-import com.luxx.seed.model.User;
+import com.luxx.seed.model.system.User;
 import com.luxx.seed.service.UserService;
 import com.luxx.seed.service.AuthTokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,7 +46,7 @@ public class AuthController {
     }
 
     private Object doLogin(User user) {
-        StpUtil.login(user.getId());
+        StpUtil.login(user.getUsername());
         StpUtil.getSession().set("user", user);
         return StpUtil.getTokenInfo();
     }

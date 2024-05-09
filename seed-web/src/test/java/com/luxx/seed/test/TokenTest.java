@@ -1,6 +1,6 @@
 package com.luxx.seed.test;
 
-import com.luxx.seed.model.User;
+import com.luxx.seed.model.system.User;
 import com.luxx.seed.service.AuthTokenService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -3,31 +3,75 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.luxx.seed.dao.UserMapper">
 
-    <select id="getUserCount" resultType="java.lang.Long">
-        select count(1)
-        from tb_agent
-    </select>
-
-    <select id="getUserByName" resultType="com.luxx.seed.model.User">
+    <select id="getUsers" resultType="com.luxx.seed.model.system.User">
         select *
-        from tb_user
-        where username = #{username} and status = 1;
+        from tb_sys_user
+        <where>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+        <choose>
+            <when test="order != null and order != '' and direction != null and direction != ''">
+                ORDER BY ${order} ${direction}
+            </when>
+            <otherwise>
+                ORDER BY id ASC
+            </otherwise>
+        </choose>
     </select>
 
     <insert id="createUser" useGeneratedKeys="true" keyProperty="id">
-        insert into tb_user (tenant_id, username, password, status, is_admin, create_time, update_time)
-        values (#{tenantId}, #{username}, #{password}, #{status}, #{isAdmin}, #{createTime}, #{updateTime})
+        insert into tb_sys_user (username, password, tenant_id, status, gender, mobile_phone, email,
+        create_user, update_user, create_time, update_time)
+        values (#{username}, #{password}, #{tenantId}, #{status}, #{gender}, #{mobilePhone}, #{email},
+        #{createUser}, #{updateUser}, #{createTime}, #{updateTime})
     </insert>
 
-    <update id="updateUser" parameterType="com.luxx.seed.model.User">
-        update tb_user set
-        tenant_id = #{tenantId},
-        username = #{username},
-        password = #{password},
-        status = #{status},
-        is_admin = #{isAdmin},
-        update_time = #{updateTime}
-        where id = #{id}
+    <delete id="deleteUser">
+        DELETE FROM tb_sys_user
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateUserStatus">
+        UPDATE tb_sys_user
+        <set>
+            <if test="null != status and '' != status">status = #{status},</if>
+            <if test="null != updateUser and '' != updateUser">update_user = #{updateUser},</if>
+            <if test="null != updateTime and '' != updateTime">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateUserPassword">
+        UPDATE tb_sys_user
+        <set>
+            <if test="null != password and '' != password">password = #{password},</if>
+            <if test="null != updateUser and '' != updateUser">update_user = #{updateUser},</if>
+            <if test="null != updateTime and '' != updateTime">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateUser" parameterType="com.luxx.seed.model.system.User">
+        UPDATE tb_sys_user
+        <set>
+            <if test="null != username and '' != username">username = #{username},</if>
+            <if test="null != password and '' != password">password = #{password},</if>
+            <if test="null != tenantId and '' != tenantId">tenant_id = #{tenantId},</if>
+            <if test="null != status and '' != status">status = #{status},</if>
+            <if test="null != gender and '' != gender">gender = #{gender},</if>
+            <if test="null != mobilePhone and '' != mobilePhone">mobile_phone = #{mobilePhone},</if>
+            <if test="null != email and '' != email">email = #{email},</if>
+            <if test="null != createUser and '' != createUser">create_user = #{createUser},</if>
+            <if test="null != updateUser and '' != updateUser">update_user = #{updateUser},</if>
+            <if test="null != createTime and '' != createTime">create_time = #{createTime},</if>
+            <if test="null != updateTime and '' != updateTime">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
     </update>
 
 </mapper>
