@@ -1,7 +1,5 @@
 package com.luxx.seed.util;
 
-import com.luxx.util.ObjectId;
-
 public class WebUtil {
 
     public static final String REQ_ID_HEADER = "Request-Id";
@@ -15,7 +13,7 @@ public class WebUtil {
     public static String getRequestId() {
         String requestId = reqIdThreadLocal.get();
         if (requestId == null) {
-            requestId = ObjectId.uniqueId();
+            requestId = ObjectId.uuid();
             reqIdThreadLocal.set(requestId);
         }
         return requestId;

@@ -1,5 +1,6 @@
 package com.luxx.seed.exception;
 
+import com.luxx.seed.config.i18n.I18nMessageUtil;
 import lombok.Data;
 
 /**
@@ -18,7 +19,7 @@ public class SystemException extends RuntimeException {
     private Object[] args;
 
     public SystemException() {
-        this("common.systemError");
+        this(I18nMessageUtil.getMsg("common_fail"));
     }
 
     public SystemException(String message) {

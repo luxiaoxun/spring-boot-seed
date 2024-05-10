@@ -1,5 +1,6 @@
 package com.luxx.seed.exception;
 
+import com.luxx.seed.config.i18n.I18nMessageUtil;
 import lombok.Data;
 
 /**
@@ -17,7 +18,7 @@ public class BusinessException extends RuntimeException {
     private Object[] args;
 
     public BusinessException() {
-        this("common.businessError");
+        this(I18nMessageUtil.getMsg("common_fail"));
     }
 
     public BusinessException(String message) {

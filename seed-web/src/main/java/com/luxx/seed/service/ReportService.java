@@ -7,7 +7,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
 import com.luxx.seed.model.report.*;
 import com.luxx.seed.util.DocUtil;
-import com.luxx.util.FileUtil;
+import com.luxx.seed.util.FileUtil;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import fr.opensagres.xdocreport.itext.extension.font.IFontProvider;

@@ -85,7 +85,7 @@ public class AgentController {
     @GetMapping("/test")
     public Response test() {
         log.info("Request Id: " + WebUtil.getRequestId());
-        log.info("Default local message: " + I18nMessageUtil.getMsg("common.success"));
+        log.info("Default local message: " + I18nMessageUtil.getMsg("common_success"));
         return ResponseUtil.success();
     }
 

@@ -7,7 +7,6 @@ import java.time.temporal.TemporalUnit;
 import java.util.Calendar;
 import java.util.Date;
 
-
 public class DateTimeUtil {
     public static final String TIME_ZONE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss+0800";
 
