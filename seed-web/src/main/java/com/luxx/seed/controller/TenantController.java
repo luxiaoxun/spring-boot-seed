@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/tenant")
+@RequestMapping("/system/tenant")
 @Tag(name = "tenant")
 @Slf4j
 public class TenantController {

@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS tb_sys_role
 (
     id            BIGINT      NOT NULL AUTO_INCREMENT COMMENT '角色ID',
     name          VARCHAR(64) NOT NULL COMMENT '角色名称',
-    status        TINYINT(1)  NOT NULL DEFAULT 1 COMMENT '状态，0:无效，1:有效',
+    builtin       TINYINT(1)  NOT NULL DEFAULT 0 COMMENT '0-自定义，1-系统内置',
     remark        TEXT        COMMENT '备注',
     create_user   VARCHAR(64) COMMENT '创建用户',
     update_user   VARCHAR(64) COMMENT '更新用户',
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS tb_sys_user_role  (
 CREATE TABLE IF NOT EXISTS tb_sys_menu
 (
     id            BIGINT      NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-    parent_id     BIGINT      COMMENT '父菜单ID',
+    parent_id     BIGINT      NOT NULL DEFAULT 0 COMMENT '父菜单ID',
     name          VARCHAR(64) NOT NULL COMMENT '菜单名称',
     code          VARCHAR(64) NOT NULL COMMENT '菜单唯一编码',
     path          VARCHAR(64) NOT NULL COMMENT '路由',

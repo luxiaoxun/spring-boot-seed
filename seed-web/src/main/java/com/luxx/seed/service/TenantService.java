@@ -4,7 +4,6 @@ import com.luxx.seed.constant.enums.Status;
 import com.luxx.seed.dao.TenantMapper;
 import com.luxx.seed.model.system.Tenant;
 import com.luxx.seed.util.ObjectId;
-import com.luxx.util.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

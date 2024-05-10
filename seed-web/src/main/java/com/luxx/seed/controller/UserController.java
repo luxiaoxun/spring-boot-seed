@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/system/user")
 @Tag(name = "user")
 @Slf4j
 public class UserController {

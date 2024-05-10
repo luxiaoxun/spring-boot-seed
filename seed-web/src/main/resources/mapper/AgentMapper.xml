@@ -32,7 +32,7 @@
         </choose>
     </select>
 
-    <insert id="createAgent" useGeneratedKeys="true" keyProperty="id">
+    <insert id="createAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.luxx.seed.model.Agent">
         insert into tb_agent (ip, version, status, type, owner, create_time, update_time)
         values (#{ip}, #{version}, #{status}, #{type}, #{owner}, #{createTime}, #{updateTime})
     </insert>

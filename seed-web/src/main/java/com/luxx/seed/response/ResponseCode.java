@@ -8,8 +8,8 @@ public enum ResponseCode {
     DATA_NOT_FOUND("10004", "common_data_not_found"),
     AUTH_USER_NOT_FOUND("10005", "oauth_username_not_exits"),
     AUTH_ACCOUNT_INCORRECT("10006", "oauth_account_incorrect"),
-
-    PASSWORD_NOT_VALID("10007", "oauth_password_not_valid");
+    PASSWORD_NOT_VALID("10007", "oauth_password_not_valid"),
+    ROLE_NOT_VALID("10008", "role_not_valid");
 
     private String code;
     private String msg;

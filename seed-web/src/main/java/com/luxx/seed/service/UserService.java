@@ -55,7 +55,7 @@ public class UserService {
     }
 
     public boolean deleteUser(Long id) {
-        return userMapper.updateUserStatus(id, Status.DELETED.getCode(), new Date()) > 0;
+        return userMapper.deleteUser(id) > 0;
     }
 
     public Response updateUserPassword(Long id, String username, String password) {
