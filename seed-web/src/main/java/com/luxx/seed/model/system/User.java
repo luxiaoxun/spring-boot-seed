@@ -35,6 +35,17 @@ public class User {
 
     private String email;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date loginTime;
+
+    private Integer loginAttempts;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date lockedTime;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date passwordUpdateTime;
+
     private String createUser;
 
     private String updateUser;

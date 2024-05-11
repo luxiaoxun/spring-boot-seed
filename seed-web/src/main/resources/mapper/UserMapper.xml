@@ -10,8 +10,9 @@
     </select>
 
     <select id="getUsers" resultType="com.luxx.seed.model.system.User">
-        select username, tenant_id, status, gender, mobile_phone, email, create_user, create_time, update_user,
-        update_time
+        select id, username, tenant_id, status, gender, mobile_phone, email,
+        login_time, login_attempts, locked_time, password_update_time,
+        create_user, create_time, update_user, update_time
         from tb_sys_user
         <where>
             <if test="username != null and username != ''">
@@ -33,8 +34,10 @@
 
     <insert id="createUser" useGeneratedKeys="true" keyProperty="id">
         insert into tb_sys_user (username, password, tenant_id, status, gender, mobile_phone, email,
+        login_time, login_attempts, locked_time, password_update_time,
         create_user, update_user, create_time, update_time)
         values (#{username}, #{password}, #{tenantId}, #{status}, #{gender}, #{mobilePhone}, #{email},
+        #{loginTime}, #{loginAttempts}, #{lockedTime}, #{passwordUpdateTime},
         #{createUser}, #{updateUser}, #{createTime}, #{updateTime})
     </insert>
 
@@ -55,41 +58,38 @@
         WHERE user_id = #{userId}
     </delete>
 
-    <update id="updateUserStatus">
-        UPDATE tb_sys_user
-        <set>
-            <if test="null != status and '' != status">status = #{status},</if>
-            <if test="null != updateUser and '' != updateUser">update_user = #{updateUser},</if>
-            <if test="null != updateTime and '' != updateTime">update_time = #{updateTime}</if>
-        </set>
-        WHERE id = #{id}
-    </update>
-
-    <update id="updateUserPassword">
-        UPDATE tb_sys_user
-        <set>
-            <if test="null != password and '' != password">password = #{password},</if>
-            <if test="null != updateUser and '' != updateUser">update_user = #{updateUser},</if>
-            <if test="null != updateTime and '' != updateTime">update_time = #{updateTime}</if>
-        </set>
-        WHERE id = #{id}
-    </update>
-
     <update id="updateUser" parameterType="com.luxx.seed.model.system.User">
         UPDATE tb_sys_user
         <set>
-            <if test="null != username and '' != username">username = #{username},</if>
-            <if test="null != tenantId and '' != tenantId">tenant_id = #{tenantId},</if>
-            <if test="null != status and '' != status">status = #{status},</if>
-            <if test="null != gender and '' != gender">gender = #{gender},</if>
-            <if test="null != mobilePhone and '' != mobilePhone">mobile_phone = #{mobilePhone},</if>
-            <if test="null != email and '' != email">email = #{email},</if>
-            <if test="null != createUser and '' != createUser">create_user = #{createUser},</if>
-            <if test="null != updateUser and '' != updateUser">update_user = #{updateUser},</if>
-            <if test="null != createTime and '' != createTime">create_time = #{createTime},</if>
-            <if test="null != updateTime and '' != updateTime">update_time = #{updateTime}</if>
+            <if test="null != username">username = #{username},</if>
+            <if test="null != password">password = #{password},</if>
+            <if test="null != tenantId">tenant_id = #{tenantId},</if>
+            <if test="null != status">status = #{status},</if>
+            <if test="null != gender">gender = #{gender},</if>
+            <if test="null != mobilePhone">mobile_phone = #{mobilePhone},</if>
+            <if test="null != email">email = #{email},</if>
+            <if test="null != loginTime">login_time = #{loginTime},</if>
+            <if test="null != loginAttempts">login_attempts = #{loginAttempts},</if>
+            <if test="null != lockedTime">locked_time = #{lockedTime},</if>
+            <if test="null != passwordUpdateTime">password_update_time = #{passwordUpdateTime},</if>
+            <if test="null != createUser">create_user = #{createUser},</if>
+            <if test="null != updateUser">update_user = #{updateUser},</if>
+            <if test="null != createTime">create_time = #{createTime},</if>
+            <if test="null != updateTime">update_time = #{updateTime}</if>
         </set>
         WHERE id = #{id}
+    </update>
+
+    <update id="batchUpdateUsers" parameterType="java.util.List">
+        <foreach collection="users" item="item" index="index" separator=";">
+            UPDATE tb_sys_user
+            SET
+            status = #{item.status},
+            login_attempts = #{item.loginAttempts},
+            locked_time = #{item.lockedTime},
+            update_time = #{item.updateTime}
+            WHERE id = #{item.Id}
+        </foreach>
     </update>
 
 </mapper>

@@ -38,8 +38,8 @@
     <update id="updateTenantStatus">
         UPDATE tb_sys_tenant
         <set>
-            <if test="null != status and '' != status">status = #{status},</if>
-            <if test="null != updateTime and '' != updateTime">update_time = #{updateTime}</if>
+            <if test="null != status">status = #{status},</if>
+            <if test="null != updateTime">update_time = #{updateTime}</if>
         </set>
         WHERE id = #{id}
     </update>

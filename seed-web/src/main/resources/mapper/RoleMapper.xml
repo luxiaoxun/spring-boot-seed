@@ -48,13 +48,13 @@
     <update id="updateRole" parameterType="com.luxx.seed.model.system.Role">
         UPDATE tb_sys_role
         <set>
-            <if test="null != name and '' != name">name = #{name},</if>
-            <if test="null != builtin and '' != builtin">builtin = #{builtin},</if>
-            <if test="null != remark and '' != remark">remark = #{remark},</if>
-            <if test="null != createUser and '' != createUser">create_user = #{createUser},</if>
-            <if test="null != updateUser and '' != updateUser">update_user = #{updateUser},</if>
-            <if test="null != createTime and '' != createTime">create_time = #{createTime},</if>
-            <if test="null != updateTime and '' != updateTime">update_time = #{updateTime}</if>
+            <if test="null != name">name = #{name},</if>
+            <if test="null != builtin">builtin = #{builtin},</if>
+            <if test="null != remark">remark = #{remark},</if>
+            <if test="null != createUser">create_user = #{createUser},</if>
+            <if test="null != updateUser">update_user = #{updateUser},</if>
+            <if test="null != createTime">create_time = #{createTime},</if>
+            <if test="null != updateTime">update_time = #{updateTime}</if>
         </set>
         WHERE id = #{id}
     </update>

@@ -49,6 +49,14 @@ public class UserService {
         return userMapper.getUsers(username, status, order, direction);
     }
 
+    public void updateUserLoginStatus(User user, boolean loginStatus) {
+        if (loginStatus) {
+            user.setLoginAttempts(0);
+            user.setLoginTime(new Date());
+        }
+        userMapper.updateUser(user);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public Response createUser(User user) throws Exception {
         try {
@@ -128,12 +136,27 @@ public class UserService {
                 return ResponseUtil.fail(ResponseCode.PASSWORD_NOT_VALID);
             }
             password = CommonUtil.getSha256(decrypted);
-            userMapper.updateUserPassword(id, password, new Date());
+            User user = new User();
+            user.setId(id);
+            user.setPassword(password);
+            user.setUpdateUser(UserUtil.getLoginUser());
+            Date now = new Date();
+            user.setUpdateTime(now);
+            user.setPasswordUpdateTime(now);
+            userMapper.updateUser(user);
             return ResponseUtil.success();
         } catch (Exception e) {
             log.error("Update user password error: " + e);
             return ResponseUtil.fail();
         }
+    }
+
+    public List<User> findLockedUsers() {
+        return userMapper.getUsers(null, Status.LOCKED.getCode(), null, null);
+    }
+
+    public void updateUserLockedStatus(List<User> users) {
+        userMapper.batchUpdateUsers(users);
     }
 
 }

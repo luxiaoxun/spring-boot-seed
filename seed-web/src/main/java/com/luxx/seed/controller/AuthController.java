@@ -20,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,30 +53,44 @@ public class AuthController {
         }
         // check password
         if (!userService.checkPassword(user, password)) {
+            if (user.getLoginAttempts() >= 5) {
+                user.setStatus(Status.LOCKED.getCode());
+                user.setLockedTime(new Date());
+            } else {
+                user.setLoginAttempts(user.getLoginAttempts() + 1);
+            }
+            userService.updateUserLoginStatus(user, false);
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_INCORRECT);
         }
-        Map<String, Object> loginInfo = new HashMap<>();
-        loginInfo.put("username", user.getUsername());
+
         // check user role
         List<Role> roles = userService.findRolesByUserId(user.getId());
-        if (!CollectionUtils.isEmpty(roles)) {
-            List<String> roleNames = roles.stream().map(Role::getName).collect(Collectors.toList());
-            loginInfo.put("roleNames", String.join(",", roleNames));
-            List<Long> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
-            boolean isAdminRole = roleIds.contains(Constant.ADMIN_ROLE_ID);
-            loginInfo.put("isAdminRole", isAdminRole);
-            if (!isAdminRole) {
-                List<Menu> menus = userService.findMenusByRoleId(roleIds);
-                loginInfo.put("menus", menus);
-            }
-        } else {
+        if (CollectionUtils.isEmpty(roles)) {
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_ILLEGAL);
         }
+
+        Map<String, Object> loginInfo = getLoginInfo(user, roles);
         // login
         StpUtil.login(user.getUsername());
-//        StpUtil.getSession().set("user", user);
         loginInfo.put("token", StpUtil.getTokenInfo().getTokenValue());
+        //Update login status
+        userService.updateUserLoginStatus(user, true);
         return ResponseUtil.success(loginInfo);
+    }
+
+    private Map<String, Object> getLoginInfo(User user, List<Role> roles) {
+        Map<String, Object> loginInfo = new HashMap<>();
+        loginInfo.put("username", user.getUsername());
+        List<String> roleNames = roles.stream().map(Role::getName).collect(Collectors.toList());
+        loginInfo.put("roleNames", String.join(",", roleNames));
+        List<Long> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
+        boolean isAdminRole = roleIds.contains(Constant.ADMIN_ROLE_ID);
+        loginInfo.put("isAdminRole", isAdminRole);
+        if (!isAdminRole) {
+            List<Menu> menus = userService.findMenusByRoleId(roleIds);
+            loginInfo.put("menus", menus);
+        }
+        return loginInfo;
     }
 
     @Operation(summary = "logout")

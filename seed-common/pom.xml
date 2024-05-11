@@ -44,6 +44,12 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <!-- caffeine cache -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>

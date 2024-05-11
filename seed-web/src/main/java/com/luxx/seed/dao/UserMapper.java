@@ -23,11 +23,9 @@ public interface UserMapper {
 
     int updateUser(User user);
 
-    int updateUserStatus(Long id, Integer status, Date updateTime);
-
-    int updateUserPassword(Long id, String password, Date updateTime);
-
     int deleteUser(Long id);
 
     int deleteUserRoles(Long userId);
+
+    int batchUpdateUsers(List<User> users);
 }
