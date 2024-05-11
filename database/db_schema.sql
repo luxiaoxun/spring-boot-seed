@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS tb_sys_tenant
 (
     id           VARCHAR(64)   NOT NULL COMMENT '租户组织ID',
-    parent_id    VARCHAR(64)   DEFAULT 'root' COMMENT '父租户组织ID',
-    name         VARCHAR(256)  NOT NULL COMMENT '名称',
+    parent_id    VARCHAR(64)   COMMENT '父租户组织ID',
+    name         VARCHAR(128)  NOT NULL COMMENT '名称',
     address      VARCHAR(512)  COMMENT '地址',
     status       TINYINT(1)    NOT NULL DEFAULT 1 COMMENT '状态，0:无效，1:有效',
     create_time  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS tb_sys_user
 (
     id            BIGINT        NOT NULL AUTO_INCREMENT COMMENT '账号ID',
     username      VARCHAR(64)   NOT NULL COMMENT '账号',
-    password      VARCHAR(256)  NOT NULL COMMENT '密码',
+    password      VARCHAR(64)   NOT NULL COMMENT '密码',
     tenant_id     JSON          COMMENT '组织ID',
     status        TINYINT(1)    NOT NULL DEFAULT 1 COMMENT '状态，0:无效，1:有效，2:删除，3:锁定',
     gender        TINYINT(1)    COMMENT '性别，1:男，2:女，3:其他',
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS tb_sys_role
     update_user   VARCHAR(64) COMMENT '更新用户',
     create_time   DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time   DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY id,
+    PRIMARY KEY (id),
     UNIQUE INDEX name (name)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS tb_sys_user_role  (
     id       BIGINT  NOT NULL AUTO_INCREMENT COMMENT 'ID',
     user_id  BIGINT  NOT NULL COMMENT '用户ID',
     role_id  BIGINT  NOT NULL COMMENT '角色ID',
-    PRIMARY KEY id,
+    PRIMARY KEY (id),
     INDEX idx_sys_user_role_uid (user_id),
     INDEX idx_sys_user_role_rid (role_id)
 ) ENGINE = InnoDB
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS tb_sys_menu
     name          VARCHAR(64) NOT NULL COMMENT '菜单名称',
     code          VARCHAR(64) NOT NULL COMMENT '菜单唯一编码',
     path          VARCHAR(64) NOT NULL COMMENT '路由',
-    PRIMARY KEY id,
+    PRIMARY KEY (id),
     UNIQUE INDEX code (code)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -73,10 +73,10 @@ CREATE TABLE IF NOT EXISTS tb_sys_menu
 
 CREATE TABLE IF NOT EXISTS tb_sys_role_menu
 (
-    id       BIGINT NOT NULL COMMENT '主键ID',
+    id       BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     role_id  BIGINT NOT NULL COMMENT '角色ID',
     menu_id  BIGINT NOT NULL COMMENT '菜单ID',
-    PRIMARY KEY id,
+    PRIMARY KEY (id),
     INDEX idx_role_menu_rid (role_id),
     INDEX idx_role_menu_mid (menu_id)
 ) ENGINE = InnoDB

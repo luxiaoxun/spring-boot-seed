@@ -65,6 +65,7 @@ public class RoleService {
     @Transactional(rollbackFor = Exception.class)
     public Response deleteRole(Long roleId) {
         roleMapper.deleteRoleMenus(roleId);
+        roleMapper.deleteRoleUsers(roleId);
         roleMapper.deleteRole(roleId);
         return ResponseUtil.success();
     }

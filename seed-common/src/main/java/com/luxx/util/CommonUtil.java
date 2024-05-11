@@ -1,8 +1,12 @@
 package com.luxx.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.security.MessageDigest;
 
 public class CommonUtil {
+    private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
     public static String getMd5(String input) {
         try {
@@ -25,6 +29,7 @@ public class CommonUtil {
             return hexString.toString();
 
         } catch (Exception e) {
+            logger.error(e.toString());
             return "";
         }
     }
@@ -46,6 +51,7 @@ public class CommonUtil {
             }
             return hexString.toString();
         } catch (Exception e) {
+            logger.error(e.toString());
             return "";
         }
     }

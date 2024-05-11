@@ -3,6 +3,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.luxx.seed.dao.RoleMapper">
 
+    <select id="getRolesByUserId" resultType="com.luxx.seed.model.system.Role">
+        select * from tb_sys_role
+        where id in (select role_id from tb_sys_user_role where user_id = #{userId})
+    </select>
+
+    <select id="getMenusByRoleId" resultType="com.luxx.seed.model.system.Menu">
+        select *
+        from tb_sys_menu
+        where id in (
+        select distinct(menu_id) from tb_sys_role_menu
+        where role_id in
+        <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+            #{roleId}
+        </foreach>
+        )
+    </select>
+
     <select id="getAllMenus" resultType="com.luxx.seed.model.system.Menu">
         select * from tb_sys_menu
     </select>
@@ -11,7 +28,7 @@
         select * from tb_sys_role
     </select>
 
-    <select id="getRoleMenus">
+    <select id="getRoleMenus" resultType="java.lang.Long" parameterType="java.lang.Long">
         select menu_id from tb_sys_role_menu
         where role_id = #{roleId}
     </select>
@@ -45,6 +62,11 @@
     <delete id="deleteRole">
         DELETE FROM tb_sys_role
         WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteRoleUsers">
+        DELETE FROM tb_sys_user_role
+        WHERE role_id = #{roleId}
     </delete>
 
     <delete id="deleteRoleMenus">

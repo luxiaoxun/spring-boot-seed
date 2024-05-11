@@ -25,6 +25,8 @@ public class User {
     private String tenantId;
     private List<String> tenantIds;
 
+    private List<Long> roleIds;
+
     private Integer status;
 
     private Integer gender;

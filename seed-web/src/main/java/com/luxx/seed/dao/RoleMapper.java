@@ -10,6 +10,10 @@ import java.util.List;
 
 @Mapper
 public interface RoleMapper {
+    List<Role> getRolesByUserId(Long userId);
+
+    List<Menu> getMenusByRoleId(List<Long> roleIds);
+
     List<Menu> getAllMenus();
 
     List<Role> getAllRoles();
@@ -23,6 +27,8 @@ public interface RoleMapper {
     int updateRole(Role role);
 
     int deleteRole(Long id);
+
+    int deleteRoleUsers(Long roleId);
 
     int deleteRoleMenus(Long roleId);
 

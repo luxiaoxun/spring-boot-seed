@@ -11,4 +11,6 @@ public class Constant {
 
     //版本号
     public static final String PRODUCT_VERSION = "1.0.0";
+
+    public static final Long ADMIN_ROLE_ID = 1L;
 }

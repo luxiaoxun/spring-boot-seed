@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -32,7 +34,7 @@ public class UserController {
     @Operation(summary = "分页查询user")
     @GetMapping("/page-list")
     public Response getUsersByPage(@RequestParam(required = false) String username,
-                                   @RequestParam(required = false) int status,
+                                   @RequestParam(required = false) Integer status,
                                    @RequestParam(defaultValue = "id") String order,
                                    @RequestParam(defaultValue = "ASC") String direction,
                                    @RequestParam(defaultValue = "1") @Min(1) int pageNum,
@@ -55,15 +57,26 @@ public class UserController {
     @Operation(summary = "创建user")
     @PostMapping("/create")
     public Response createUser(@RequestBody User user) {
-        return userService.createUser(user);
+        if (ObjectUtils.isEmpty(user.getUsername()) || ObjectUtils.isEmpty(user.getPassword())
+                || CollectionUtils.isEmpty(user.getTenantIds()) || CollectionUtils.isEmpty(user.getRoleIds())) {
+            return ResponseUtil.fail(ResponseCode.ACCOUNT_NOT_VALID);
+        }
+        try {
+            return userService.createUser(user);
+        } catch (Exception ex) {
+            log.error("Create user error: " + ex);
+            return ResponseUtil.fail();
+        }
     }
 
     @Operation(summary = "更新user")
     @PostMapping("/update")
     public Response updateUser(@RequestBody User user) {
+        if (CollectionUtils.isEmpty(user.getTenantIds()) || CollectionUtils.isEmpty(user.getRoleIds())) {
+            return ResponseUtil.fail(ResponseCode.ACCOUNT_NOT_VALID);
+        }
         try {
-            userService.updateUser(user);
-            return ResponseUtil.success();
+            return userService.updateUser(user);
         } catch (Exception ex) {
             log.error("Update user error: " + ex.toString());
             return ResponseUtil.fail();
@@ -73,13 +86,7 @@ public class UserController {
     @Operation(summary = "删除user")
     @PostMapping("/delete")
     public Response deleteUser(@RequestParam Long id) {
-        try {
-            userService.deleteUser(id);
-            return ResponseUtil.success();
-        } catch (Exception ex) {
-            log.error("Delete user error: " + ex.toString());
-            return ResponseUtil.fail();
-        }
+        return userService.deleteUser(id);
     }
 
     @Operation(summary = "修改密码")
