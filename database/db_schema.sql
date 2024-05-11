@@ -98,3 +98,36 @@ CREATE TABLE IF NOT EXISTS tb_agent
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   CHARSET = utf8mb4;
+
+# 租户组织
+INSERT INTO tb_sys_tenant (id, parent_id, name, address, status, create_time, update_time) VALUES('root', NULL, '根组织', NULL, 1, '2024-05-10 17:26:58', '2024-05-10 17:26:58');
+
+# 用户
+INSERT INTO tb_sys_user (id, username, password, tenant_id, status, gender, mobile_phone, email, create_user, update_user, create_time, update_time) VALUES(1, 'admin', 'ad89b64d66caa8e30e5d5ce4a9763f4ecc205814c412175f3e2c50027471426d', '["root"]', 1, NULL, NULL, NULL, 'admin', 'admin', '2024-05-10 17:22:44', '2024-05-10 17:22:44');
+INSERT INTO tb_sys_user (id, username, password, tenant_id, status, gender, mobile_phone, email, create_user, update_user, create_time, update_time) VALUES(2, 'test-user', 'ad89b64d66caa8e30e5d5ce4a9763f4ecc205814c412175f3e2c50027471426d', '["root"]', 1, NULL, NULL, NULL, 'admin', 'admin', '2024-05-10 17:22:44', '2024-05-10 17:22:44');
+
+# 角色
+INSERT INTO tb_sys_role (id, name, builtin, remark, create_user, update_user, create_time, update_time) VALUES(1, '管理员', 1, NULL, 'admin', 'admin', '2024-05-10 17:27:50', '2024-05-10 17:27:50');
+INSERT INTO tb_sys_role (id, name, builtin, remark, create_user, update_user, create_time, update_time) VALUES(2, '分析师', 1, NULL, 'admin', 'admin', '2024-05-10 17:29:13', '2024-05-10 17:29:13');
+INSERT INTO tb_sys_role (id, name, builtin, remark, create_user, update_user, create_time, update_time) VALUES(3, '审计员', 1, NULL, 'admin', 'admin', '2024-05-10 17:29:42', '2024-05-10 17:29:42');
+
+# 用户角色
+INSERT INTO tb_sys_user_role (id, user_id, role_id) VALUES(1, 1, 1);
+INSERT INTO tb_sys_user_role (id, user_id, role_id) VALUES(2, 2, 2);
+
+# 菜单
+INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(1, 0, '首页', '/home-page', '/home-page');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(2, 0, '威胁告警', '/attack', '/attack');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(3, 0, '资产管理', '/asset', '/asset');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(4, 0, '系统管理', '/system', '/system');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(21, 2, '外网攻击', '/attack/wan', '/attack/wan');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(22, 2, '内部失陷', '/attack/inner', '/attack/inner');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(31, 3, '资产类型', '/asset/type', '/asset/type');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(32, 3, '资产列表', '/asset/list', '/asset/list');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(33, 3, '资产风险', '/asset/risk', '/asset/risk');
+
+# 角色菜单
+INSERT INTO tb_sys_role_menu (id, role_id, menu_id) VALUES(1, 2, 1);
+INSERT INTO tb_sys_role_menu (id, role_id, menu_id) VALUES(2, 2, 2);
+INSERT INTO tb_sys_role_menu (id, role_id, menu_id) VALUES(3, 2, 21);
+INSERT INTO tb_sys_role_menu (id, role_id, menu_id) VALUES(4, 2, 22);
