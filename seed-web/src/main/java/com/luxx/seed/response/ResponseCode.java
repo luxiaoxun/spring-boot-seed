@@ -8,9 +8,10 @@ public enum ResponseCode {
     DATA_NOT_FOUND("10004", "common_data_not_found"),
 
     AUTH_USER_NOT_FOUND("10101", "oauth_account_not_exits"),
-    AUTH_ACCOUNT_INCORRECT("10102", "oauth_account_incorrect"),
-    AUTH_ACCOUNT_LOCKED("10103", "oauth_account_locked"),
-    AUTH_ACCOUNT_ILLEGAL("10104", "oauth_account_illegal"),
+    AUTH_CAPTCHA_ERROR("10102", "oauth_captcha_incorrect"),
+    AUTH_ACCOUNT_INCORRECT("10103", "oauth_account_incorrect"),
+    AUTH_ACCOUNT_LOCKED("10104", "oauth_account_locked"),
+    AUTH_ACCOUNT_ILLEGAL("10105", "oauth_account_illegal"),
 
     ACCOUNT_NOT_VALID("10201", "account_not_valid"),
     PASSWORD_NOT_VALID("10202", "password_not_valid"),

@@ -30,7 +30,7 @@ public class WebApp implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        String[] excludePathPatterns = {"/auth/login", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**"};
+        String[] excludePathPatterns = {"/auth/login", "/auth/login/captcha", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**"};
         // 注册 Sa-Token 拦截器，校验规则为 StpUtil.checkLogin() 登录校验。
         registry.addInterceptor(new SaInterceptor(handle -> {
             SaRouter.match("/**")

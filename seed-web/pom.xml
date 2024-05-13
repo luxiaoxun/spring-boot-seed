@@ -127,6 +127,12 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- captcha -->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+        </dependency>
+
         <!-- apache poi pdf -->
         <dependency>
             <groupId>fr.opensagres.xdocreport</groupId>
