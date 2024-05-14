@@ -127,6 +127,12 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- javax.mail -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+        </dependency>
+
         <!-- captcha -->
         <dependency>
             <groupId>com.github.penggle</groupId>
