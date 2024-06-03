@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service("stpLogic")
-public class StpLogicJwt extends StpLogic {
+public class SaTokenStpLogicJwt extends StpLogic {
 
     @Autowired
     private AuthTokenService authTokenService;
@@ -17,7 +17,7 @@ public class StpLogicJwt extends StpLogic {
     /**
      * Sa-Token 整合 jwt -- Simple模式
      */
-    public StpLogicJwt() {
+    public SaTokenStpLogicJwt() {
         super(StpUtil.TYPE);
     }
 
@@ -29,9 +29,6 @@ public class StpLogicJwt extends StpLogic {
     public String jwtSecretKey() {
         return authTokenService.jwtSecretKey();
     }
-
-
-    // ------ 重写方法
 
     /**
      * 创建一个TokenValue
@@ -56,7 +53,6 @@ public class StpLogicJwt extends StpLogic {
     public Object getExtra(String tokenValue, String key) {
         return authTokenService.getExtraValue(tokenValue, key);
     }
-
 
     @Override
     public boolean getConfigOfIsShare() {

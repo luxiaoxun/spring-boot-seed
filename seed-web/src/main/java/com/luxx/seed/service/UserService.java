@@ -33,15 +33,24 @@ public class UserService {
     @Autowired
     private RoleMapper roleMapper;
 
-    public User findByUsername(String username) {
+    public User getByUsername(String username) {
         return userMapper.getByUsername(username);
     }
 
-    public List<Role> findRolesByUserId(Long userId) {
+    public List<Role> getRolesByUserId(Long userId) {
         return roleMapper.getRolesByUserId(userId);
     }
 
-    public List<Menu> findMenusByRoleId(List<Long> roleIds) {
+    public List<Role> getRolesByUserName(String userName) {
+        User user = userMapper.getByUsername(userName);
+        if (user != null) {
+            return getRolesByUserId(user.getId());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Menu> getMenusByRoleId(List<Long> roleIds) {
         return roleMapper.getMenusByRoleId(roleIds);
     }
 
@@ -70,8 +79,8 @@ public class UserService {
             user.setStatus(Status.ENABLED.getCode());
             //一个账号可以关联多个租户组织
             user.setTenantId(JsonUtil.encode(user.getTenantIds()));
-            user.setCreateUser(UserUtil.getLoginUser());
-            user.setUpdateUser(UserUtil.getLoginUser());
+            user.setCreateUser(UserUtil.getLoginUsername());
+            user.setUpdateUser(UserUtil.getLoginUsername());
             Date now = new Date();
             user.setCreateTime(now);
             user.setUpdateTime(now);
@@ -92,7 +101,7 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public Response updateUser(User user) {
         user.setTenantId(JsonUtil.encode(user.getTenantIds()));
-        user.setUpdateUser(UserUtil.getLoginUser());
+        user.setUpdateUser(UserUtil.getLoginUsername());
         user.setUpdateTime(new Date());
         Long userId = user.getId();
         List<UserRole> userRoles = new ArrayList<>(user.getRoleIds().size());
@@ -139,7 +148,7 @@ public class UserService {
             User user = new User();
             user.setId(id);
             user.setPassword(password);
-            user.setUpdateUser(UserUtil.getLoginUser());
+            user.setUpdateUser(UserUtil.getLoginUsername());
             Date now = new Date();
             user.setUpdateTime(now);
             user.setPasswordUpdateTime(now);

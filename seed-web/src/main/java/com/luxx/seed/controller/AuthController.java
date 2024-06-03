@@ -75,7 +75,7 @@ public class AuthController {
         String username = request.getUsername();
         String password = request.getPassword();
         // check user info
-        User user = userService.findByUsername(username);
+        User user = userService.getByUsername(username);
         if (user == null) {
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_INCORRECT);
         } else if (Status.LOCKED.getCode().equals(user.getStatus())) {
@@ -94,7 +94,7 @@ public class AuthController {
         }
 
         // check user role
-        List<Role> roles = userService.findRolesByUserId(user.getId());
+        List<Role> roles = userService.getRolesByUserId(user.getId());
         if (CollectionUtils.isEmpty(roles)) {
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_ILLEGAL);
         }
@@ -117,7 +117,7 @@ public class AuthController {
         boolean isAdminRole = roleIds.contains(Constant.ADMIN_ROLE_ID);
         loginInfo.put("isAdminRole", isAdminRole);
         if (!isAdminRole) {
-            List<Menu> menus = userService.findMenusByRoleId(roleIds);
+            List<Menu> menus = userService.getMenusByRoleId(roleIds);
             loginInfo.put("menus", menus);
         }
         return loginInfo;

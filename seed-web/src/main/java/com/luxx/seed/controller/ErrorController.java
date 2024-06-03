@@ -1,6 +1,8 @@
 package com.luxx.seed.controller;
 
 import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
 import com.luxx.seed.response.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -115,6 +117,22 @@ public class ErrorController {
     public Response handleNotLoginException(Exception e) {
         log.error(e.getMessage());
         log.error("Not login exception: {}", e.toString());
+        return ResponseUtil.fail(ResponseCode.NO_PERMISSION);
+    }
+
+    @ExceptionHandler(NotPermissionException.class)
+    @ResponseBody
+    public Response handleNotPermissionException(Exception e) {
+        log.error(e.getMessage());
+        log.error("Not permission exception: {}", e.toString());
+        return ResponseUtil.fail(ResponseCode.NO_PERMISSION);
+    }
+
+    @ExceptionHandler(NotRoleException.class)
+    @ResponseBody
+    public Response handleNotRoleException(Exception e) {
+        log.error(e.getMessage());
+        log.error("Not role exception: {}", e.toString());
         return ResponseUtil.fail(ResponseCode.NO_PERMISSION);
     }
 

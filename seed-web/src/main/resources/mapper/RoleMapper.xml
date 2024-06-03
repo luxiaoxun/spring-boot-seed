@@ -34,8 +34,8 @@
     </select>
 
     <insert id="insertRole" useGeneratedKeys="true" keyProperty="id" parameterType="com.luxx.seed.model.system.Role">
-        insert into tb_sys_role (name, builtin, remark, create_user, update_user, create_time, update_time)
-        values (#{name}, #{builtin}, #{remark}, #{createUser}, #{updateUser}, #{createTime}, #{updateTime})
+        insert into tb_sys_role (name, cn_name, builtin, remark, create_user, update_user, create_time, update_time)
+        values (#{name}, #{cnName}, #{builtin}, #{remark}, #{createUser}, #{updateUser}, #{createTime}, #{updateTime})
     </insert>
 
     <insert id="insertRoleMenus" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
@@ -49,6 +49,7 @@
         UPDATE tb_sys_role
         <set>
             <if test="null != name">name = #{name},</if>
+            <if test="null != cnName">cn_name = #{cnName},</if>
             <if test="null != builtin">builtin = #{builtin},</if>
             <if test="null != remark">remark = #{remark},</if>
             <if test="null != createUser">create_user = #{createUser},</if>

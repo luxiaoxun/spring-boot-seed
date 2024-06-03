@@ -32,7 +32,7 @@ public class TenantController {
     @Operation(summary = "查询tenant")
     @GetMapping("/list")
     public Response getTenants() {
-        log.info("{} get all tenants", UserUtil.getLoginUser());
+        log.info("{} get all tenants", UserUtil.getLoginUsername());
         List<Tenant> tenantList = tenantService.getAllTenants();
         return ResponseUtil.success(tenantList);
     }
@@ -43,7 +43,7 @@ public class TenantController {
                                      @RequestParam(defaultValue = "ASC") String direction,
                                      @RequestParam(defaultValue = "1") @Min(1) int pageNum,
                                      @RequestParam(defaultValue = "10") int pageSize) {
-        log.info("{} get tenant by page", UserUtil.getLoginUser());
+        log.info("{} get tenant by page", UserUtil.getLoginUsername());
         if (!Constant.SORT_ASC.equals(direction) && !Constant.SORT_DESC.equals(direction)) {
             return ResponseUtil.fail(ResponseCode.PARAM_ERROR);
         }

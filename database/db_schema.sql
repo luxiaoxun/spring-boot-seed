@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS tb_sys_role
 (
     id            BIGINT      NOT NULL AUTO_INCREMENT COMMENT '角色ID',
     name          VARCHAR(64) NOT NULL COMMENT '角色名称',
+    cn_name       VARCHAR(64) NOT NULL COMMENT '角色中文名称',
     builtin       TINYINT(1)  NOT NULL DEFAULT 0 COMMENT '0-自定义，1-系统内置',
     remark        TEXT        COMMENT '备注',
     create_user   VARCHAR(64) COMMENT '创建用户',
@@ -111,9 +112,9 @@ INSERT INTO tb_sys_user (id, username, password, tenant_id, status, gender, mobi
 INSERT INTO tb_sys_user (id, username, password, tenant_id, status, gender, mobile_phone, email, create_user, update_user, create_time, update_time) VALUES(2, 'test-user', 'ad89b64d66caa8e30e5d5ce4a9763f4ecc205814c412175f3e2c50027471426d', '["root"]', 1, NULL, NULL, NULL, 'admin', 'admin', '2024-05-10 17:22:44', '2024-05-10 17:22:44');
 
 # 角色
-INSERT INTO tb_sys_role (id, name, builtin, remark, create_user, update_user, create_time, update_time) VALUES(1, '管理员', 1, NULL, 'admin', 'admin', '2024-05-10 17:27:50', '2024-05-10 17:27:50');
-INSERT INTO tb_sys_role (id, name, builtin, remark, create_user, update_user, create_time, update_time) VALUES(2, '分析师', 1, NULL, 'admin', 'admin', '2024-05-10 17:29:13', '2024-05-10 17:29:13');
-INSERT INTO tb_sys_role (id, name, builtin, remark, create_user, update_user, create_time, update_time) VALUES(3, '审计员', 1, NULL, 'admin', 'admin', '2024-05-10 17:29:42', '2024-05-10 17:29:42');
+INSERT INTO tb_sys_role (id, name, cn_name, builtin, remark, create_user, update_user, create_time, update_time) VALUES(1, 'admin', '管理员', 1, NULL, 'admin', 'admin', '2024-05-10 17:27:50', '2024-05-10 17:27:50');
+INSERT INTO tb_sys_role (id, name, cn_name, builtin, remark, create_user, update_user, create_time, update_time) VALUES(2, 'analyst', '分析师', 1, NULL, 'admin', 'admin', '2024-05-10 17:29:13', '2024-05-10 17:29:13');
+INSERT INTO tb_sys_role (id, name, cn_name, builtin, remark, create_user, update_user, create_time, update_time) VALUES(3, 'auditor', '审计员', 1, NULL, 'admin', 'admin', '2024-05-10 17:29:42', '2024-05-10 17:29:42');
 
 # 用户角色
 INSERT INTO tb_sys_user_role (id, user_id, role_id) VALUES(1, 1, 1);

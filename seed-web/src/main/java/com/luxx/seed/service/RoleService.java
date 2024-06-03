@@ -29,8 +29,8 @@ public class RoleService {
     @Transactional(rollbackFor = Exception.class)
     public Response createRole(Role role) {
         role.setBuiltin(0);
-        role.setCreateUser(UserUtil.getLoginUser());
-        role.setUpdateUser(UserUtil.getLoginUser());
+        role.setCreateUser(UserUtil.getLoginUsername());
+        role.setUpdateUser(UserUtil.getLoginUsername());
         Date now = new Date();
         role.setCreateTime(now);
         role.setUpdateTime(now);
@@ -47,10 +47,9 @@ public class RoleService {
 
     @Transactional(rollbackFor = Exception.class)
     public Response updateRole(Role role) {
-        role.setBuiltin(0);
-        role.setUpdateUser(UserUtil.getLoginUser());
+        role.setUpdateUser(UserUtil.getLoginUsername());
         role.setUpdateTime(new Date());
-        roleMapper.insertRole(role);
+        roleMapper.updateRole(role);
         Long roleId = role.getId();
         List<Long> menuIds = role.getMenuIds();
         List<RoleMenu> roleMenus = new ArrayList<>(menuIds.size());

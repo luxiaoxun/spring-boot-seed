@@ -1,5 +1,6 @@
 package com.luxx.seed.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.luxx.seed.constant.Constant;
@@ -39,7 +40,7 @@ public class UserController {
                                    @RequestParam(defaultValue = "ASC") String direction,
                                    @RequestParam(defaultValue = "1") @Min(1) int pageNum,
                                    @RequestParam(defaultValue = "10") int pageSize) {
-        log.info("{} get user by page", UserUtil.getLoginUser());
+        log.info("{} get user by page", UserUtil.getLoginUsername());
         if (!Constant.SORT_ASC.equals(direction) && !Constant.SORT_DESC.equals(direction)) {
             return ResponseUtil.fail(ResponseCode.PARAM_ERROR);
         }
@@ -57,6 +58,7 @@ public class UserController {
     @Operation(summary = "创建user")
     @PostMapping("/create")
     public Response createUser(@RequestBody User user) {
+        StpUtil.hasRole("admin");
         if (ObjectUtils.isEmpty(user.getUsername()) || ObjectUtils.isEmpty(user.getPassword())
                 || CollectionUtils.isEmpty(user.getTenantIds()) || CollectionUtils.isEmpty(user.getRoleIds())) {
             return ResponseUtil.fail(ResponseCode.ACCOUNT_NOT_VALID);
@@ -72,6 +74,7 @@ public class UserController {
     @Operation(summary = "更新user")
     @PostMapping("/update")
     public Response updateUser(@RequestBody User user) {
+        StpUtil.hasRole("admin");
         if (CollectionUtils.isEmpty(user.getTenantIds()) || CollectionUtils.isEmpty(user.getRoleIds())) {
             return ResponseUtil.fail(ResponseCode.ACCOUNT_NOT_VALID);
         }
@@ -86,6 +89,7 @@ public class UserController {
     @Operation(summary = "删除user")
     @PostMapping("/delete")
     public Response deleteUser(@RequestParam Long id) {
+        StpUtil.hasRole("admin");
         return userService.deleteUser(id);
     }
 

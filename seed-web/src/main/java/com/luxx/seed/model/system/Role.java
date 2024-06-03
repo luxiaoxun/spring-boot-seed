@@ -20,6 +20,8 @@ public class Role {
 
     private String name;
 
+    private String cnName;
+
     private Integer builtin;
 
     private String remark;

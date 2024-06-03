@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 
 public class UserUtil {
 
-    public static String getLoginUser() {
+    public static String getLoginUsername() {
         return StpUtil.getLoginIdAsString();
     }
 
