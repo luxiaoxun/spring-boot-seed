@@ -20,6 +20,7 @@ import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,9 +101,9 @@ public class DocUtil {
         CTTblPr tblPr = ttbl.getTblPr() == null ? ttbl.addNewTblPr() : ttbl.getTblPr();
         // 表格宽度
         CTTblWidth tblWidth = tblPr.isSetTblW() ? tblPr.getTblW() : tblPr.addNewTblW();
-        CTJcTable cTJc = tblPr.addNewJc();
-        cTJc.setVal(STJcTable.CENTER);
-        tblWidth.setW(width);
+        CTJc cTJc = tblPr.addNewJc();
+        cTJc.setVal(STJc.CENTER);
+        tblWidth.setW(BigInteger.valueOf(width));
         tblWidth.setType(STTblWidth.DXA);
 
         // 设置表头
@@ -126,7 +127,7 @@ public class DocUtil {
         int width = table.getWidth();
         CTTcPr pr = tableCell.getCTTc().addNewTcPr();
         CTTblWidth ctTblWidth = pr.addNewTcW();
-        ctTblWidth.setW(width);
+        ctTblWidth.setW(BigInteger.valueOf(width));
         ctTblWidth.setType(STTblWidth.DXA);
 
         //通过XWPFParagraph设置格式

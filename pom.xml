@@ -49,6 +49,8 @@
         <sa-token.version>1.37.0</sa-token.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <commons-io.version>2.15.1</commons-io.version>
+        <easyexcel.version>3.3.4</easyexcel.version>
+        <javax-mail.version>1.6.2</javax-mail.version>
     </properties>
 
     <dependencyManagement>
@@ -277,11 +279,18 @@
                 <version>${commons-io.version}</version>
             </dependency>
 
+            <!-- easyexcel -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
+            </dependency>
+
             <!-- javax.mail -->
             <dependency>
                 <groupId>com.sun.mail</groupId>
                 <artifactId>javax.mail</artifactId>
-                <version>1.6.2</version>
+                <version>${javax-mail.version}</version>
             </dependency>
 
             <!-- captcha -->

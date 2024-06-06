@@ -33,12 +33,13 @@
     </select>
 
     <insert id="createAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.luxx.seed.model.Agent">
-        insert into tb_agent (ip, version, status, type, owner, create_time, update_time)
-        values (#{ip}, #{version}, #{status}, #{type}, #{owner}, #{createTime}, #{updateTime})
+        insert into tb_agent (tenant_id, ip, version, status, type, owner, create_time, update_time)
+        values (#{tenantId}, #{ip}, #{version}, #{status}, #{type}, #{owner}, #{createTime}, #{updateTime})
     </insert>
 
     <update id="updateAgent" parameterType="com.luxx.seed.model.Agent">
         update tb_agent set
+        tenant_id = #{tenantId},
         ip = #{ip},
         version = #{version},
         status = #{status},

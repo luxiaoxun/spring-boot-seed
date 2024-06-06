@@ -1,24 +1,30 @@
 package com.luxx.seed.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.luxx.seed.config.i18n.I18nMessageUtil;
 import com.luxx.seed.constant.Constant;
 import com.luxx.seed.model.Agent;
+import com.luxx.seed.request.AgentRequest;
 import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.service.AgentService;
 import com.luxx.seed.util.WebUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import jakarta.validation.constraints.Min;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +84,22 @@ public class AgentController {
         } catch (Exception ex) {
             log.error("Create agent error: " + ex.toString());
             return ResponseUtil.fail();
+        }
+    }
+
+    @Operation(summary = "导出Agent")
+    @PostMapping("/export")
+    public void exportAgents(@RequestBody AgentRequest request, HttpServletResponse response) {
+        try {
+            List<Agent> agentList = agentService.getAgentsByType(request.getType(), "id", Constant.SORT_ASC);
+            response.setContentType("application/csv");
+            response.setCharacterEncoding("UTF-8");
+            String fileName = "agent-list-" + Instant.now().toEpochMilli() + ".csv";
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+            EasyExcel.write(response.getOutputStream(), Agent.class).excelType(ExcelTypeEnum.CSV)
+                    .sheet("Sheet1").doWrite(agentList);
+        } catch (Exception ex) {
+            log.error("Export agents error: " + ex.toString());
         }
     }
 

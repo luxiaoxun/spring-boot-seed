@@ -92,7 +92,7 @@ public class ReportService {
             addPieChart(document);
             addScatterChart(document);
             addLineChart(document);
-            addBarChart(document);
+//            addBarChart(document);
 
             //添加一个段落空行
             DocUtil.addBreak(document);
