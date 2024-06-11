@@ -27,18 +27,16 @@ public class ScatterChartForm extends ChartFrom {
     @Data
     public static class AreaData {
         // X轴数据
-        private Integer[] bottomData;
+        private String[] bottomData;
 
         // Y轴数据
-        private Integer[] leftData;
+        private Double[] leftData;
 
         // 点的颜色,可以为空 创建方式为 XDDFColor.from(new byte[]{(byte)0xFF, (byte)0xE1, (byte)0xFF})
         private XDDFColor xddfColor;
 
         // 系列名称
         private String title;
-
     }
-
 
 }

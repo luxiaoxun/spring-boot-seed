@@ -287,11 +287,6 @@ public class DocUtil {
         for (int i = 0; i < seriesList.size(); i++) {
             seriesList.get(i).setTitle(colorTitles.get(i), setTitleInDataSheet(chart, colorTitles.get(i), 1));
         }
-        // 指定为簇状柱状图
-        if (tableData.size() > 1) {
-            ((XDDFBarChartData) data).setBarGrouping(barChartForm.getGrouping());
-            chart.getCTChart().getPlotArea().getBarChartArray(0).addNewOverlap().setVal(barChartForm.getNewOverlap());
-        }
 
         // 指定系列颜色
         for (BarChartForm.ColorCheck colorCheck : barChartForm.getList()) {
@@ -394,8 +389,8 @@ public class DocUtil {
         data.setVaryColors(false);
         for (int i = 0; i < scatterChartForm.getLists().size(); i++) {
             // 处理数据
-            XDDFNumericalDataSource<Integer> bottomDataSource = XDDFDataSourcesFactory.fromArray(scatterChartForm.getLists().get(i).getBottomData());
-            XDDFNumericalDataSource<Integer> leftDataSource = XDDFDataSourcesFactory.fromArray(scatterChartForm.getLists().get(i).getLeftData());
+            XDDFCategoryDataSource bottomDataSource = XDDFDataSourcesFactory.fromArray(scatterChartForm.getLists().get(i).getBottomData());
+            XDDFNumericalDataSource<Double> leftDataSource = XDDFDataSourcesFactory.fromArray(scatterChartForm.getLists().get(i).getLeftData());
             //图表加载数据
             XDDFScatterChartData.Series series = (XDDFScatterChartData.Series) data.addSeries(bottomDataSource, leftDataSource);
             //设置标记样式

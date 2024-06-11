@@ -66,7 +66,7 @@ public class ReportService {
             //构建表格
             List<String> headers = Arrays.asList("字段1", "字段2", "字段3", "字段4");
             XWPFTable table = DocUtil.createTable(document, 8000, headers);
-            List<String> data1 = Arrays.asList("1", "2222222222222222222", "3", "4444444444444444444444");
+            List<String> data1 = Arrays.asList("11111", "22222222222", "3333333", "44444444444444");
             List<String> data2 = Arrays.asList("5", "6", "7", "8");
             List<List<String>> tableData = new ArrayList<>();
             tableData.add(data1);
@@ -79,7 +79,7 @@ public class ReportService {
             //构建表格
             List<String> headers2 = Arrays.asList("字段1", "字段2", "字段3", "字段4", "字段5");
             XWPFTable table2 = DocUtil.createTable(document, 9000, headers2);
-            List<String> data3 = Arrays.asList("1", "2222222222222222222", "3", "4444444444444444444444", "55555555555555");
+            List<String> data3 = Arrays.asList("1111", "2222222", "3333333", "44444444", "555555");
             List<String> data4 = Arrays.asList("6", "7", "8", "9", "10");
             List<List<String>> tableData2 = new ArrayList<>();
             tableData2.add(data3);
@@ -92,7 +92,7 @@ public class ReportService {
             addPieChart(document);
             addScatterChart(document);
             addLineChart(document);
-//            addBarChart(document);
+            addBarChart(document);
 
             //添加一个段落空行
             DocUtil.addBreak(document);
@@ -147,21 +147,21 @@ public class ReportService {
         scatterChartForm.setTitle("测试ScatterChart");
         scatterChartForm.setBottomTitle("X轴");
         scatterChartForm.setLeftTitle("Y轴");
-        scatterChartForm.setStyle(MarkerStyle.STAR);
+        scatterChartForm.setStyle(MarkerStyle.CIRCLE);
         scatterChartForm.setMarkerSize((short) 10);
         scatterChartForm.setVaryColors(false);
 
         ScatterChartForm.AreaData areaData = new ScatterChartForm.AreaData();
-        areaData.setBottomData(new Integer[]{1, 2, 3, 4, 5, 6, 7});
-        areaData.setLeftData(new Integer[]{2, 3, 5, 4, 8, 6, 7});
         areaData.setTitle("测试1");
+        areaData.setBottomData(new String[]{"11", "22", "333", "44", "5", "6", "7"});
+        areaData.setLeftData(new Double[]{2d, 3d, 5d, 4d, 8d, 6d, 7d});
         scatterChartForm.getLists().add(areaData);
 
 //        ScatterChartForm.AreaData areaData2 = new ScatterChartForm.AreaData();
-//        areaData2.setBottomData(new Integer[]{6, 9});
-//        areaData2.setLeftData(new Integer[]{1, 9});
-//        areaData2.setXddfColor(XDDFColor.from(new byte[]{(byte) 0xFF, (byte) 0xE1, (byte) 0xFF}));
 //        areaData2.setTitle("测试2");
+//        areaData2.setBottomData(new String[]{"6", "9"});
+//        areaData2.setLeftData(new Double[]{1d, 9d});
+//        areaData2.setXddfColor(XDDFColor.from(new byte[]{(byte) 0xFF, (byte) 0xE1, (byte) 0xFF}));
 //        scatterChartForm.getLists().add(areaData2);
 
         DocUtil.createScatterChart(chart, scatterChartForm);
@@ -184,10 +184,10 @@ public class ReportService {
 
     private void addBarChart(XWPFDocument document) throws Exception {
         XWPFChart chart = DocUtil.getChart(document, null, null);
-        String[] categories = new String[]{"Lang 1", "Lang 2", "Lang 3"};
-        Double[] valuesA = new Double[]{10d, 20d, 30d};
-        Double[] valuesB = new Double[]{15d, 25d, 35d};
-        Double[] valuesC = new Double[]{10d, 8d, 20d};
+        String[] categories = new String[]{"区域1", "区域2", "区域3"};
+        Double[] valuesA = new Double[]{10.5d, 20d, 30d};
+        Double[] valuesB = new Double[]{15.8d, 22.5d, 35d};
+        Double[] valuesC = new Double[]{10d, 8.3d, 20d};
         List<Double[]> list = new ArrayList<>();
         list.add(valuesA);
         list.add(valuesB);
