@@ -12,7 +12,7 @@ Web后端开发框架
 * mysql 8
 * HikariCP 3.4.5
 * xxl-job 2.1.0
-* liteflow 2.11.3
+* liteflow 2.11.4
 * lombok 1.18.30
 * Elasticsearch 7
 * redisson 3.23.2

@@ -52,7 +52,7 @@
         <commons-io.version>2.15.1</commons-io.version>
         <easyexcel.version>3.3.4</easyexcel.version>
         <javax-mail.version>1.6.2</javax-mail.version>
-        <liteflow.version>2.11.3</liteflow.version>
+        <liteflow.version>2.11.4.2</liteflow.version>
     </properties>
 
     <dependencyManagement>
