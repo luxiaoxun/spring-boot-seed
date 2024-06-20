@@ -22,11 +22,13 @@ Web后端开发框架
 
 * seed-common：通用common util
 * seed-engine：基于kafka和disruptor的数据处理服务
-* seed-task：集成xxl-job的任务调度
+* seed-task：分布式任务调度
     1. [xxl-job](https://github.com/xuxueli/xxl-job)
     2. [shedlock](https://github.com/lukas-krecan/ShedLock)
 * seed-workflow：集成[liteflow](https://github.com/dromara/liteflow)的工作流
 * seed-web：web后端服务，数据库mysql，用spring mybatis操作数据库
 
-* swagger: http://localhost:19090/swagger-ui/index.html
+API doc:
+* web swagger: http://localhost:19090/swagger-ui/index.html
+* workflow swagger: http://localhost:19098/flow/swagger-ui/index.html
 * web ssh demo: http://localhost:19090/websshlogin

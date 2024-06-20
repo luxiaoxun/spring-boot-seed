@@ -1,0 +1,255 @@
+{
+  "nodeEntities": [
+    {
+      "id": "start",
+      "name": "start",
+      "label": "start",
+      "nodeType": "START",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "end",
+      "name": "end",
+      "label": "end",
+      "nodeType": "END",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "c",
+      "name": "c",
+      "label": "c",
+      "nodeType": "IF",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "b",
+      "name": "b",
+      "label": "b",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "a",
+      "name": "a",
+      "label": "a",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "w",
+      "name": "w",
+      "label": "w",
+      "nodeType": "WHEN",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "e",
+      "name": "e",
+      "label": "e",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "d",
+      "name": "d",
+      "label": "d",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "p",
+      "name": "p",
+      "label": "p",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "g",
+      "name": "g",
+      "label": "g",
+      "nodeType": "SWITCH",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "f",
+      "name": "f",
+      "label": "f",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "h",
+      "name": "h",
+      "label": "h",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "k",
+      "name": "k",
+      "label": "k",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "s",
+      "name": "s",
+      "label": "s",
+      "nodeType": "SUMMARY",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "m",
+      "name": "m",
+      "label": "m",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "j",
+      "name": "j",
+      "label": "j",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "o",
+      "name": "o",
+      "label": "o",
+      "nodeType": "SUMMARY",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "q",
+      "name": "q",
+      "label": "q",
+      "nodeType": "SUMMARY",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "id": "r",
+      "name": "r",
+      "label": "r",
+      "nodeType": "COMMON",
+      "x": 10,
+      "y": 10
+    }
+  ],
+  "nodeEdges": [
+    {
+      "source": "start",
+      "target": "c"
+    },
+    {
+      "source": "r",
+      "target": "end"
+    },
+    {
+      "source": "c",
+      "target": "a",
+      "ifNodeFlag": false
+    },
+    {
+      "source": "c",
+      "target": "b",
+      "ifNodeFlag": true
+    },
+    {
+      "source": "b",
+      "target": "g"
+    },
+    {
+      "source": "g",
+      "target": "f",
+      "tag": "tag1"
+    },
+    {
+      "source": "g",
+      "target": "h",
+      "tag": "tag2"
+    },
+    {
+      "source": "g",
+      "target": "k",
+      "tag": "tag3"
+    },
+    {
+      "source": "k",
+      "target": "m"
+    },
+    {
+      "source": "f",
+      "target": "o"
+    },
+    {
+      "source": "h",
+      "target": "o"
+    },
+    {
+      "source": "m",
+      "target": "o"
+    },
+    {
+      "source": "o",
+      "target": "q"
+    },
+    {
+      "source": "q",
+      "target": "r"
+    },
+    {
+      "source": "a",
+      "target": "w"
+    },
+    {
+      "source": "w",
+      "target": "d"
+    },
+    {
+      "source": "w",
+      "target": "p"
+    },
+    {
+      "source": "w",
+      "target": "e"
+    },
+    {
+      "source": "d",
+      "target": "s"
+    },
+    {
+      "source": "p",
+      "target": "s"
+    },
+    {
+      "source": "e",
+      "target": "s"
+    },
+    {
+      "source": "s",
+      "target": "j"
+    },
+    {
+      "source": "j",
+      "target": "q"
+    }
+  ]
+}

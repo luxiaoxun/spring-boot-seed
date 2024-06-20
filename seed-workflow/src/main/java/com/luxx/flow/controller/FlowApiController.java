@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description:
  */
 @RestController
-@RequestMapping("liteflow")
+@RequestMapping("flow")
 @Slf4j
 public class FlowApiController {
 
@@ -29,11 +29,15 @@ public class FlowApiController {
             Node head = ElHelper.Json2Node(request);
             // 2、将ast转为EL表达式
             String el = ElHelper.ast2El(head);
-            System.out.println(el);
+            log.info("el:{}", el);
             // 3、校验EL表达式的有效性
-            return ResponseUtil.success(LiteFlowChainELBuilder.validate(el));
+            if (LiteFlowChainELBuilder.validate(el)) {
+                return ResponseUtil.success(el);
+            } else {
+                return ResponseUtil.fail();
+            }
         } catch (Exception e) {
-            log.error("[生成El表达式] 发生异常", e);
+            log.error("生成El表达式异常", e);
             return ResponseUtil.fail();
         }
     }
