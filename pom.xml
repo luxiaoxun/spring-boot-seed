@@ -19,6 +19,7 @@
         <module>seed-web</module>
         <module>seed-task</module>
         <module>seed-engine</module>
+        <module>seed-workflow</module>
     </modules>
 
     <properties>
@@ -51,6 +52,7 @@
         <commons-io.version>2.15.1</commons-io.version>
         <easyexcel.version>3.3.4</easyexcel.version>
         <javax-mail.version>1.6.2</javax-mail.version>
+        <liteflow.version>2.11.3</liteflow.version>
     </properties>
 
     <dependencyManagement>
@@ -323,6 +325,23 @@
                 <groupId>com.github.mwiede</groupId>
                 <artifactId>jsch</artifactId>
                 <version>0.2.16</version>
+            </dependency>
+
+            <!--liteFlow-->
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-spring-boot-starter</artifactId>
+                <version>${liteflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-rule-sql</artifactId>
+                <version>${liteflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-el-builder</artifactId>
+                <version>${liteflow.version}</version>
             </dependency>
 
         </dependencies>
