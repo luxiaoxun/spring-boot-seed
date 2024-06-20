@@ -1,4 +1,4 @@
-package com.luxx.util;
+package com.luxx.common.util;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;

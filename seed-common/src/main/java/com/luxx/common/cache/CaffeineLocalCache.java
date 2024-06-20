@@ -1,4 +1,4 @@
-package com.luxx.cache;
+package com.luxx.common.cache;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 

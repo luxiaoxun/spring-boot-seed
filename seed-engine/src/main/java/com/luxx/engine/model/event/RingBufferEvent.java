@@ -4,7 +4,7 @@ package com.luxx.engine.model.event;
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.EventTranslatorOneArg;
 import com.luxx.engine.model.DataDoc;
-import com.luxx.util.JsonUtil;
+import com.luxx.common.util.JsonUtil;
 import lombok.Data;
 
 import java.io.Serializable;

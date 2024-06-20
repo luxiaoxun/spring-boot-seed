@@ -1,7 +1,7 @@
 package com.luxx.seed.test;
 
-import com.luxx.util.CommonUtil;
-import com.luxx.util.SecureUtil;
+import com.luxx.common.util.CommonUtil;
+import com.luxx.common.util.SecureUtil;
 import org.junit.Test;
 
 public class UtilTest {

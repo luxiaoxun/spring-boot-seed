@@ -1,6 +1,6 @@
-package com.luxx.util.test;
+package com.luxx.common.util.test;
 
-import com.luxx.util.SecureUtil;
+import com.luxx.common.util.SecureUtil;
 import org.junit.Test;
 
 public class SecureUtilTest {

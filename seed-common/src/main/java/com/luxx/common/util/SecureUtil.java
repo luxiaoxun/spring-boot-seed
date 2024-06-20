@@ -1,4 +1,4 @@
-package com.luxx.util;
+package com.luxx.common.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

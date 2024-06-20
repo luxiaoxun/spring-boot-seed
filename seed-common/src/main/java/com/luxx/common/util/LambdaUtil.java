@@ -1,4 +1,4 @@
-package com.luxx.util;
+package com.luxx.common.util;
 
 import java.util.List;
 import java.util.function.Consumer;

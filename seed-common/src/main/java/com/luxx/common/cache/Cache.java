@@ -1,4 +1,4 @@
-package com.luxx.cache;
+package com.luxx.common.cache;
 
 import java.util.Collection;
 import java.util.Map;

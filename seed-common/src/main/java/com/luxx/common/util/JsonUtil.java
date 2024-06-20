@@ -1,4 +1,4 @@
-package com.luxx.util;
+package com.luxx.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

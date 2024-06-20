@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.luxx.engine.constant.Constant;
 import com.luxx.engine.kafka.KafKaProducer;
 import com.luxx.engine.model.event.LogEvent;
-import com.luxx.util.JsonUtil;
+import com.luxx.common.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
