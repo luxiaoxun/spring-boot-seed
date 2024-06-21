@@ -1,6 +1,5 @@
 package com.luxx.seed.controller;
 
-import cn.dev33.satoken.stp.StpUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.luxx.seed.constant.Constant;
@@ -58,7 +57,6 @@ public class UserController {
     @Operation(summary = "创建user")
     @PostMapping("/create")
     public Response createUser(@RequestBody User user) {
-        StpUtil.hasRole("admin");
         if (ObjectUtils.isEmpty(user.getUsername()) || ObjectUtils.isEmpty(user.getPassword())
                 || CollectionUtils.isEmpty(user.getTenantIds()) || CollectionUtils.isEmpty(user.getRoleIds())) {
             return ResponseUtil.fail(ResponseCode.ACCOUNT_NOT_VALID);
@@ -74,7 +72,6 @@ public class UserController {
     @Operation(summary = "更新user")
     @PostMapping("/update")
     public Response updateUser(@RequestBody User user) {
-        StpUtil.hasRole("admin");
         if (CollectionUtils.isEmpty(user.getTenantIds()) || CollectionUtils.isEmpty(user.getRoleIds())) {
             return ResponseUtil.fail(ResponseCode.ACCOUNT_NOT_VALID);
         }
@@ -89,7 +86,6 @@ public class UserController {
     @Operation(summary = "删除user")
     @PostMapping("/delete")
     public Response deleteUser(@RequestParam Long id) {
-        StpUtil.hasRole("admin");
         return userService.deleteUser(id);
     }
 

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.unit.DataSize;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 @ServletComponentScan
 @EnableTransactionManagement
 @EnableScheduling
+@EnableWebMvc
 @MapperScan("com.luxx.seed.dao")
 public class WebApp implements WebMvcConfigurer {
     public static void main(String[] args) {
@@ -31,13 +33,15 @@ public class WebApp implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         String[] excludePathPatterns = {"/auth/login", "/auth/login/captcha", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**"};
-        // 注册 Sa-Token 拦截器，校验规则为 StpUtil.checkLogin() 登录校验。
+        // 注册 Sa-Token 拦截器，按路由校验权限
 //        registry.addInterceptor(new SaInterceptor(handle -> {
 //            SaRouter.match("/**")
 //                    .notMatch("*.html")
 //                    .notMatch("*.js")
 //                    .notMatch("*.css")
 //                    .check(r -> StpUtil.checkLogin());
+//
+//            SaRouter.match("/admin/**", r -> StpUtil.checkPermission("admin"));
 //        })).excludePathPatterns(excludePathPatterns);
 
         // 国际化语言拦截器
