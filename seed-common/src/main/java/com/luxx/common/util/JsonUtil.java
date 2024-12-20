@@ -31,24 +31,6 @@ public class JsonUtil {
         return mapper.convertValue(o, valueType);
     }
 
-    public static <T> T decode(String jsonStr, Class<T> valueType) {
-        try {
-            return mapper.readValue(jsonStr, valueType);
-        } catch (Exception e) {
-            logger.error("jsonStr={}||valueType={}||error=", jsonStr, valueType, e);
-            return null;
-        }
-    }
-
-    public static <T> T decode(String jsonStr, TypeReference valueTypeRef) {
-        try {
-            return (T) mapper.readValue(jsonStr, valueTypeRef);
-        } catch (Exception e) {
-            logger.error("jsonStr={}||valueTypeRef={}||error=", jsonStr, valueTypeRef, e);
-            return null;
-        }
-    }
-
     public static String encode(Object o) {
         try {
             return mapper.writeValueAsString(o);
@@ -56,6 +38,47 @@ public class JsonUtil {
             logger.error("object={}||error=", o, e);
             return null;
         }
+    }
+
+    public static <T> T decode(String json, Class<T> valueType) {
+        try {
+            return mapper.readValue(json, valueType);
+        } catch (Exception e) {
+            logger.error("json={}||valueType={}||error=", json, valueType, e);
+            return null;
+        }
+    }
+
+    public static <T> T decode(String json, TypeReference valueTypeRef) {
+        try {
+            return (T) mapper.readValue(json, valueTypeRef);
+        } catch (Exception e) {
+            logger.error("json={}||valueTypeRef={}||error=", json, valueTypeRef, e);
+            return null;
+        }
+    }
+
+    public static <T> T decodeToList(String json, Class<?> collectionClass, Class<?>... elementClass) {
+        T obj = null;
+        JavaType javaType = mapper.getTypeFactory().constructParametricType(
+                collectionClass, elementClass);
+        try {
+            obj = mapper.readValue(json, javaType);
+        } catch (IOException e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
+        return obj;
+    }
+
+    public static <T> T decodeToHashMap(String json, Class<?> keyClass, Class<?> valueClass) {
+        T obj = null;
+        JavaType javaType = mapper.getTypeFactory().constructParametricType(HashMap.class, keyClass, valueClass);
+        try {
+            obj = mapper.readValue(json, javaType);
+        } catch (IOException e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
+        return obj;
     }
 
     public static <T> byte[] serialize(T obj) {
@@ -72,33 +95,6 @@ public class JsonUtil {
         T obj = null;
         try {
             obj = mapper.readValue(data, cls);
-        } catch (IOException e) {
-            throw new IllegalStateException(e.getMessage(), e);
-        }
-        return obj;
-    }
-
-    public static <T> T jsonToObjectList(String json,
-                                         Class<?> collectionClass,
-                                         Class<?>... elementClass) {
-        T obj = null;
-        JavaType javaType = mapper.getTypeFactory().constructParametricType(
-                collectionClass, elementClass);
-        try {
-            obj = mapper.readValue(json, javaType);
-        } catch (IOException e) {
-            throw new IllegalStateException(e.getMessage(), e);
-        }
-        return obj;
-    }
-
-    public static <T> T jsonToObjectHashMap(String json,
-                                            Class<?> keyClass,
-                                            Class<?> valueClass) {
-        T obj = null;
-        JavaType javaType = mapper.getTypeFactory().constructParametricType(HashMap.class, keyClass, valueClass);
-        try {
-            obj = mapper.readValue(json, javaType);
         } catch (IOException e) {
             throw new IllegalStateException(e.getMessage(), e);
         }

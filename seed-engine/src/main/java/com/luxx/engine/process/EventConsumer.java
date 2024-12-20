@@ -80,7 +80,7 @@ public class EventConsumer implements MessageConsumer {
             messages.forEach(msg -> {
                 try {
                     log.debug(String.format("Message received -> %s", msg));
-                    Map<String, Object> data = JsonUtil.jsonToObjectHashMap(msg, String.class, Object.class);
+                    Map<String, Object> data = JsonUtil.decodeToHashMap(msg, String.class, Object.class);
                     DataDoc dataDoc = new DataDoc(data);
                     disruptor.publishEvent(RingBufferEvent.TRANSLATOR, dataDoc);
                 } catch (Exception ex) {

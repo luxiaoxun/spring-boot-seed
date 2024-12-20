@@ -26,7 +26,7 @@ public class DataMockService {
     public void sendEventMockData(String jsonData) {
         try {
             kafKaProducer.sendMessage(jsonData);
-            HashMap<String, Object> map = JsonUtil.jsonToObjectHashMap(jsonData, String.class, Object.class);
+            HashMap<String, Object> map = JsonUtil.decodeToHashMap(jsonData, String.class, Object.class);
             LogEvent data = new LogEvent(map);
             log.info("Send log data: {}", jsonData);
         } catch (Exception e) {
