@@ -21,7 +21,7 @@ Web后端开发框架
 项目名称：spring-boot-seed
 
 * seed-common：通用common util
-* seed-engine：基于kafka和disruptor的数据处理服务
+* seed-engine：基于kafka和[disruptor](https://github.com/LMAX-Exchange/disruptor)的数据处理服务
 * seed-task：分布式任务调度
     1. [xxl-job](https://github.com/xuxueli/xxl-job)
     2. [shedlock](https://github.com/lukas-krecan/ShedLock)
