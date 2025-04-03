@@ -2,7 +2,7 @@ package com.luxx.seed.task;
 
 import com.luxx.seed.constant.enums.Status;
 import com.luxx.seed.model.system.User;
-import com.luxx.seed.service.UserService;
+import com.luxx.seed.service.sys.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,11 @@ import java.util.List;
 @Slf4j
 public class LoginTask {
     @Autowired
-    private UserService userService;
+    private SysUserService sysUserService;
 
     @Scheduled(fixedRate = 120000) // Check every 2 minute
     public void unlockAccounts() {
-        List<User> lockedUsers = userService.findLockedUsers();
+        List<User> lockedUsers = sysUserService.findLockedUsers();
         if (lockedUsers != null && !lockedUsers.isEmpty()) {
             DateTime currentTime = new DateTime();
             List<User> unlockedUsers = new ArrayList<>();
@@ -34,7 +34,7 @@ public class LoginTask {
                 }
             }
             if (!unlockedUsers.isEmpty()) {
-                userService.updateUserLockedStatus(unlockedUsers);
+                sysUserService.updateUserLockedStatus(unlockedUsers);
                 log.info("Unlock {} user accounts", unlockedUsers.size());
             }
         }

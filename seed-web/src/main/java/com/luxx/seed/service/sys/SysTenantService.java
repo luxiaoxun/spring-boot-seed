@@ -1,4 +1,4 @@
-package com.luxx.seed.service;
+package com.luxx.seed.service.sys;
 
 import com.luxx.seed.constant.enums.Status;
 import com.luxx.seed.dao.TenantMapper;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class TenantService {
+public class SysTenantService {
     @Autowired
     private TenantMapper tenantMapper;
 

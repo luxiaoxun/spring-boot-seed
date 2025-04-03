@@ -7,7 +7,7 @@ import com.luxx.seed.model.system.Tenant;
 import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
-import com.luxx.seed.service.TenantService;
+import com.luxx.seed.service.sys.SysTenantService;
 import com.luxx.seed.util.UserUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,13 +27,13 @@ import java.util.Map;
 public class TenantController {
 
     @Autowired
-    private TenantService tenantService;
+    private SysTenantService sysTenantService;
 
     @Operation(summary = "查询tenant")
     @GetMapping("/list")
     public Response getTenants() {
         log.info("{} get all tenants", UserUtil.getLoginUsername());
-        List<Tenant> tenantList = tenantService.getAllTenants();
+        List<Tenant> tenantList = sysTenantService.getAllTenants();
         return ResponseUtil.success(tenantList);
     }
 
@@ -48,7 +48,7 @@ public class TenantController {
             return ResponseUtil.fail(ResponseCode.PARAM_ERROR);
         }
         PageHelper.startPage(pageNum, pageSize);
-        List<Tenant> tenantList = tenantService.getTenants(order, direction);
+        List<Tenant> tenantList = sysTenantService.getTenants(order, direction);
         PageInfo<Tenant> pageInfo = new PageInfo<>(tenantList);
         Map<String, Object> map = new HashMap<>();
         map.put("total", pageInfo.getTotal());
@@ -62,7 +62,7 @@ public class TenantController {
     @PostMapping("/create")
     public Response createTenant(@RequestBody Tenant tenant) {
         try {
-            tenantService.createTenant(tenant);
+            sysTenantService.createTenant(tenant);
             return ResponseUtil.success();
         } catch (Exception ex) {
             log.error("Create tenant error: " + ex.toString());
@@ -74,7 +74,7 @@ public class TenantController {
     @PostMapping("/delete")
     public Response deleteTenant(@RequestParam String id) {
         try {
-            tenantService.deleteTenant(id);
+            sysTenantService.deleteTenant(id);
             return ResponseUtil.success();
         } catch (Exception ex) {
             log.error("Delete tenant error: " + ex.toString());

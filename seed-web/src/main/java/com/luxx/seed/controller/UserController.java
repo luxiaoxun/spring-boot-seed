@@ -7,7 +7,7 @@ import com.luxx.seed.model.system.User;
 import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
-import com.luxx.seed.service.UserService;
+import com.luxx.seed.service.sys.SysUserService;
 import com.luxx.seed.util.UserUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +29,7 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private SysUserService sysUserService;
 
     @Operation(summary = "分页查询user")
     @GetMapping("/page-list")
@@ -44,7 +44,7 @@ public class UserController {
             return ResponseUtil.fail(ResponseCode.PARAM_ERROR);
         }
         PageHelper.startPage(pageNum, pageSize);
-        List<User> userList = userService.getUsers(username, status, order, direction);
+        List<User> userList = sysUserService.getUsers(username, status, order, direction);
         PageInfo<User> pageInfo = new PageInfo<>(userList);
         Map<String, Object> map = new HashMap<>();
         map.put("total", pageInfo.getTotal());
@@ -62,7 +62,7 @@ public class UserController {
             return ResponseUtil.fail(ResponseCode.ACCOUNT_NOT_VALID);
         }
         try {
-            return userService.createUser(user);
+            return sysUserService.createUser(user);
         } catch (Exception ex) {
             log.error("Create user error: " + ex);
             return ResponseUtil.fail();
@@ -76,7 +76,7 @@ public class UserController {
             return ResponseUtil.fail(ResponseCode.ACCOUNT_NOT_VALID);
         }
         try {
-            return userService.updateUser(user);
+            return sysUserService.updateUser(user);
         } catch (Exception ex) {
             log.error("Update user error: " + ex.toString());
             return ResponseUtil.fail();
@@ -86,7 +86,7 @@ public class UserController {
     @Operation(summary = "删除user")
     @PostMapping("/delete")
     public Response deleteUser(@RequestParam Long id) {
-        return userService.deleteUser(id);
+        return sysUserService.deleteUser(id);
     }
 
     @Operation(summary = "修改密码")
@@ -94,7 +94,7 @@ public class UserController {
     public Response changePassword(@RequestParam Long id,
                                    @RequestParam String username,
                                    @RequestParam String password) {
-        return userService.updateUserPassword(id, username, password);
+        return sysUserService.updateUserPassword(id, username, password);
     }
 
 }

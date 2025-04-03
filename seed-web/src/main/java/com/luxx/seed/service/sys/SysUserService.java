@@ -1,4 +1,4 @@
-package com.luxx.seed.service;
+package com.luxx.seed.service.sys;
 
 import com.luxx.seed.constant.enums.Status;
 import com.luxx.seed.dao.RoleMapper;
@@ -24,7 +24,7 @@ import java.util.*;
 
 @Service
 @Slf4j
-public class UserService {
+public class SysUserService {
     private final static String key = "cdd936888e0a545c309cc82731c75efe";
 
     @Autowired

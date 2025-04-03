@@ -1,4 +1,4 @@
-package com.luxx.seed.service;
+package com.luxx.seed.service.sys;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

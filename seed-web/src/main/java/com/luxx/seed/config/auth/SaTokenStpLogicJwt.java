@@ -2,7 +2,7 @@ package com.luxx.seed.config.auth;
 
 import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
-import com.luxx.seed.service.AuthTokenService;
+import com.luxx.seed.service.sys.AuthTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

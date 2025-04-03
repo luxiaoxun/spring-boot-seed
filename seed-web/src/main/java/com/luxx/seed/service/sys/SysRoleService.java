@@ -1,4 +1,4 @@
-package com.luxx.seed.service;
+package com.luxx.seed.service.sys;
 
 import com.luxx.seed.dao.RoleMapper;
 import com.luxx.seed.model.system.Menu;
@@ -18,7 +18,7 @@ import java.util.*;
 
 @Service
 @Slf4j
-public class RoleService {
+public class SysRoleService {
     @Autowired
     private RoleMapper roleMapper;
 

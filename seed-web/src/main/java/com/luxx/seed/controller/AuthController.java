@@ -11,8 +11,7 @@ import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.model.system.User;
-import com.luxx.seed.service.UserService;
-import com.luxx.seed.service.AuthTokenService;
+import com.luxx.seed.service.sys.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -42,10 +41,7 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private AuthTokenService authTokenService;
+    private SysUserService sysUserService;
 
     @Autowired
     private DefaultKaptcha captchaProducer;
@@ -75,26 +71,26 @@ public class AuthController {
         String username = request.getUsername();
         String password = request.getPassword();
         // check user info
-        User user = userService.getByUsername(username);
+        User user = sysUserService.getByUsername(username);
         if (user == null) {
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_INCORRECT);
         } else if (Status.LOCKED.getCode().equals(user.getStatus())) {
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_LOCKED);
         }
         // check password
-        if (!userService.checkPassword(user, password)) {
+        if (!sysUserService.checkPassword(user, password)) {
             if (user.getLoginAttempts() >= 5) {
                 user.setStatus(Status.LOCKED.getCode());
                 user.setLockedTime(new Date());
             } else {
                 user.setLoginAttempts(user.getLoginAttempts() + 1);
             }
-            userService.updateUserLoginStatus(user, false);
+            sysUserService.updateUserLoginStatus(user, false);
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_INCORRECT);
         }
 
         // check user role
-        List<Role> roles = userService.getRolesByUserId(user.getId());
+        List<Role> roles = sysUserService.getRolesByUserId(user.getId());
         if (CollectionUtils.isEmpty(roles)) {
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_ILLEGAL);
         }
@@ -104,7 +100,7 @@ public class AuthController {
         StpUtil.login(user.getUsername());
         loginInfo.put("token", StpUtil.getTokenInfo().getTokenValue());
         //Update login status
-        userService.updateUserLoginStatus(user, true);
+        sysUserService.updateUserLoginStatus(user, true);
         return ResponseUtil.success(loginInfo);
     }
 
@@ -117,7 +113,7 @@ public class AuthController {
         boolean isAdminRole = roleIds.contains(Constant.ADMIN_ROLE_ID);
         loginInfo.put("isAdminRole", isAdminRole);
         if (!isAdminRole) {
-            List<Menu> menus = userService.getMenusByRoleId(roleIds);
+            List<Menu> menus = sysUserService.getMenusByRoleId(roleIds);
             loginInfo.put("menus", menus);
         }
         return loginInfo;
