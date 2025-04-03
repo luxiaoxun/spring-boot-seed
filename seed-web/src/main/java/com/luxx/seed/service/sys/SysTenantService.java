@@ -1,7 +1,7 @@
 package com.luxx.seed.service.sys;
 
 import com.luxx.seed.constant.enums.Status;
-import com.luxx.seed.dao.TenantMapper;
+import com.luxx.seed.dao.SysTenantMapper;
 import com.luxx.seed.model.system.Tenant;
 import com.luxx.seed.util.ObjectId;
 import lombok.extern.slf4j.Slf4j;
@@ -15,14 +15,14 @@ import java.util.List;
 @Slf4j
 public class SysTenantService {
     @Autowired
-    private TenantMapper tenantMapper;
+    private SysTenantMapper sysTenantMapper;
 
     public List<Tenant> getAllTenants() {
-        return tenantMapper.getAllTenants(Status.ENABLED.getCode());
+        return sysTenantMapper.getAllTenants(Status.ENABLED.getCode());
     }
 
     public List<Tenant> getTenants(String order, String direction) {
-        return tenantMapper.getTenants(Status.ENABLED.getCode(), order, direction);
+        return sysTenantMapper.getTenants(Status.ENABLED.getCode(), order, direction);
     }
 
     public boolean createTenant(Tenant tenant) {
@@ -31,10 +31,10 @@ public class SysTenantService {
         Date now = new Date();
         tenant.setCreateTime(now);
         tenant.setUpdateTime(now);
-        return tenantMapper.createTenant(tenant) > 0;
+        return sysTenantMapper.createTenant(tenant) > 0;
     }
 
     public boolean deleteTenant(String id) {
-        return tenantMapper.updateTenantStatus(id, Status.DISABLED.getCode(), new Date()) > 0;
+        return sysTenantMapper.updateTenantStatus(id, Status.DISABLED.getCode(), new Date()) > 0;
     }
 }

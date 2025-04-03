@@ -1,6 +1,6 @@
 package com.luxx.seed.service.sys;
 
-import com.luxx.seed.dao.RoleMapper;
+import com.luxx.seed.dao.SysRoleMapper;
 import com.luxx.seed.model.system.Menu;
 import com.luxx.seed.model.system.MenuTree;
 import com.luxx.seed.model.system.Role;
@@ -20,10 +20,10 @@ import java.util.*;
 @Slf4j
 public class SysRoleService {
     @Autowired
-    private RoleMapper roleMapper;
+    private SysRoleMapper sysRoleMapper;
 
     public List<Role> getRoles() {
-        return roleMapper.getAllRoles();
+        return sysRoleMapper.getAllRoles();
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -34,14 +34,14 @@ public class SysRoleService {
         Date now = new Date();
         role.setCreateTime(now);
         role.setUpdateTime(now);
-        roleMapper.insertRole(role);
+        sysRoleMapper.insertRole(role);
         Long roleId = role.getId();
         List<Long> menuIds = role.getMenuIds();
         List<RoleMenu> roleMenus = new ArrayList<>(menuIds.size());
         for (Long menuId : menuIds) {
             roleMenus.add(new RoleMenu(roleId, menuId));
         }
-        roleMapper.insertRoleMenus(roleMenus);
+        sysRoleMapper.insertRoleMenus(roleMenus);
         return ResponseUtil.success();
     }
 
@@ -49,28 +49,28 @@ public class SysRoleService {
     public Response updateRole(Role role) {
         role.setUpdateUser(UserUtil.getLoginUsername());
         role.setUpdateTime(new Date());
-        roleMapper.updateRole(role);
+        sysRoleMapper.updateRole(role);
         Long roleId = role.getId();
         List<Long> menuIds = role.getMenuIds();
         List<RoleMenu> roleMenus = new ArrayList<>(menuIds.size());
         for (Long menuId : menuIds) {
             roleMenus.add(new RoleMenu(roleId, menuId));
         }
-        roleMapper.deleteRoleMenus(roleId);
-        roleMapper.insertRoleMenus(roleMenus);
+        sysRoleMapper.deleteRoleMenus(roleId);
+        sysRoleMapper.insertRoleMenus(roleMenus);
         return ResponseUtil.success();
     }
 
     @Transactional(rollbackFor = Exception.class)
     public Response deleteRole(Long roleId) {
-        roleMapper.deleteRoleMenus(roleId);
-        roleMapper.deleteRoleUsers(roleId);
-        roleMapper.deleteRole(roleId);
+        sysRoleMapper.deleteRoleMenus(roleId);
+        sysRoleMapper.deleteRoleUsers(roleId);
+        sysRoleMapper.deleteRole(roleId);
         return ResponseUtil.success();
     }
 
     public List<MenuTree> getMenuTreeList(Long id) {
-        List<Menu> menuList = roleMapper.getAllMenus();
+        List<Menu> menuList = sysRoleMapper.getAllMenus();
 
         Map<Long, List<MenuTree>> map = new HashMap<>();
         for (Menu menu : menuList) {

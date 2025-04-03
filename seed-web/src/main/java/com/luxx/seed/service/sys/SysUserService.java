@@ -1,8 +1,8 @@
 package com.luxx.seed.service.sys;
 
 import com.luxx.seed.constant.enums.Status;
-import com.luxx.seed.dao.RoleMapper;
-import com.luxx.seed.dao.UserMapper;
+import com.luxx.seed.dao.SysRoleMapper;
+import com.luxx.seed.dao.SysUserMapper;
 import com.luxx.seed.model.system.Menu;
 import com.luxx.seed.model.system.Role;
 import com.luxx.seed.model.system.User;
@@ -28,21 +28,21 @@ public class SysUserService {
     private final static String key = "cdd936888e0a545c309cc82731c75efe";
 
     @Autowired
-    private UserMapper userMapper;
+    private SysUserMapper sysUserMapper;
 
     @Autowired
-    private RoleMapper roleMapper;
+    private SysRoleMapper sysRoleMapper;
 
     public User getByUsername(String username) {
-        return userMapper.getByUsername(username);
+        return sysUserMapper.getByUsername(username);
     }
 
     public List<Role> getRolesByUserId(Long userId) {
-        return roleMapper.getRolesByUserId(userId);
+        return sysRoleMapper.getRolesByUserId(userId);
     }
 
     public List<Role> getRolesByUserName(String userName) {
-        User user = userMapper.getByUsername(userName);
+        User user = sysUserMapper.getByUsername(userName);
         if (user != null) {
             return getRolesByUserId(user.getId());
         } else {
@@ -51,11 +51,11 @@ public class SysUserService {
     }
 
     public List<Menu> getMenusByRoleId(List<Long> roleIds) {
-        return roleMapper.getMenusByRoleId(roleIds);
+        return sysRoleMapper.getMenusByRoleId(roleIds);
     }
 
     public List<User> getUsers(String username, Integer status, String order, String direction) {
-        return userMapper.getUsers(username, status, order, direction);
+        return sysUserMapper.getUsers(username, status, order, direction);
     }
 
     public void updateUserLoginStatus(User user, boolean loginStatus) {
@@ -63,7 +63,7 @@ public class SysUserService {
             user.setLoginAttempts(0);
             user.setLoginTime(new Date());
         }
-        userMapper.updateUser(user);
+        sysUserMapper.updateUser(user);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -84,13 +84,13 @@ public class SysUserService {
             Date now = new Date();
             user.setCreateTime(now);
             user.setUpdateTime(now);
-            userMapper.createUser(user);
+            sysUserMapper.createUser(user);
             Long userId = user.getId();
             List<UserRole> userRoles = new ArrayList<>(user.getRoleIds().size());
             for (Long roleId : user.getRoleIds()) {
                 userRoles.add(new UserRole(userId, roleId));
             }
-            userMapper.insertUserRoles(userRoles);
+            sysUserMapper.insertUserRoles(userRoles);
             return ResponseUtil.success();
         } catch (Exception ex) {
             log.error("Create user error: " + ex);
@@ -108,17 +108,17 @@ public class SysUserService {
         for (Long roleId : user.getRoleIds()) {
             userRoles.add(new UserRole(userId, roleId));
         }
-        userMapper.deleteUserRoles(userId);
-        userMapper.insertUserRoles(userRoles);
-        userMapper.updateUser(user);
+        sysUserMapper.deleteUserRoles(userId);
+        sysUserMapper.insertUserRoles(userRoles);
+        sysUserMapper.updateUser(user);
         return ResponseUtil.success();
     }
 
     @Transactional(rollbackFor = Exception.class)
     public Response deleteUser(Long id) {
         try {
-            userMapper.deleteUserRoles(id);
-            userMapper.deleteUser(id);
+            sysUserMapper.deleteUserRoles(id);
+            sysUserMapper.deleteUser(id);
             return ResponseUtil.success();
         } catch (Exception ex) {
             log.error("Delete user error: " + ex.toString());
@@ -152,7 +152,7 @@ public class SysUserService {
             Date now = new Date();
             user.setUpdateTime(now);
             user.setPasswordUpdateTime(now);
-            userMapper.updateUser(user);
+            sysUserMapper.updateUser(user);
             return ResponseUtil.success();
         } catch (Exception e) {
             log.error("Update user password error: " + e);
@@ -161,11 +161,11 @@ public class SysUserService {
     }
 
     public List<User> findLockedUsers() {
-        return userMapper.getUsers(null, Status.LOCKED.getCode(), null, null);
+        return sysUserMapper.getUsers(null, Status.LOCKED.getCode(), null, null);
     }
 
     public void updateUserLockedStatus(List<User> users) {
-        userMapper.batchUpdateUsers(users);
+        sysUserMapper.batchUpdateUsers(users);
     }
 
 }

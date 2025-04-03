@@ -1,18 +1,14 @@
 package com.luxx.seed.dao;
 
-import com.luxx.seed.model.system.Menu;
-import com.luxx.seed.model.system.RoleMenu;
 import com.luxx.seed.model.system.User;
 import com.luxx.seed.model.system.UserRole;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Mapper
-public interface UserMapper {
+public interface SysUserMapper {
     User getByUsername(String username);
 
     List<User> getUsers(String username, Integer status, String order, String direction);

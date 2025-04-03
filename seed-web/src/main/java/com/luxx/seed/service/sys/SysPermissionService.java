@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class SaTokenStpService implements StpInterface {
+public class SysPermissionService implements StpInterface {
 
     @Autowired
     private SysUserService sysUserService;

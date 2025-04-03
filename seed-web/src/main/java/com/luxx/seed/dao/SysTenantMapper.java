@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Mapper
-public interface TenantMapper {
+public interface SysTenantMapper {
     List<Tenant> getAllTenants(Integer status);
 
     List<Tenant> getTenants(Integer status, String order, String direction);
