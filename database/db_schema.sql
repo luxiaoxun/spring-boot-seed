@@ -65,11 +65,12 @@ CREATE TABLE IF NOT EXISTS tb_sys_user_role  (
 
 CREATE TABLE IF NOT EXISTS tb_sys_menu
 (
-    id            BIGINT      NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-    parent_id     BIGINT      NOT NULL DEFAULT 0 COMMENT '父菜单ID',
-    name          VARCHAR(64) NOT NULL COMMENT '菜单名称',
-    code          VARCHAR(64) NOT NULL COMMENT '菜单唯一编码',
-    path          VARCHAR(64) NOT NULL COMMENT '路由',
+    id            BIGINT       NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+    parent_id     BIGINT       NOT NULL DEFAULT 0 COMMENT '父菜单ID',
+    name          VARCHAR(64)  NOT NULL COMMENT '菜单名称',
+    code          VARCHAR(64)  NOT NULL COMMENT '权限标识',
+    type          VARCHAR(32)  NOT NULL COMMENT '菜单类型',
+    path          VARCHAR(256) NOT NULL COMMENT '菜单路劲',
     PRIMARY KEY (id),
     UNIQUE INDEX code (code)
 ) ENGINE = InnoDB
@@ -121,15 +122,15 @@ INSERT INTO tb_sys_user_role (id, user_id, role_id) VALUES(1, 1, 1);
 INSERT INTO tb_sys_user_role (id, user_id, role_id) VALUES(2, 2, 2);
 
 # 菜单
-INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(1, 0, '首页', '/home-page', '/home-page');
-INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(2, 0, '威胁告警', '/attack', '/attack');
-INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(3, 0, '资产管理', '/asset', '/asset');
-INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(4, 0, '系统管理', '/system', '/system');
-INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(21, 2, '外网攻击', '/attack/wan', '/attack/wan');
-INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(22, 2, '内部失陷', '/attack/inner', '/attack/inner');
-INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(31, 3, '资产类型', '/asset/type', '/asset/type');
-INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(32, 3, '资产列表', '/asset/list', '/asset/list');
-INSERT INTO tb_sys_menu (id, parent_id, name, code, `path`) VALUES(33, 3, '资产风险', '/asset/risk', '/asset/risk');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, type, path) VALUES(1, 0, '首页', 'home-page', 'menu', '/home-page');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, type, path) VALUES(2, 0, '威胁告警', 'attack', 'menu', '/attack');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, type, path) VALUES(3, 0, '资产管理', 'asset', 'menu', '/asset');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, type, path) VALUES(4, 0, '系统管理', 'system', 'menu', '/system');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, type, path) VALUES(21, 2, '外网攻击', 'attack:wan', 'menu', '/attack/wan');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, type, path) VALUES(22, 2, '内部失陷', 'attack:inner', 'menu', '/attack/inner');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, type, path) VALUES(31, 3, '资产类型', 'asset:type', 'menu', '/asset/type');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, type, path) VALUES(32, 3, '资产列表', 'asset:list', 'menu', '/asset/list');
+INSERT INTO tb_sys_menu (id, parent_id, name, code, type, path) VALUES(33, 3, '资产风险', 'asset:risk', 'menu', '/asset/risk');
 
 # 角色菜单
 INSERT INTO tb_sys_role_menu (id, role_id, menu_id) VALUES(1, 2, 1);

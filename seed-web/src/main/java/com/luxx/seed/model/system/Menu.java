@@ -20,5 +20,7 @@ public class Menu {
 
     private String code;
 
+    private String type;
+
     private String path;
 }
