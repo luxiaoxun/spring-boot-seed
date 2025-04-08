@@ -21,6 +21,9 @@ public class AuditLog {
     @JsonProperty("request_type")
     private String requestType = "seed-web-service";
 
+    @JsonProperty("customer_info")
+    private String customerInfo;
+
     @JsonProperty("user_id")
     private String userId;
 
@@ -36,12 +39,7 @@ public class AuditLog {
     @JsonProperty("request_time")
     private String requestTime;
 
-    @JsonProperty("response_http_code")
-    private int responseHttpCode;
+    @JsonProperty("request_result")
+    private int requestResult;
 
-    @JsonProperty("exec_time")
-    private Long execTime;
-
-    @JsonProperty("customer_info")
-    private String customerInfo;
 }

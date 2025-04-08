@@ -16,9 +16,8 @@ import java.util.Objects;
 
 public class AuditLogUtil {
 
+    public static final int TYPE_FAIL = 0;
     public static final int TYPE_OK = 1;
-
-    public static final int TYPE_FAIL = 2;
 
     private static final List<String> IP_HEADERS = Arrays.asList(
             "X-Forwarded-For",
@@ -43,15 +42,20 @@ public class AuditLogUtil {
                 && !ip.equalsIgnoreCase("unknown");
     }
 
-    public static AuditLog build(Integer type, String operation) {
+    public static AuditLog build(Integer type, String username, String operation) {
         HttpServletRequest request = ((ServletRequestAttributes)
                 Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 
         AuditLog auditLog = new AuditLog();
+        auditLog.setRequestResult(type);
         auditLog.setCustomerInfo("");
-        auditLog.setUserId(StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "");
+        if (username == null) {
+            auditLog.setUserId(StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "");
+        } else {
+            auditLog.setUserId(username);
+        }
         auditLog.setRequestUri(request.getRequestURI());
-        auditLog.setRequestName("");
+        auditLog.setRequestName(operation);
         auditLog.setRequestIp(getClientIp(request));
         auditLog.setRequestTime(DateTimeUtil.getCurrentTimeForFormat(DateTimeUtil.YMD_HMS));
         auditLog.setVersion(Constant.PRODUCT_VERSION);
@@ -59,12 +63,20 @@ public class AuditLogUtil {
         return auditLog;
     }
 
-    public static void publish(String operation) {
-        publish(TYPE_OK, operation);
+    public static void publishOk(String operation) {
+        publish(TYPE_OK, null, operation);
     }
 
-    public static void publish(int type, String operation) {
-        AuditLog auditLog = AuditLogUtil.build(type, operation);
+    public static void publishFail(String operation) {
+        publish(TYPE_FAIL, null, operation);
+    }
+
+    public static void publishFail(String username, String operation) {
+        publish(TYPE_FAIL, username, operation);
+    }
+
+    public static void publish(int type, String username, String operation) {
+        AuditLog auditLog = AuditLogUtil.build(type, username, operation);
         SpringContextHolder.publishEvent(new AuditLogEvent(auditLog));
     }
 }

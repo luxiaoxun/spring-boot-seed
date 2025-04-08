@@ -12,6 +12,7 @@ import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.model.system.User;
 import com.luxx.seed.service.sys.SysUserService;
+import com.luxx.seed.util.AuditLogUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -86,12 +87,14 @@ public class AuthController {
                 user.setLoginAttempts(user.getLoginAttempts() + 1);
             }
             sysUserService.updateUserLoginStatus(user, false);
+            AuditLogUtil.publishFail(username, "登录失败");
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_INCORRECT);
         }
 
         // check user role
         List<Role> roles = sysUserService.getRolesByUserId(user.getId());
         if (CollectionUtils.isEmpty(roles)) {
+            AuditLogUtil.publishFail(username, "登录失败");
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_ILLEGAL);
         }
 
@@ -101,6 +104,7 @@ public class AuthController {
         loginInfo.put("token", StpUtil.getTokenInfo().getTokenValue());
         //Update login status
         sysUserService.updateUserLoginStatus(user, true);
+        AuditLogUtil.publishOk("登录成功");
         return ResponseUtil.success(loginInfo);
     }
 
@@ -124,6 +128,7 @@ public class AuthController {
     public Response logout() {
         log.info("User {} logout", StpUtil.getLoginId());
         StpUtil.logout();
+        AuditLogUtil.publishOk("退出系统");
         return ResponseUtil.success();
     }
 }

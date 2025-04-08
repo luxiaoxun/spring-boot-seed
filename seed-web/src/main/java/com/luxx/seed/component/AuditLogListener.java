@@ -16,8 +16,8 @@ public class AuditLogListener {
     @Order
     @EventListener(AuditLogEvent.class)
     public void handler(AuditLogEvent event) {
-        AuditLog sysLog = (AuditLog) event.getSource();
-        log.info("AuditLogEvent: {}", sysLog);
+        AuditLog auditLog = (AuditLog) event.getSource();
+        log.info("AuditLogEvent: {}", auditLog);
     }
 
 }
