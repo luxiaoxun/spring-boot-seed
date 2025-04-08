@@ -110,9 +110,9 @@ public class AuthController {
         List<String> roleNames = roles.stream().map(Role::getName).collect(Collectors.toList());
         loginInfo.put("roleNames", String.join(",", roleNames));
         List<Long> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
-        boolean isAdminRole = roleIds.contains(Constant.ADMIN_ROLE_ID);
-        loginInfo.put("isAdminRole", isAdminRole);
-        if (!isAdminRole) {
+        boolean isAdmin = roleIds.contains(Constant.ADMIN_ROLE_ID);
+        loginInfo.put("isAdmin", isAdmin);
+        if (!isAdmin) {
             List<Menu> menus = sysUserService.getMenusByRoleId(roleIds);
             loginInfo.put("menus", menus);
         }

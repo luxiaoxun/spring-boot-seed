@@ -9,8 +9,8 @@ public class UtilTest {
     public void test() {
         String key = "cdd936888e0a545c309cc82731c75efe";
         try {
-            String str = "Admin@123456";
-            System.out.println(SecureUtil.encryptByAES(str, key));
+            String str = "123456";
+            System.out.println(SecureUtil.encryptByAES(str, key)); //GUoL+tCg0AAiYDZOOdLryg==
             System.out.println(CommonUtil.getSha256(str));
         } catch (Exception e) {
             e.printStackTrace();

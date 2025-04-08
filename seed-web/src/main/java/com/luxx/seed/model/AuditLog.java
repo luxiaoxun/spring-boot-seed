@@ -1,10 +1,12 @@
-package com.luxx.seed.filter;
+package com.luxx.seed.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.luxx.seed.constant.Constant;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class AuditLog {
 
     @JsonProperty("product")

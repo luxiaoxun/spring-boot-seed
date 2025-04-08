@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import jakarta.servlet.MultipartConfigElement;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+
 
 @SpringBootApplication
 @ServletComponentScan
@@ -34,20 +34,13 @@ public class WebApp implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         String[] excludePathPatterns = {"/auth/login", "/auth/login/captcha", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**"};
         // 注册 Sa-Token 拦截器，按路由校验权限
-//        registry.addInterceptor(new SaInterceptor(handle -> {
-//            SaRouter.match("/**")
-//                    .notMatch("*.html")
-//                    .notMatch("*.js")
-//                    .notMatch("*.css")
-//                    .check(r -> StpUtil.checkLogin());
-//
-//            SaRouter.match("/admin/**", r -> StpUtil.checkPermission("admin"));
-//        })).excludePathPatterns(excludePathPatterns);
-
-        // 国际化语言拦截器
-        LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
-        localeInterceptor.setParamName("language");
-        registry.addInterceptor(localeInterceptor);
+        registry.addInterceptor(new SaInterceptor(handle -> {
+            SaRouter.match("/**")
+                    .notMatch("*.html")
+                    .notMatch("*.js")
+                    .notMatch("*.css")
+                    .check(r -> StpUtil.checkLogin());
+        })).excludePathPatterns(excludePathPatterns);
     }
 
     @Bean
