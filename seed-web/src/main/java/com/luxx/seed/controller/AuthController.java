@@ -1,9 +1,11 @@
 package com.luxx.seed.controller;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.luxx.seed.constant.Constant;
 import com.luxx.seed.constant.enums.Status;
+import com.luxx.seed.model.auth.UserInfo;
 import com.luxx.seed.model.system.Menu;
 import com.luxx.seed.model.system.Role;
 import com.luxx.seed.request.LoginRequest;
@@ -30,9 +32,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -98,29 +98,32 @@ public class AuthController {
             return ResponseUtil.fail(ResponseCode.AUTH_ACCOUNT_ILLEGAL);
         }
 
-        Map<String, Object> loginInfo = getLoginInfo(user, roles);
+        UserInfo userInfo = getLoginUserInfo(user, roles);
         // login
         StpUtil.login(user.getUsername());
-        loginInfo.put("token", StpUtil.getTokenInfo().getTokenValue());
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        StpUtil.getSession().set(Constant.AUTH_USER_INFO_KEY, userInfo)
+                .set(Constant.AUTH_TOKEN_INFO_KEY, tokenInfo);
+        userInfo.setToken(tokenInfo.getTokenValue());
         //Update login status
         sysUserService.updateUserLoginStatus(user, true);
         AuditLogUtil.publishOk("登录成功");
-        return ResponseUtil.success(loginInfo);
+        return ResponseUtil.success(userInfo);
     }
 
-    private Map<String, Object> getLoginInfo(User user, List<Role> roles) {
-        Map<String, Object> loginInfo = new HashMap<>();
-        loginInfo.put("username", user.getUsername());
-        List<String> roleNames = roles.stream().map(Role::getName).collect(Collectors.toList());
-        loginInfo.put("roleNames", String.join(",", roleNames));
+    private UserInfo getLoginUserInfo(User user, List<Role> roles) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(user.getId());
+        userInfo.setUsername(user.getUsername());
+        userInfo.setRoles(roles);
         List<Long> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
         boolean isAdmin = roleIds.contains(Constant.ADMIN_ROLE_ID);
-        loginInfo.put("isAdmin", isAdmin);
+        userInfo.setAdmin(isAdmin);
         if (!isAdmin) {
             List<Menu> menus = sysUserService.getMenusByRoleId(roleIds);
-            loginInfo.put("menus", menus);
+            userInfo.setMenus(menus);
         }
-        return loginInfo;
+        return userInfo;
     }
 
     @Operation(summary = "logout")

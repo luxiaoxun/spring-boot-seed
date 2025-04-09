@@ -1,5 +1,6 @@
 package com.luxx.seed.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
@@ -36,6 +37,7 @@ public class AgentController {
     @Autowired
     private AgentService agentService;
 
+    @SaCheckPermission("agent")
     @Operation(summary = "统计Agent数量")
     @GetMapping("/count")
     public Response getAgentCount() {

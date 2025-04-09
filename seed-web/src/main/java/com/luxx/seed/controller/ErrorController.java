@@ -3,6 +3,7 @@ package com.luxx.seed.controller;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
+import com.luxx.seed.exception.AuthException;
 import com.luxx.seed.response.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -114,33 +115,40 @@ public class ErrorController {
 
     @ExceptionHandler(NotLoginException.class)
     @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Response handleNotLoginException(Exception e) {
-        log.error(e.getMessage());
         log.error("Not login exception: {}", e.toString());
         return ResponseUtil.fail(ResponseCode.NO_PERMISSION);
     }
 
     @ExceptionHandler(NotPermissionException.class)
     @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Response handleNotPermissionException(Exception e) {
-        log.error(e.getMessage());
         log.error("Not permission exception: {}", e.toString());
         return ResponseUtil.fail(ResponseCode.NO_PERMISSION);
     }
 
     @ExceptionHandler(NotRoleException.class)
     @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Response handleNotRoleException(Exception e) {
-        log.error(e.getMessage());
         log.error("Not role exception: {}", e.toString());
         return ResponseUtil.fail(ResponseCode.NO_PERMISSION);
+    }
+
+    @ExceptionHandler(AuthException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Response handleAuthException(AuthException e) {
+        log.error("Auth exception: {}", e.toString());
+        return ResponseUtil.fail(e.getCode(), e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Response handleException(Exception e) {
-        log.error(e.getMessage());
-        log.error("Internal error, exception:", e);
+        log.error("Internal exception: {}", e.toString());
         return ResponseUtil.fail();
     }
 }

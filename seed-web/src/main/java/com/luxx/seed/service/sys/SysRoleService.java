@@ -7,7 +7,7 @@ import com.luxx.seed.model.system.Role;
 import com.luxx.seed.model.system.RoleMenu;
 import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseUtil;
-import com.luxx.seed.util.UserUtil;
+import com.luxx.seed.util.AuthUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +29,8 @@ public class SysRoleService {
     @Transactional(rollbackFor = Exception.class)
     public Response createRole(Role role) {
         role.setBuiltin(0);
-        role.setCreateUser(UserUtil.getLoginUsername());
-        role.setUpdateUser(UserUtil.getLoginUsername());
+        role.setCreateUser(AuthUtil.getLoginUsername());
+        role.setUpdateUser(AuthUtil.getLoginUsername());
         Date now = new Date();
         role.setCreateTime(now);
         role.setUpdateTime(now);
@@ -47,7 +47,7 @@ public class SysRoleService {
 
     @Transactional(rollbackFor = Exception.class)
     public Response updateRole(Role role) {
-        role.setUpdateUser(UserUtil.getLoginUsername());
+        role.setUpdateUser(AuthUtil.getLoginUsername());
         role.setUpdateTime(new Date());
         sysRoleMapper.updateRole(role);
         Long roleId = role.getId();

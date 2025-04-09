@@ -11,7 +11,7 @@ import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.common.util.JsonUtil;
-import com.luxx.seed.util.UserUtil;
+import com.luxx.seed.util.AuthUtil;
 import com.luxx.common.util.CommonUtil;
 import com.luxx.common.util.PasswordUtil;
 import com.luxx.common.util.SecureUtil;
@@ -79,8 +79,8 @@ public class SysUserService {
             user.setStatus(Status.ENABLED.getCode());
             //一个账号可以关联多个租户组织
             user.setTenantId(JsonUtil.encode(user.getTenantIds()));
-            user.setCreateUser(UserUtil.getLoginUsername());
-            user.setUpdateUser(UserUtil.getLoginUsername());
+            user.setCreateUser(AuthUtil.getLoginUsername());
+            user.setUpdateUser(AuthUtil.getLoginUsername());
             Date now = new Date();
             user.setCreateTime(now);
             user.setUpdateTime(now);
@@ -101,7 +101,7 @@ public class SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public Response updateUser(User user) {
         user.setTenantId(JsonUtil.encode(user.getTenantIds()));
-        user.setUpdateUser(UserUtil.getLoginUsername());
+        user.setUpdateUser(AuthUtil.getLoginUsername());
         user.setUpdateTime(new Date());
         Long userId = user.getId();
         List<UserRole> userRoles = new ArrayList<>(user.getRoleIds().size());
@@ -148,7 +148,7 @@ public class SysUserService {
             User user = new User();
             user.setId(id);
             user.setPassword(password);
-            user.setUpdateUser(UserUtil.getLoginUsername());
+            user.setUpdateUser(AuthUtil.getLoginUsername());
             Date now = new Date();
             user.setUpdateTime(now);
             user.setPasswordUpdateTime(now);

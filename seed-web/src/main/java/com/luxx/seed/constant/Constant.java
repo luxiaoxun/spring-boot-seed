@@ -13,4 +13,7 @@ public class Constant {
     public static final String PRODUCT_VERSION = "1.0.0";
 
     public static final Long ADMIN_ROLE_ID = 1L;
+
+    public static final String AUTH_USER_INFO_KEY = "USER_INFO";
+    public static final String AUTH_TOKEN_INFO_KEY = "TOKEN_INFO";
 }

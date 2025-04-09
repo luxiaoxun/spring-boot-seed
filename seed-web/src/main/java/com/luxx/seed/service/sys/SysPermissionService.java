@@ -1,14 +1,11 @@
 package com.luxx.seed.service.sys;
 
 import cn.dev33.satoken.stp.StpInterface;
-import com.luxx.seed.model.system.Menu;
-import com.luxx.seed.model.system.Role;
+import com.luxx.seed.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class SysPermissionService implements StpInterface {
@@ -18,20 +15,15 @@ public class SysPermissionService implements StpInterface {
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        List<String> permissionList = new ArrayList<>();
-        List<Role> roles = sysUserService.getRolesByUserName(loginId.toString());
-        List<Long> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
-        List<Menu> menus = sysUserService.getMenusByRoleId(roleIds);
-        //菜单页面权限
-        permissionList = menus.stream().map(Menu::getCode).collect(Collectors.toList());
-        return permissionList;
+        // 如果是管理员admin，返回万能权限 *
+        if (AuthUtil.isAdmin()) {
+            return List.of("*");
+        }
+        return AuthUtil.getPermissionNames();
     }
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        List<String> roleList = new ArrayList<>();
-        List<Role> roles = sysUserService.getRolesByUserName(loginId.toString());
-        roleList = roles.stream().map(Role::getName).collect(Collectors.toList());
-        return roleList;
+        return AuthUtil.getRoleNames();
     }
 }

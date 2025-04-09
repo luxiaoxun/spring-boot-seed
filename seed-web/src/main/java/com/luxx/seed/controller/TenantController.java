@@ -8,7 +8,7 @@ import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.service.sys.SysTenantService;
-import com.luxx.seed.util.UserUtil;
+import com.luxx.seed.util.AuthUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
@@ -32,7 +32,7 @@ public class TenantController {
     @Operation(summary = "查询tenant")
     @GetMapping("/list")
     public Response getTenants() {
-        log.info("{} get all tenants", UserUtil.getLoginUsername());
+        log.info("{} get all tenants", AuthUtil.getLoginUsername());
         List<Tenant> tenantList = sysTenantService.getAllTenants();
         return ResponseUtil.success(tenantList);
     }
@@ -43,7 +43,7 @@ public class TenantController {
                                      @RequestParam(defaultValue = "ASC") String direction,
                                      @RequestParam(defaultValue = "1") @Min(1) int pageNum,
                                      @RequestParam(defaultValue = "10") int pageSize) {
-        log.info("{} get tenant by page", UserUtil.getLoginUsername());
+        log.info("{} get tenant by page", AuthUtil.getLoginUsername());
         if (!Constant.SORT_ASC.equals(direction) && !Constant.SORT_DESC.equals(direction)) {
             return ResponseUtil.fail(ResponseCode.PARAM_ERROR);
         }
