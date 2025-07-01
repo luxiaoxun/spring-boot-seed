@@ -15,7 +15,7 @@ public class ResponseUtil {
     }
 
     public static Response fail() {
-        return generateResult(ResponseCode.SYSTEM_ERROR, (Object) null);
+        return generateResult(ResponseCode.FAIL, (Object) null);
     }
 
     public static Response fail(String code, String msg) {

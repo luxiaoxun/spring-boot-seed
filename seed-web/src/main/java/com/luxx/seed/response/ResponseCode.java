@@ -2,7 +2,7 @@ package com.luxx.seed.response;
 
 public enum ResponseCode {
     SUCCESS("200", "common_success"),
-    SYSTEM_ERROR("10001", "common_fail"),
+    FAIL("10001", "common_fail"),
     NO_PERMISSION("10002", "common_permission_denied"),
     PARAM_ERROR("10003", "common_param_error"),
     DATA_NOT_FOUND("10004", "common_data_not_found"),
