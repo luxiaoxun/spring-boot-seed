@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class TokenConfig {
-
     @Bean
     @Primary
     public SaTokenConfig getTokenConfig() {
