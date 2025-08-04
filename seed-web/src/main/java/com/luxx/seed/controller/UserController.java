@@ -9,8 +9,6 @@ import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.service.sys.SysUserService;
 import com.luxx.seed.util.AuthUtil;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +22,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/system/user")
-@Tag(name = "user")
 @Slf4j
 public class UserController {
 
     @Autowired
     private SysUserService sysUserService;
 
-    @Operation(summary = "分页查询user")
     @GetMapping("/page-list")
     public Response getUsersByPage(@RequestParam(required = false) String username,
                                    @RequestParam(required = false) Integer status,
@@ -54,7 +50,6 @@ public class UserController {
         return ResponseUtil.success(map);
     }
 
-    @Operation(summary = "创建user")
     @PostMapping("/create")
     public Response createUser(@RequestBody User user) {
         if (ObjectUtils.isEmpty(user.getUsername()) || ObjectUtils.isEmpty(user.getPassword())
@@ -69,7 +64,6 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "更新user")
     @PostMapping("/update")
     public Response updateUser(@RequestBody User user) {
         if (CollectionUtils.isEmpty(user.getTenantIds()) || CollectionUtils.isEmpty(user.getRoleIds())) {
@@ -83,13 +77,11 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "删除user")
     @PostMapping("/delete")
     public Response deleteUser(@RequestParam Long id) {
         return sysUserService.deleteUser(id);
     }
 
-    @Operation(summary = "修改密码")
     @PostMapping("/password")
     public Response changePassword(@RequestParam Long id,
                                    @RequestParam String username,

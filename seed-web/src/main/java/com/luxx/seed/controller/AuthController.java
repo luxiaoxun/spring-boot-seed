@@ -15,8 +15,6 @@ import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.model.system.User;
 import com.luxx.seed.service.sys.SysUserService;
 import com.luxx.seed.util.AuditLogUtil;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +35,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "auth")
 @Slf4j
 public class AuthController {
 
@@ -58,7 +55,6 @@ public class AuthController {
         }
     }
 
-    @Operation(summary = "login")
     @PostMapping("/login")
     public Response login(@Validated @RequestBody LoginRequest request, HttpSession session) {
         log.info("User {} try to login", request.getUsername());
@@ -126,7 +122,6 @@ public class AuthController {
         return userInfo;
     }
 
-    @Operation(summary = "logout")
     @PostMapping("/logout")
     public Response logout() {
         log.info("User {} logout", StpUtil.getLoginId());

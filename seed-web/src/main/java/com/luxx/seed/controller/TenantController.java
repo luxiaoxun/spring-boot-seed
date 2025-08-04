@@ -9,8 +9,6 @@ import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.service.sys.SysTenantService;
 import com.luxx.seed.util.AuthUtil;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +20,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/system/tenant")
-@Tag(name = "tenant")
 @Slf4j
 public class TenantController {
 
     @Autowired
     private SysTenantService sysTenantService;
 
-    @Operation(summary = "查询tenant")
     @GetMapping("/list")
     public Response getTenants() {
         log.info("{} get all tenants", AuthUtil.getLoginUsername());
@@ -37,7 +33,6 @@ public class TenantController {
         return ResponseUtil.success(tenantList);
     }
 
-    @Operation(summary = "分页查询tenant")
     @GetMapping("/page-list")
     public Response getTenantsByPage(@RequestParam(defaultValue = "id") String order,
                                      @RequestParam(defaultValue = "ASC") String direction,
@@ -58,7 +53,6 @@ public class TenantController {
         return ResponseUtil.success(map);
     }
 
-    @Operation(summary = "创建tenant")
     @PostMapping("/create")
     public Response createTenant(@RequestBody Tenant tenant) {
         try {
@@ -70,7 +64,6 @@ public class TenantController {
         }
     }
 
-    @Operation(summary = "删除tenant")
     @PostMapping("/delete")
     public Response deleteTenant(@RequestParam String id) {
         try {

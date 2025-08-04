@@ -15,8 +15,6 @@ import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.service.AgentService;
 import com.luxx.seed.util.WebUtil;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/agent")
-@Tag(name = "agent")
 @Slf4j
 public class AgentController {
 
@@ -38,7 +35,6 @@ public class AgentController {
     private AgentService agentService;
 
     @SaCheckPermission("agent")
-    @Operation(summary = "统计Agent数量")
     @GetMapping("/count")
     public Response getAgentCount() {
         log.info("{} get agent count", StpUtil.getTokenInfo().loginId);
@@ -46,7 +42,6 @@ public class AgentController {
         return ResponseUtil.success(count);
     }
 
-    @Operation(summary = "分页查询Agent")
     @GetMapping("/page-list")
     public Response getAgentByPage(@RequestParam(required = false) String type,
                                    @RequestParam(defaultValue = "id") String order,
@@ -68,14 +63,12 @@ public class AgentController {
         return ResponseUtil.success(map);
     }
 
-    @Operation(summary = "根据IP查询Agent")
     @GetMapping("/search")
     public Response getAgentByIp(@RequestParam String ip) {
         Agent agent = agentService.findByIp(ip);
         return ResponseUtil.success(agent);
     }
 
-    @Operation(summary = "创建Agent")
     @PostMapping("/create")
     public Response createAgent(@RequestBody Agent agent) {
         try {
@@ -87,7 +80,6 @@ public class AgentController {
         }
     }
 
-    @Operation(summary = "导出Agent")
     @PostMapping("/export")
     public void exportAgents(@RequestBody AgentRequest request, HttpServletResponse response) {
         try {
@@ -103,7 +95,6 @@ public class AgentController {
         }
     }
 
-    @Operation(summary = "test")
     @GetMapping("/test")
     public Response test() {
         log.info("Request Id: " + WebUtil.getRequestId());
