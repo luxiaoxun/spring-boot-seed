@@ -25,13 +25,6 @@ public class I18nMessageUtil {
         return messageSource.getMessage(msgKey, args, defaultLocale);
     }
 
-    /**
-     * 指定语言获得单个国际化翻译值
-     *
-     * @param msgKey   国际化文件key值
-     * @param language 语言，格式 zh_CN
-     * @param args     其他参数，可为null
-     */
     public static String getMsgByLanguage(String msgKey, String language, Object... args) {
         String[] localeArgs = language.split("_");
         Locale locale = new Locale(localeArgs[0], localeArgs[1]);

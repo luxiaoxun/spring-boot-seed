@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import jakarta.servlet.MultipartConfigElement;
-
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @SpringBootApplication
 @ServletComponentScan
@@ -26,12 +26,14 @@ import jakarta.servlet.MultipartConfigElement;
 @EnableWebMvc
 @MapperScan("com.luxx.seed.dao")
 public class WebApp implements WebMvcConfigurer {
+
     public static void main(String[] args) {
         new SpringApplicationBuilder().sources(WebApp.class).run(args);
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
         String[] excludePathPatterns = {"/auth/login", "/auth/login/captcha", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**"};
         // 注册 Sa-Token 拦截器，按路由校验权限
         registry.addInterceptor(new SaInterceptor(handle -> {
@@ -41,6 +43,14 @@ public class WebApp implements WebMvcConfigurer {
                     .notMatch("*.css")
                     .check(r -> StpUtil.checkLogin());
         })).excludePathPatterns(excludePathPatterns);
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        // 支持通过URL参数切换语言，如 ?lang=zh_CN
+        interceptor.setParamName("lang");
+        return interceptor;
     }
 
     @Bean
