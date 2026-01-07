@@ -18,7 +18,7 @@ public class BusinessException extends RuntimeException {
     private Object[] args;
 
     public BusinessException() {
-        this(I18nMessageUtil.getMsg("common_fail"));
+        this(I18nMessageUtil.getMsg("fail"));
     }
 
     public BusinessException(String message) {

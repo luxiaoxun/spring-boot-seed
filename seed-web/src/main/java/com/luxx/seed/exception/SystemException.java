@@ -19,7 +19,7 @@ public class SystemException extends RuntimeException {
     private Object[] args;
 
     public SystemException() {
-        this(I18nMessageUtil.getMsg("common_fail"));
+        this(I18nMessageUtil.getMsg("fail"));
     }
 
     public SystemException(String message) {
