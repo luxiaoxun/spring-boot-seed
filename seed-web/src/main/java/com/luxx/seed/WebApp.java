@@ -38,13 +38,13 @@ public class WebApp implements WebMvcConfigurer {
         registry.addInterceptor(localeChangeInterceptor());
         String[] excludePathPatterns = {"/auth/login", "/auth/login/captcha", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**"};
         // 注册 Sa-Token 拦截器，按路由校验权限
-//        registry.addInterceptor(new SaInterceptor(handle -> {
-//            SaRouter.match("/**")
-//                    .notMatch("*.html")
-//                    .notMatch("*.js")
-//                    .notMatch("*.css")
-//                    .check(r -> StpUtil.checkLogin());
-//        })).excludePathPatterns(excludePathPatterns);
+        registry.addInterceptor(new SaInterceptor(handle -> {
+            SaRouter.match("/**")
+                    .notMatch("*.html")
+                    .notMatch("*.js")
+                    .notMatch("*.css")
+                    .check(r -> StpUtil.checkLogin());
+        })).excludePathPatterns(excludePathPatterns);
     }
 
     @Bean
