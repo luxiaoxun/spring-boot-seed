@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebSshController {
     @RequestMapping("/websshlogin")
     public String client() {
-        return "websshlogin";
+        return "forward:/page/websshlogin.html";
     }
 
     @RequestMapping("/websshpage")
     public String websshpage() {
-        return "webssh";
+        return "forward:/page/webssh.html";
     }
 
     @RequestMapping("/sftp")
     public String sftp() {
-        return "sftp";
+        return "forward:/page/sftp.html";
     }
 }
