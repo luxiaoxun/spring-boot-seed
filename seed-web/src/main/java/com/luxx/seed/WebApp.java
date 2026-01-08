@@ -1,20 +1,22 @@
 package com.luxx.seed;
 
-import cn.dev33.satoken.interceptor.SaInterceptor;
-import cn.dev33.satoken.router.SaRouter;
-import cn.dev33.satoken.stp.StpUtil;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.mybatis.spring.annotation.MapperScan;
+import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpUtil;
 
 import jakarta.servlet.MultipartConfigElement;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -36,13 +38,13 @@ public class WebApp implements WebMvcConfigurer {
         registry.addInterceptor(localeChangeInterceptor());
         String[] excludePathPatterns = {"/auth/login", "/auth/login/captcha", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**"};
         // 注册 Sa-Token 拦截器，按路由校验权限
-        registry.addInterceptor(new SaInterceptor(handle -> {
-            SaRouter.match("/**")
-                    .notMatch("*.html")
-                    .notMatch("*.js")
-                    .notMatch("*.css")
-                    .check(r -> StpUtil.checkLogin());
-        })).excludePathPatterns(excludePathPatterns);
+//        registry.addInterceptor(new SaInterceptor(handle -> {
+//            SaRouter.match("/**")
+//                    .notMatch("*.html")
+//                    .notMatch("*.js")
+//                    .notMatch("*.css")
+//                    .check(r -> StpUtil.checkLogin());
+//        })).excludePathPatterns(excludePathPatterns);
     }
 
     @Bean
@@ -51,6 +53,17 @@ public class WebApp implements WebMvcConfigurer {
         // 支持通过URL参数切换语言，如 ?lang=zh_CN
         interceptor.setParamName("lang");
         return interceptor;
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource =
+                new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:i18n/messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(3600);
+        messageSource.setUseCodeAsDefaultMessage(true);
+        return messageSource;
     }
 
     @Bean

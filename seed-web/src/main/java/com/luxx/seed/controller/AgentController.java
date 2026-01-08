@@ -6,7 +6,6 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.luxx.seed.config.i18n.I18nMessageUtil;
 import com.luxx.seed.constant.Constant;
 import com.luxx.seed.model.Agent;
 import com.luxx.seed.request.AgentRequest;
@@ -14,7 +13,6 @@ import com.luxx.seed.response.Response;
 import com.luxx.seed.response.ResponseCode;
 import com.luxx.seed.response.ResponseUtil;
 import com.luxx.seed.service.AgentService;
-import com.luxx.seed.util.WebUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,13 +91,6 @@ public class AgentController {
         } catch (Exception ex) {
             log.error("Export agents error: " + ex.toString());
         }
-    }
-
-    @GetMapping("/test")
-    public Response test() {
-        log.info("Request Id: " + WebUtil.getRequestId());
-        log.info("Default local message: " + I18nMessageUtil.getMsg(ResponseCode.SUCCESS.getMsg()));
-        return ResponseUtil.success();
     }
 
 }

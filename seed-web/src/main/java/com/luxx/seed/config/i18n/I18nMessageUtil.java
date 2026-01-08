@@ -15,19 +15,21 @@ public class I18nMessageUtil {
         I18nMessageUtil.messageSource = messageSource;
     }
 
+    public static Locale getCurrentLocal() {
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == null) {
+            locale = Locale.SIMPLIFIED_CHINESE;
+        }
+        return locale;
+    }
+
     public static String getMsg(String msgKey) {
-        Locale defaultLocale = LocaleContextHolder.getLocale();
+        Locale defaultLocale = getCurrentLocal();
         return messageSource.getMessage(msgKey, null, defaultLocale);
     }
 
     public static String getMsg(String msgKey, @Nullable Object[] args) {
-        Locale defaultLocale = LocaleContextHolder.getLocale();
+        Locale defaultLocale = getCurrentLocal();
         return messageSource.getMessage(msgKey, args, defaultLocale);
-    }
-
-    public static String getMsgByLanguage(String msgKey, String language, Object... args) {
-        String[] localeArgs = language.split("_");
-        Locale locale = new Locale(localeArgs[0], localeArgs[1]);
-        return messageSource.getMessage(msgKey, args, locale);
     }
 }
