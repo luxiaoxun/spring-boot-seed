@@ -1,5 +1,8 @@
 package com.luxx.seed.constant.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum OsEnum {
     unknown(0, "unknown"),
     linux(1, "linux"),

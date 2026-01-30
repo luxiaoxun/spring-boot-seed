@@ -33,6 +33,11 @@ public class SysUserService {
     @Autowired
     private SysRoleMapper sysRoleMapper;
 
+    public String getLocalLanguage(String username) {
+        //find user local language setting
+        return "zh_CN";
+    }
+
     public User getByUsername(String username) {
         return sysUserMapper.getByUsername(username);
     }

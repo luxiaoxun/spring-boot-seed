@@ -1,5 +1,6 @@
 package com.luxx.seed;
 
+import com.luxx.seed.config.i18n.CustomLocaleResolver;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -10,6 +11,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.unit.DataSize;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -45,6 +47,11 @@ public class WebApp implements WebMvcConfigurer {
                     .notMatch("*.css")
                     .check(r -> StpUtil.checkLogin());
         })).excludePathPatterns(excludePathPatterns);
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        return new CustomLocaleResolver();
     }
 
     @Bean

@@ -1,12 +1,10 @@
 package com.luxx.seed.constant.enums;
 
+import com.luxx.seed.config.i18n.I18nEnum;
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Getter
-public enum TaskStatus {
+public enum TaskStatus implements I18nEnum {
     INIT(0, "未处理"),
     CREATE(1, "已创建"),
     SUCCESS(2, "完成"),
@@ -21,16 +19,14 @@ public enum TaskStatus {
         this.name = name;
     }
 
-    private static Map<Integer, TaskStatus> allTaskStatus = new HashMap<>();
-
-    static {
-        for (TaskStatus t : TaskStatus.values()) {
-            allTaskStatus.put(t.code, t);
+    public static TaskStatus getTaskStatusByCode(Integer code) {
+        if (code == null) return INIT;
+        for (TaskStatus taskStatus : TaskStatus.values()) {
+            if (taskStatus.code.equals(code)) {
+                return taskStatus;
+            }
         }
-    }
-
-    public static TaskStatus getTaskStatusTypeById(Integer id) {
-        return allTaskStatus.get(id);
+        return INIT;
     }
 
 }
